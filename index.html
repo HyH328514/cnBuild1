@@ -1,29 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="./css/index.css"/>
+  <title>历史长河中的中国建筑</title>
   <link rel="stylesheet" type="text/css" href="./css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="./css/index.css"/>
 </head>
 <body>
   <div class="BOX">
-    <div class="myImage">图片墙
-      <div class="carousel">
+    <!-- 标题区域 -->
+    <div class="s_title">
+      <h1>历史长河中的中国建筑</h1>
+      <p>——从原始社会到明清时期的文化演变</p>
+    </div>
+
+    <!-- 轮播图区域 -->
+    <div class="myImage">
+      <div class="s_carousel">
         <ul>
-          <li><img src="./assets/img/img1.pdf">图片一</li>
-          <li><img src="./assets/img/">图片二</li>
-          <li><img src="./assets/img/">图片三</li> 
-          <li><img src="./assets/img/">图片四</li>
-          <li><img src="./assets/img/">图片五</li>
-          <li><img src="./assets/img/">图片六</li>
-          <li><img src="./assets/img/">图片七</li>
+          <li><img src=""></li>
+          <li><img src=""></li>
+          <li><img src=""></li> 
+          <li><img src=""></li>
+          <li><img src=""></li>
+          <li><img src=""></li>
+          <li><img src=""></li>
         </ul>
       </div>
     </div>
-    <div class="myContent">时间轴</div>
+
+    <!-- 时间轴区域（整合原2/1.html的核心DOM） -->
+    <div class="myContent">
+      <!-- 原时间轴容器 -->
+      <div class="z_timeline">
+        <div class="z_progress-bar" id="z_progressBar">
+          <div class="z_progress-indicator" id="z_progressIndicator"></div>
+          <div class="z_progress-thumb" id="z_progressThumb"></div>
+          <div class="z_time-markers" id="z_timeMarkers"></div>
+        </div>
+      </div>
+      <!-- 当前时期显示 -->
+      <div class="z_current-period" id="z_currentPeriod"></div>
+      <!-- 滚动提示 -->
+      <div class="z_scroll-hint">使用鼠标滚轮滚动切换时期</div>
+    </div>
   </div>
+
+  <!-- 整合后的JS -->
+  <script src="./js/page/index.js"></script>
 </body>
 </html>
