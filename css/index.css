@@ -74,7 +74,7 @@
 .z_progress-bar {
   flex: 1;
   height: 6px;
-  background: rgba(201, 238, 247, 0.947);
+  background: rgba(184, 13, 21, 0.947);
   border-radius: 3px;
   position: relative;
   cursor: pointer;
@@ -87,7 +87,7 @@
   left: 0;
   height: 100%;
   width: 0%;
-  background: #ffffff;
+  background: rgba(184, 13, 21, 0.947);
   border-radius: 3px;
   transition: width 0.3s ease;
 }
@@ -260,3 +260,19 @@
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+
+/* .z_timeline{
+  border: solid 2px black;
+}
+.z_progress-bar{
+  border: solid 1px orange;
+} */
+/* .z_progress-indicator{
+  border: solid 1px orange;
+} */
+/* .z_progress-thumb{
+  border: solid 1px blue;
+}
+.z_time-marker{
+  border: solid 1px green;
+} */

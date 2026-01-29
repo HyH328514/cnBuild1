@@ -79,6 +79,7 @@ const timeNodeFolders = [
 ];
 
 // ===================== 轮播图逻辑 =====================
+let carouselNums = 8; // 每个时期的图片总数
 function initCarousel() {
   const carouselContainer = document.querySelector('.myImage .carousel');
   const carouselUl = carouselContainer.querySelector('ul');
@@ -92,7 +93,7 @@ function initCarousel() {
     carouselItems.forEach((item, index) => {
       // 初始显示：img1-img7（偏移为0时）
       const imgIndex = index + 1 + carouselOffset;
-      const finalImgIndex = imgIndex < 1 ? 8 : (imgIndex > 8 ? 1 : imgIndex);
+      const finalImgIndex = imgIndex < 1 ? carouselNums : (imgIndex > carouselNums ? 1 : imgIndex);
       const imgSrc = `../../assets/img/${folderName}/img${finalImgIndex}.png`;
       item.querySelector('img').src = imgSrc;
     });
@@ -103,12 +104,12 @@ function initCarousel() {
   function updateAllCarouselImgs() {
     const folderName = timeNodeFolders[currentTimeIndex]; // 基于当前时间轴选文件夹
     carouselItems.forEach((item, index) => {
-      // 计算每个轮播项的图片索引（偏移+自身索引，循环1-8）
+      // 计算每个轮播项的图片索引（偏移+自身索引，循环1-carouselNums）
       let imgIndex = index + 1 + carouselOffset;
-      imgIndex = imgIndex < 1 ? 8 : (imgIndex > 8 ? 1 : imgIndex);
-      // 边界处理：超过8则从1开始，小于1则到8
-      if (imgIndex > 8) imgIndex = 1;
-      if (imgIndex < 1) imgIndex = 8;
+      imgIndex = imgIndex < 1 ? carouselNums : (imgIndex > carouselNums ? 1 : imgIndex);
+      // 边界处理：超过carouselNums则从1开始，小于1则到carouselNums
+      if (imgIndex > carouselNums) imgIndex = 1;
+      if (imgIndex < 1) imgIndex = carouselNums;
       item.querySelector('img').src = `../../assets/img/${folderName}/img${imgIndex}.png`;
     });
   }
@@ -120,8 +121,8 @@ function initCarousel() {
     // 滚轮向下：偏移+1（整体向后轮播）；向上：偏移-1（整体向前轮播）
     carouselOffset = isScrollDown ? (carouselOffset + 1) : (carouselOffset  - 1);
     // 限制偏移范围（可选：避免偏移过大，仅保留1-8循环）
-    if (carouselOffset > 1) carouselOffset = 0;
-    if (carouselOffset < -1) carouselOffset = 0;
+    if (carouselOffset > (carouselNums-7) )carouselOffset = (carouselNums-7);
+    if (carouselOffset < -(carouselNums-7)) carouselOffset = -(carouselNums-7);
     // 更新所有7个轮播项的图片
     updateAllCarouselImgs();
   }, { passive: false });
@@ -142,12 +143,13 @@ function initCarousel() {
 // ===================== 时间轴逻辑 =====================
 function initTimeline() {
   // DOM元素获取
+  const z_timeline = document.querySelector('.z_timeline');
   const z_progressBar = document.getElementById('z_progressBar');
   const z_progressIndicator = document.getElementById('z_progressIndicator');
   const z_progressThumb = document.getElementById('z_progressThumb');
   const z_timeMarkers = document.getElementById('z_timeMarkers');
   const z_currentPeriod = document.getElementById('z_currentPeriod');
-
+  //时间轴节点个数
   const z_totalMarks = z_timeData.length; 
   let z_currentPopup = null;       
   let z_hoverTimer = null;         
@@ -274,16 +276,18 @@ function initTimeline() {
 
   // 更新进度条
   function z_updateProgress() {
-    const z_progressPercent = (currentTimeIndex / (z_totalMarks - 1)) * 100;
+    const z_progressPercent = (currentTimeIndex * 0.1428 + 0.0714) * 100;
     z_progressIndicator.style.width = `${z_progressPercent}%`;
     z_progressThumb.style.left = `${z_progressPercent}%`;
   }
 
-  // 全局滚动切换时间轴
+  // 滚动切换时间轴函数
   function z_handleGlobalWheel(e) {
+    // 忽略轮播区域滚动
     if (e.target.closest('.carousel')) return;
-    
+    // 阻止默认滚动
     e.preventDefault();
+    // 节流处理,防止滚动过快
     if (z_scrollCooldown) return;
     z_scrollCooldown = true;
     setTimeout(() => z_scrollCooldown = false, 150);
@@ -294,8 +298,8 @@ function initTimeline() {
 
   // 绑定事件
   function z_bindEvents() {
-    // 全局滚动
-    document.addEventListener('wheel', z_handleGlobalWheel, { passive: false });
+    // 时间轴区域滚动
+    z_timeline.addEventListener('wheel', z_handleGlobalWheel, { passive: false });
     
     // 点击进度条跳转
     z_progressBar.addEventListener('click', (e) => {
@@ -339,11 +343,17 @@ function initTimeline() {
     
     // 点击时间标记切换
     z_timeMarkers.addEventListener('click', (e) => {
+      // 找到最近的时间标记元素
       const marker = e.target.closest('.z_time-marker');
       if (marker) {
+        // 获取并校验索引值，避免非数字导致的NaN问题
         const index = parseInt(marker.dataset.index);
-        z_switchToMark(index);
-      }
+        if (!isNaN(index)) {
+          // 执行跳转逻辑（核心函数）
+          z_switchToMark(index);
+      }}
+      // 可选：阻止事件冒泡（避免触发父元素的点击事件）
+      e.stopPropagation();
     });
   }
 
