@@ -1,22 +1,278 @@
+/* 原有轮播图+基础样式 */
 .BOX {
   display:flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  /* border: solid 2px black; */
+  width: 100%;
 }
 
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 180px;
+}
+.title h1{
+  font-size: 30px;
+}
+.title p{
+  font-size: 16px;
+}
+
+.myImage{
+  margin-bottom: 20px;
+  width: 100%;
+ 
+}
+.myContent{
+  margin-bottom: 20px;
+  width: 100%; /* 时间轴容器宽度适配 */
+}
+
+/* 轮播图样式 */
+.carousel {
+  width: 1820px; 
+  overflow: hidden; 
+  position: relative;
+  margin: 0 auto; 
+  border-radius: 8px; 
+}
 .carousel ul{
   display: flex;
-  justify-content: space-between;
-  /* width: 200px; */
-  /* height: 300px; */
+  justify-content: flex-start; 
+  width: fit-content; 
+  transition: transform 0.3s ease; 
   border: solid 2px black;
 }
 
 .carousel ul li{
-  width: 200px;
-  height: 300px;
+  width: 260px;
+  height: 360px;
   border: solid 1px red;
+  flex-shrink: 0; 
 }
+
+.carousel ul li img{
+  width: 100%;
+  height: 100%;
+}
+
+/* 原时间轴样式（从2/style.css迁移） */
+/* 时间轴容器 */
+.z_timeline {
+  width: 1820px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 auto; /* 居中显示 */
+}
+
+/* 进度条背景 */
+.z_progress-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(184, 13, 21, 0.947);
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* 进度条已走部分 */
+.z_progress-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(184, 13, 21, 0.947);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 进度条滑块 */
+.z_progress-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255,255,255,0.8);
+  cursor: grab;
+  transition: left 0.3s ease;
+  z-index: 10;
+}
+
+.z_progress-thumb:active {
+  cursor: grabbing;
+}
+
+/* 时间标记文字 */
+.z_time-markers {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 100%; 
+  display: flex;
+  justify-content: space-between;
+}
+
+.z_time-marker {
+  color: #333; /* 适配白底，修改文字色 */
+  font-size: 1rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+
+
+.z_time-marker:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 悬停弹窗样式 */
+.z_time-popup {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.z_time-popup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.z_time-popup::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.z_popup-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.z_popup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.z_popup-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.z_popup-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.z_popup-item-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.z_popup-item-text {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* 当前时期指示器 */
+.z_current-period {
+  position: relative;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  opacity: 0;
+  margin-bottom: 10px;
+}
+
+.z_current-period.show {
+  opacity: 1;
+}
+
+/* 滚动提示 */
+.z_scroll-hint {
+  position: relative;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+  text-align: center;
+  animation: z_pulse 2s infinite;
+  pointer-events: none;
+  margin-top: 10px;
+}
+
+@keyframes z_pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* .z_timeline{
+  border: solid 2px black;
+}
+.z_progress-bar{
+  border: solid 1px orange;
+} */
+/* .z_progress-indicator{
+  border: solid 1px orange;
+} */
+/* .z_progress-thumb{
+  border: solid 1px blue;
+}
+.z_time-marker{
+  border: solid 1px green;
+} */
