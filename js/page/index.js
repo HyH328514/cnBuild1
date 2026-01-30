@@ -203,7 +203,7 @@ function initTimeline() {
       z_timeMarkers.appendChild(z_markerEl);
     });
     
-    z_updateCurrentPeriod();
+ 
     z_updateProgress();
     window.updateCarouselByTimeIndex(currentTimeIndex);
   }
@@ -254,7 +254,6 @@ function initTimeline() {
     if (currentTimeIndex === index) return;
     
     currentTimeIndex = index;
-    z_updateCurrentPeriod();
     z_updateProgress();
     
     // 联动轮播图：高亮 + 复位图片
@@ -262,17 +261,7 @@ function initTimeline() {
     window.resetCarouselItemImg(currentTimeIndex);
   }
 
-  // 更新当前时期显示
-  function z_updateCurrentPeriod() {
-    const z_currentData = z_timeData[currentTimeIndex];
-    z_currentPeriod.textContent = z_currentData.timeLabel;
-    z_currentPeriod.classList.add('show');
-    
-    z_currentPeriod.style.transform = 'translateX(-50%) scale(1.1)';
-    setTimeout(() => {
-      z_currentPeriod.style.transform = 'translateX(-50%) scale(1)';
-    }, 200);
-  }
+ 
 
   // 更新进度条
   function z_updateProgress() {
