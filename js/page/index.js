@@ -2,11 +2,35 @@
 let currentTimeIndex = 0; // 当前选中的时间轴索引
 let imgIndexMap = [1, 2, 3, 4, 5, 6, 7]; // 每个轮播项的当前图片索引(我改的)
 // 时间轴标记数据
+// 首页文本
+const s_textData = [
+  `const s_textData = [
+  "兴隆洼遗址，位于内蒙古自治区赤峰市敖汉旗宝国吐乡兴隆洼村东南1.3千米丘陵西缘，是新石器时代早期（前10000—前7000）先民聚落遗址，占地面积达6万平方米 [1] [13]。1983年春至1994年秋，中国社会科学院考古研究所等单位对遗址进行了7次发掘，揭露面积4.8万平方米，清理半地穴式房址153座，聚落外围环绕椭圆形壕沟，房址呈东北—西南向整齐排列，中央两座大房址面积各达140平方米，被称为“华夏第一村” [13-15]。
+遗址出土石器、陶器、骨器、蚌器及玉器等遗物，其中玉玦、玉斧等是中国已知年代最早的磨光真玉器，遗址内发现的人猪合葬墓和碳化粟黍标本，实证了世界旱作农业起源地 [1] [13-14] [17]。1996年被国务院公布为第四批全国重点文物保护单位 [3]，2013年启动保护规划编制工作 [5]，2019年规划建设国家考古遗址公园 [16]。2021年入选全国“百年百大考古发现” [11]。"
+]`,
+  `大地湾遗址，位于甘肃省天水市秦安县东北45千米处的五营乡邵店村东侧，坐落在葫芦河支流清水河南岸的二、三级阶地和相接的缓坡山地上，总面积270万平方米 [1]。
+大地湾遗址于1958年被首次发现，自1978年8月起，考古人员便开始在河边的阶地部分展开试掘工作。历经17年的发掘，直至1995年，大地湾遗址共发掘了14752平方米的面积。期间，考古人员陆续清理出240座新石器时代的房屋遗迹、98个灶址、2处柱洞、325个灰坑和窖穴、65座墓葬、35座窑址以及12段沟渠。同时，还出土了大量的文物，包括4147件陶器、1931件石器、2227件骨角牙蚌器以及超过17000件的兽骨，此外还有数十万的残陶片。根据地层叠压关系以及出土物的特征，这些文化遗存被划分为五个时期，它们主要涵盖了前仰韶文化、仰韶文化的早、中、晚期以及常山下层文化。 [13]2014年8月至2015年1月期间，中国科学院古脊椎动物与古人类研究所联合兰州大学、甘肃省文物考古研究所及中国人民大学等多个单位，共同组建工作队，对大地湾遗址进行了正式的考古发掘。 [11]大地湾遗址为位于中国甘肃东部的史前考古提供了重要的断代参考，其历史跨度从距今7800年至4800年，不仅构建了相对完备的史前文化发展脉络，还推动了中国西北地区新石器考古的重大突破。 [12]
+1988年1月13日，大地湾遗址被中华人民共和国国务院公布为第三批全国重点文物保护单位 [3]。1994年12月，大地湾遗址被中共甘肃省委确定为爱国主义教育基地 [1]。 [7]2025年12月，秦安大地湾遗址入选甘肃文旅新地标。
+`,
+`河姆渡遗址（Hemudu Site），位于浙江省宁波市余姚市河姆渡镇河姆渡村的东北 [1]，距宁波市区约20千米，是中国南方早期新石器时代（约7000—5000年前）遗址 [2]。
+河姆渡遗址总面积达4万平方米，上下叠压着四个文化层。河姆渡遗址出土陶片达几十万片，还有陶器、骨器、石器以及植物遗存、动物遗骸、木构建筑遗迹等大量珍贵文物 [1]。河姆渡遗址以其丰富而鲜明的文化内涵，确立了其在中华民族远古发展史、中国考古学史上的重要地位，被学术界命名为“河姆渡文化”。遗址的发现，为中国史学界和考古界提供了依据，证明长江流域是中华文明的重要发源地之一 [3]。
+1982年2月23日 ，河姆渡遗址被中华人民共和国国务院公布为第二批全国重点文物保护单位 [4]。2018年6月，河姆渡遗址被浙江省文物局公布为第二批省级考古遗址公园 [5] [11]。2020年5月，河姆渡遗址入选首批“浙江文化印记”名单。 [6]2021年10月18日，河姆渡遗址入选全国“百年百大考古发现”。 [9]
+`,
+`
+城头山古文化遗址，位于湖南省常德市澧县车溪乡南岳村，是中国南方史前大溪文化至石家河文化时期的遗址，也是迄今中国唯一发现时代最早、文物最丰富、保护最完整的古城遗址，被誉为“中国最早的城市”。 [2] [29]
+1979年湖南省文物普查时，澧县考古工作者首次发现城头山遗址。1991年至2011年，由湖南省考古所主持，澧县进行了13次考古发掘，发掘面积近9000平方米，先后出土有古城遗址、氏族墓葬、大型祭坛、灌溉设施完备的水稻田等大批珍贵文物。城头山古文化遗址代表了长江流域新石器时代古文明的发展高度，对研究人类文明的起源、早期城池的建立以及阶级、国家的产生具有重要意义。
+1996年11月20日，城头山遗址被中华人民共和国国务院公布为第四批全国重点文物保护单位； [1]2001年，被评为“中国20世纪100项考古大发现”之一，镌刻到“中华世纪坛”的青铜甬道上。
+`,
+`半坡遗址（Banpo Site），位于陕西省西安市浐河东岸的半坡村，是黄河流域一个典型的母系氏族公社村落遗址，属仰韶文化的一种早期类型，距今约6000年。 [6] [7]
+半坡遗址主要是大型聚落，外围有宽约6~8米的大围壕，内为居住区，遗址总面积约5万平方米，分为居住区、制陶区和墓葬区。1953年春，西安市在建设纺织城时发现，发掘面积1万平方米，获得了丰富的文化遗存。计有房屋遗址45座，圈栏2座，窖穴200座，制陶窑址6座，墓葬250座，生产工具及生活用具约万件。半坡遗址首次揭露了中国境内以环壕聚落为特征的新石器时代闭合式聚落形态及其布局特征，同时，展示了仰韶文化不同阶段的文化面貌和社会结构特征，从而为仰韶文化的研究树立了半坡类型、半坡晚期类型两个阶段的标杆，为构建中国新石器时代文化编年标尺提供了标志性参照系。此外，遗址内出土的遗迹遗物，为研究新石器时代的环境、生业形态、建筑材料与建筑技术、埋葬制度与社会结构、彩陶雕塑与早期宗教乃至社会治理方式等重大问题，提供了前所未有的实物资料和开创性的研究成果。 [5-6] [7]
+1961年3月4日，半坡遗址被中华人民共和国国务院公布为第一批全国重点文物保护单位。 [1]2021年10月，半坡遗址被国家文物局评为“百年百大考古发现”。
+`
+]
 const z_timeData = [
   { 
     timeLabel: "原始社会",
     buildings: [
-      { name: "民居", icon: "🏠", description: "原始洞穴、茅草屋" },
+      { name: "民居", icon: "🏠", description: "原始洞穴、茅草屋" , url:''},
       { name: "官府", icon: "🏛️", description: "部落议事场所" },
       { name: "皇宫", icon: "👑", description: "部落首领居所" },
       { name: "桥梁", icon: "🌉", description: "简易木桥、石桥" }
@@ -77,9 +101,8 @@ const timeNodeFolders = [
   'six',
   'seven'
 ];
-
+let carouselNums = 9; // 每个时期的图片总数
 // ===================== 轮播图逻辑 =====================
-let carouselNums = 8; // 每个时期的图片总数
 function initCarousel() {
   const carouselContainer = document.querySelector('.myImage .carousel');
   const carouselUl = carouselContainer.querySelector('ul');
@@ -94,7 +117,7 @@ function initCarousel() {
       // 初始显示：img1-img7（偏移为0时）
       const imgIndex = index + 1 + carouselOffset;
       const finalImgIndex = imgIndex < 1 ? carouselNums : (imgIndex > carouselNums ? 1 : imgIndex);
-      const imgSrc = `../../assets/img/${folderName}/img${finalImgIndex}.png`;
+      const imgSrc = `../../assets/img/${folderName}/img${finalImgIndex}.webp`;
       item.querySelector('img').src = imgSrc;
     });
   }
@@ -107,10 +130,7 @@ function initCarousel() {
       // 计算每个轮播项的图片索引（偏移+自身索引，循环1-carouselNums）
       let imgIndex = index + 1 + carouselOffset;
       imgIndex = imgIndex < 1 ? carouselNums : (imgIndex > carouselNums ? 1 : imgIndex);
-      // 边界处理：超过carouselNums则从1开始，小于1则到carouselNums
-      if (imgIndex > carouselNums) imgIndex = 1;
-      if (imgIndex < 1) imgIndex = carouselNums;
-      item.querySelector('img').src = `../../assets/img/${folderName}/img${imgIndex}.png`;
+      item.querySelector('img').src = `../../assets/img/${folderName}/img${imgIndex}.webp`;
     });
   }
 
@@ -119,11 +139,14 @@ function initCarousel() {
     e.preventDefault();
     const isScrollDown = e.deltaY > 0;
     // 滚轮向下：偏移+1（整体向后轮播）；向上：偏移-1（整体向前轮播）
-    carouselOffset = isScrollDown ? (carouselOffset + 1) : (carouselOffset  - 1);
-    // 限制偏移范围（可选：避免偏移过大，仅保留1-8循环）
-    if (carouselOffset > (carouselNums-7) )carouselOffset = (carouselNums-7);
-    if (carouselOffset < -(carouselNums-7)) carouselOffset = -(carouselNums-7);
+    carouselOffset = isScrollDown ? (carouselOffset + 1) : (carouselOffset - 1);
+    // 限制偏移范围
+    if (carouselOffset > (carouselNums - itemCount) ) carouselOffset = (carouselNums - itemCount);
+    if (carouselOffset < 0 ) carouselOffset = 0;
     // 更新所有7个轮播项的图片
+
+    console.log(`滚轮事件：${isScrollDown ? '向下' : '向上'}，偏移索引: ${carouselOffset}`);
+
     updateAllCarouselImgs();
   }, { passive: false });
 
@@ -187,7 +210,12 @@ function initTimeline() {
         `;
         z_itemEl.addEventListener('click', (e) => {
           e.stopPropagation();
-          alert(`您选择了${item.timeLabel}的${building.name}：${building.description}`);
+          // 先判断 url 是否存在，不存在则提示
+          if (building.url) {
+            window.open(building.url, "_blank");
+          } else {
+            alert(`暂无${item.timeLabel}${building.name}的相关页面`);
+          }
         });
         z_gridEl.appendChild(z_itemEl);
       });
