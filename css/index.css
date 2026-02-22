@@ -58,23 +58,29 @@ body::before {
   justify-content: flex-start; 
   width: fit-content; 
   transition: transform 0.3s ease; 
-  /* border-radius: 6px;  */
-  /* border: solid 1px red; */
 }
-
 .carousel ul li {
   display: flex;
   flex-shrink: 0; 
+  width: 260px;  /* 固定宽度 */
+  height: 360px; /* 固定高度 */
 }
-.carousel ul li div{
-  width: 260px;
-  height: 360px;
+/* 文本项样式（和图片保持一致尺寸） */
+.carousel ul li .text-item {
+  width: 100%;
+  height: 100%;
   border: solid 1px #f7f4ed;
   border-radius: 6px;
+  padding: 10px;
+  overflow-y: auto; /* 文本超出时滚动 */
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  line-height: 1.4;
 }
+/* 图片项样式 */
 .carousel ul li img{
-  width: 260px;
-  height: 360px;
+  width: 100%;
+  height: 100%;
   border: solid 1px #f7f4ed;
   border-radius: 6px;
   object-fit: cover;
