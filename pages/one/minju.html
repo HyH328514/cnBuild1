@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料（独立维护） -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>此区域由【建筑材料开发组】维护：</p>
+                <p>民居常用建筑材料包含夯土、木材、石材、竹材等，不同地域因自然资源差异选择不同。例如南方多雨地区多用竹木结构，北方干燥地区多用夯土和砖石。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/material.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 2. 框架结构（独立维护） -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>此区域由【框架结构开发组】维护：</p>
+                <p>民居框架结构分为抬梁式、穿斗式、井干式等，抬梁式多见于北方四合院，穿斗式是南方民居的主流结构，具有抗震、通风的优势。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/structure.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 3. 设计理念（独立维护） -->
+            <div class="content-item" id="design">
+                <h2>设计理念</h2>
+                <p>此区域由【设计理念开发组】维护：</p>
+                <p>民居设计核心是“天人合一”，结合地域气候、文化习俗，例如客家土楼强调防御性与宗族聚居，徽派民居注重风水与美学结合。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/design.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 4. 功能（独立维护） -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>此区域由【功能开发组】维护：</p>
+                <p>民居功能包含居住、储物、生产、社交等，例如陕北窑洞兼具居住与储藏功能，江南水乡民居的廊檐兼具通行与纳凉功能。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/function.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

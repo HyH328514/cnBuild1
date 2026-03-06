@@ -124,64 +124,64 @@ const z_timeData = [
   { 
     timeLabel: "原始社会",
     buildings: [
-      { name: "民居", icon: "🏠", description: "原始洞穴、茅草屋" , url:''},
-      { name: "官府", icon: "🏛️", description: "部落议事场所" },
-      { name: "皇宫", icon: "👑", description: "部落首领居所" },
-      { name: "桥梁", icon: "🌉", description: "简易木桥、石桥" }
+      { name: "民居", icon: "🏠", description: "原始洞穴、茅草屋", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "部落议事场所", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "部落首领居所", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "简易木桥、石桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "商周时期",
     buildings: [
-      { name: "民居", icon: "🏠", description: "半地穴式房屋" },
-      { name: "官府", icon: "🏛️", description: "青铜器装饰的官署" },
-      { name: "皇宫", icon: "👑", description: "夯土高台宫殿" },
-      { name: "桥梁", icon: "🌉", description: "木结构梁桥" }
+      { name: "民居", icon: "🏠", description: "半地穴式房屋", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "青铜器装饰的官署", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "夯土高台宫殿", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "木结构梁桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "秦汉时期",
     buildings: [
-      { name: "民居", icon: "🏠", description: "木构架院落" },
-      { name: "官府", icon: "🏛️", description: "砖石结构官署" },
-      { name: "皇宫", icon: "👑", description: "阿房宫、未央宫" },
-      { name: "桥梁", icon: "🌉", description: "石拱桥、廊桥" }
+      { name: "民居", icon: "🏠", description: "木构架院落", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "砖石结构官署", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "阿房宫、未央宫", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "石拱桥、廊桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "三国两晋南北朝",
     buildings: [
-      { name: "民居", icon: "🏠", description: "坞壁、庄园建筑" },
-      { name: "官府", icon: "🏛️", description: "府衙、刺史府" },
-      { name: "皇宫", icon: "👑", description: "台城、洛阳宫" },
-      { name: "桥梁", icon: "🌉", description: "木石混合桥" }
+      { name: "民居", icon: "🏠", description: "坞壁、庄园建筑", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "府衙、刺史府", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "台城、洛阳宫", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "木石混合桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "隋唐五代时期",
     buildings: [
-      { name: "民居", icon: "🏠", description: "坊市制里坊住宅" },
-      { name: "官府", icon: "🏛️", description: "三省六部官署" },
-      { name: "皇宫", icon: "👑", description: "大明宫、太极宫" },
-      { name: "桥梁", icon: "🌉", description: "赵州桥（隋）" }
+      { name: "民居", icon: "🏠", description: "坊市制里坊住宅", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "三省六部官署", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "大明宫、太极宫", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "赵州桥（隋）", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "宋辽金元时期",
     buildings: [
-      { name: "民居", icon: "🏠", description: "市井街巷民居" },
-      { name: "官府", icon: "🏛️", description: "开封府、临安府" },
-      { name: "皇宫", icon: "👑", description: "紫禁城雏形" },
-      { name: "桥梁", icon: "🌉", description: "虹桥、卢沟桥" }
+      { name: "民居", icon: "🏠", description: "市井街巷民居", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "开封府、临安府", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "紫禁城雏形", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "虹桥、卢沟桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   },
   { 
     timeLabel: "明清时期",
     buildings: [
-      { name: "民居", icon: "🏠", description: "四合院、徽派建筑" },
-      { name: "官府", icon: "🏛️", description: "衙门、总督府" },
-      { name: "皇宫", icon: "👑", description: "北京故宫" },
-      { name: "桥梁", icon: "🌉", description: "十七孔桥、玉带桥" }
+      { name: "民居", icon: "🏠", description: "四合院、徽派建筑", url:'', htmlName: 'minju.html'},
+      { name: "官府", icon: "🏛️", description: "衙门、总督府", url:'', htmlName: 'guanfu.html'},
+      { name: "皇宫", icon: "👑", description: "北京故宫", url:'', htmlName: 'huanggong.html'},
+      { name: "桥梁", icon: "🌉", description: "十七孔桥、玉带桥", url:'', htmlName: 'qiaoliang.html'}
     ]
   } 
 ];
@@ -325,6 +325,7 @@ function initTimeline() {
             <small style="font-size: 0.8rem; opacity: 0.7;">${building.description}</small>
           </div>
         `;
+        building.url = `./pages/${timeNodeFolders[currentTimeIndex]}/${building.htmlName}`; // 构建URL路径
         z_itemEl.addEventListener('click', (e) => {
           e.stopPropagation();
           // 先判断 url 是否存在，不存在则提示
