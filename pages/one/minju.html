@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料（独立维护） -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>完全就地取材，贴合原始社会生产力水平，以天然材料为主，无人工加工或简单加工。河姆渡干栏式民居以木材为核心，选用当地易获取的圆柏、桢楠、杉木等，用于搭建桩、梁、柱、楼板，部分木构件经简单砍削打磨，还出现了原始榫卯结构（如柱榫、梁榫），屋顶覆盖茅草、芦苇，地面铺设木板或竹篾笆；半坡地穴式民居以黄土、木材为核心，墙体、地面采用原生黄土夯实，木构件选用松木、榆木，用于搭建屋顶构架，屋顶覆盖茅草、树叶，部分民居地面铺设细沙、陶片防潮，门窗采用木质框架搭配芦苇编织物，兼顾通风与遮挡，完全依托自然材料满足基本居住需求。</p>
+                 <!--新增：图表容器 -->
+                <h3>原始时代民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart"></div>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/material.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 2. 框架结构（独立维护） -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>此区域由【框架结构开发组】维护：</p>
+                <p>民居框架结构分为抬梁式、穿斗式、井干式等，抬梁式多见于北方四合院，穿斗式是南方民居的主流结构，具有抗震、通风的优势。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/structure.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 3. 设计理念（独立维护） -->
+            <div class="content-item" id="design">
+                <h2>设计理念</h2>
+                <p>此区域由【设计理念开发组】维护：</p>
+                <p>民居设计核心是“天人合一”，结合地域气候、文化习俗，例如客家土楼强调防御性与宗族聚居，徽派民居注重风水与美学结合。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/design.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+
+            <!-- 4. 功能（独立维护） -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>此区域由【功能开发组】维护：</p>
+                <p>民居功能包含居住、储物、生产、社交等，例如陕北窑洞兼具居住与储藏功能，江南水乡民居的廊檐兼具通行与纳凉功能。</p>
+                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
+                <!-- <iframe src="./content/function.html" frameborder="0" width="100%" height="400"></iframe> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>
