@@ -49,18 +49,29 @@ function goHome() {
     window.location.href = '../../index.html';
 }
 
-//初始化原始时代民居材料占比图表
-initMaterialPieChart();
-// 图表初始化函数
+// 页面加载完成后初始化所有图表
+window.onload = function() {
+    // 1. 初始化建筑材料占比饼图（原有）
+    initMaterialPieChart();
+    // 2. 初始化框架结构-新增的建筑类型占比图表（独立不切换）
+    initStructureOverviewChart();
+    // 3. 初始化框架结构切换按钮逻辑（原有）
+    initStructureTab();
+    // 4. 初始化框架结构柱状图/饼图（原有）
+    initStructureCharts();
+    // 5. 初始化功能模块图表（原有）
+    initFunctionChart();
+};
+// 民居建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
         return;
     }
     // 初始化ECharts实例
-    var myChart = echarts.init(document.getElementById('pieChart'));
+    let myChart = echarts.init(document.getElementById('pieChart'));
     // 原始时代民居建筑材料占比数据
-    var data = [
+    let data = [
         { value: 45, name: '木材（树枝/树干）' },
         { value: 25, name: '茅草/芦苇' },
         { value: 15, name: '泥土/黏土' },
@@ -70,7 +81,7 @@ function initMaterialPieChart() {
     ];
 
     // 图表配置项
-    var option = {
+    let option = {
         tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b}: {c}% ({d}%)'
@@ -80,6 +91,7 @@ function initMaterialPieChart() {
             bottom: 10, // 放在图表底部
             textStyle: { fontSize: 12 }
         },
+        padding: [10, 10, 20, 10],
         series: [
             {
                 name: '建筑材料占比',
@@ -115,66 +127,65 @@ function initMaterialPieChart() {
     });
 }
 
-
-// 初始化功能板块扇形图（核心修改部分）
-function initFunctionChart() {
+// 框架结构部分：初始化原始时期建筑类型占比图表
+function initStructureOverviewChart() {
     // 获取图表容器
-    const chartDom = document.getElementById('functionChart');
-    // 初始化ECharts实例
+    const chartDom = document.getElementById('structureOverviewPieChart');
     const myChart = echarts.init(chartDom);
+    
     // 配置项
     const option = {
-        title: {
-            text: '原始时期民居功能占比',
-            left: 'center'
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+            orient: 'horizontal',
+            bottom: 0,
+            left: 'center',
+            textStyle: {
+                fontSize: 12
+            }
         },
         tooltip: {
             trigger: 'item'
         },
-        legend: {
-            orient: 'vertical',
-            left: 'left'
-        },
         series: [
             {
-                name: '功能占比',
+                name: '建筑类型占比',
                 type: 'pie',
-                radius: ['40%', '70%'],
                 avoidLabelOverlap: false,
+                radius: ['30%', '70%'],
                 itemStyle: {
-                    borderRadius: 10,
+                    borderRadius: 8,
                     borderColor: '#fff',
                     borderWidth: 2
                 },
                 label: {
-                    show: false,
-                    position: 'center'
+                    show: true,
+                    position: 'inside',
+                    fontSize: 11,
+                    formatter: '{d}%'
                 },
                 emphasis: {
                     label: {
                         show: true,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: 'bold'
                     }
                 },
-                labelLine: {
-                    show: false
-                },
-                // 原始民居功能数据（贴合文本描述）
+                // 模拟数据（可根据实际需求调整）
                 data: [
-                    { value: 45, name: '氏族聚居（居住/起居）' },
-                    { value: 20, name: '日常生存（采光/排烟/活动）' },
-                    { value: 12, name: '储物（粮食/农具）' },
-                    { value: 10, name: '简单生产（编织/制陶/晾晒）' },
-                    { value: 8, name: '饲养牲畜' },
-                    { value: 5, name: '祭祀/小型聚会' }
+                    { value: 58, name: '河姆渡干栏式' },
+                    { value: 42, name: '半坡地穴式' }
                 ]
             }
         ]
     };
+    
     // 渲染图表
     myChart.setOption(option);
-    // 自适应窗口大小
+    // 响应窗口大小变化
     window.addEventListener('resize', () => {
         myChart.resize();
     });
@@ -279,9 +290,67 @@ function initStructureCharts(type) {
     });
 }
 
-// 页面加载完成后，默认初始化功能图表（如果功能tab默认显示则执行，否则切换时执行）
-window.onload = function() {
-    if (document.getElementById('function').classList.contains('active')) {
-        initFunctionChart();
-    }
-};
+// 初始化功能板块扇形图（核心修改部分）
+function initFunctionChart() {
+    // 获取图表容器
+    const chartDom = document.getElementById('functionChart');
+    // 初始化ECharts实例
+    const myChart = echarts.init(chartDom);
+    // 配置项
+    const option = {
+        title: {
+            text: '原始时期民居功能占比',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                name: '功能占比',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                // 原始民居功能数据（贴合文本描述）
+                data: [
+                    { value: 45, name: '氏族聚居（居住/起居）' },
+                    { value: 20, name: '日常生存（采光/排烟/活动）' },
+                    { value: 12, name: '储物（粮食/农具）' },
+                    { value: 10, name: '简单生产（编织/制陶/晾晒）' },
+                    { value: 8, name: '饲养牲畜' },
+                    { value: 5, name: '祭祀/小型聚会' }
+                ]
+            }
+        ]
+    };
+    // 渲染图表
+    myChart.setOption(option);
+    // 自适应窗口大小
+    window.addEventListener('resize', () => {
+        myChart.resize();
+    });
+}
+

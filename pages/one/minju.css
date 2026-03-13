@@ -59,7 +59,7 @@
 .content-wrap {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    min-height: 500px;
+    min-height: 600px;
     padding: 20px;
 }
 .content-item {
@@ -79,14 +79,36 @@
     color: #666;
 }
 
-/* 功能模块图表容器样式 */
-#functionChart {
+/* 材料占比图表样式与功能模块图表容器样式 */
+#functionChart, .chart-container {
     margin: 15px 0;
     border: 1px solid #f0f0f0;
     border-radius: 8px;
     padding: 10px;
     background-color: #fff;
 }
+/* 框架结构-总占比图表容器 */
+/* 外层包裹容器*/
+.structure-overview-chart {
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 5px;
+    /* 确保外层容器布局正常 */
+    box-sizing: border-box;
+}
+#structureOverviewPieChart {
+    width: 100%;
+    /* 核心：让图表容器内部内容居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 可选：清除默认margin/padding，避免偏移 */
+    margin: 0 auto;
+    padding: 0;
+}
+
 
 /* 框架结构模块样式 */
 .structure-btn-group {
@@ -151,10 +173,104 @@
         flex-direction: column;
     }
 }
-.chart-container {
+/* 原始先民民居设计理念 - 独立样式 */
+.dw-design-container {
     width: 100%;
-    height: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+.dw-design-container h2 {
+    font-size: 1.6rem;
+    color: #5a4328;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d4b886;
+    padding-bottom: 8px;
+}
+.dw-design-container h3 {
+    font-size: 1.3rem;
+    color: #7a5c38;
+    margin: 18px 0 10px;
+    position: relative;
+    padding-left: 12px;
+}
+.dw-design-container h3::before {
+    content: "";
+    width: 4px;
+    height: 18px;
+    background-color: #b99466;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.dw-design-container p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 12px;
+    text-indent: 2em;
+}
+/* 对比卡片样式 */
+.dw-compare-card {
+    display: flex;
+    gap: 20px;
     margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+}
+.dw-card-item {
+    flex: 1;
+    min-width: 280px;
+    padding: 15px;
+    background-color: #f9f5ef;
+    border: 1px solid #e0d0b0;
+    border-radius: 4px;
+}
+.dw-card-item h4 {
+    font-size: 1.1rem;
+    color: #6b4c28;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.dw-card-item ul {
+    list-style: none;
+    padding-left: 10px;
+}
+.dw-card-item li {
+    margin: 8px 0;
+    padding-left: 15px;
+    position: relative;
+}
+.dw-card-item li::before {
+    content: "•";
+    color: #b99466;
+    position: absolute;
+    left: 0;
+}
+/* 核心理念强调样式 */
+.dw-core-idea {
+    background-color: #fff8e8;
+    padding: 15px;
+    border-left: 4px solid #b99466;
+    margin: 20px 0;
+    font-weight: 500;
+}
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .dw-design-container {
+        padding: 15px;
+        height: auto;
+        max-height: 400px;
+    }
+    .dw-design-container h2 {
+        font-size: 1.4rem;
+    }
+    .dw-design-container h3 {
+        font-size: 1.2rem;
+    }
+    .dw-compare-card {
+        gap: 10px;
+    }
 }
