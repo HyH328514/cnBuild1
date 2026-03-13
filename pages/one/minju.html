@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>民居详情页</title>
-    <!-- 引入ECharts CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <!-- 引入外部CSS文件 -->
     <link rel="stylesheet" href="./minju.css">
 </head>
@@ -27,8 +27,10 @@
             <!-- 1. 建筑材料（独立维护） -->
             <div class="content-item active" id="material">
                 <h2>建筑材料</h2>
-                <p>此区域由【建筑材料开发组】维护：</p>
-                <p>民居常用建筑材料包含夯土、木材、石材、竹材等，不同地域因自然资源差异选择不同。例如南方多雨地区多用竹木结构，北方干燥地区多用夯土和砖石。</p>
+                <p>完全就地取材，贴合原始社会生产力水平，以天然材料为主，无人工加工或简单加工。河姆渡干栏式民居以木材为核心，选用当地易获取的圆柏、桢楠、杉木等，用于搭建桩、梁、柱、楼板，部分木构件经简单砍削打磨，还出现了原始榫卯结构（如柱榫、梁榫），屋顶覆盖茅草、芦苇，地面铺设木板或竹篾笆；半坡地穴式民居以黄土、木材为核心，墙体、地面采用原生黄土夯实，木构件选用松木、榆木，用于搭建屋顶构架，屋顶覆盖茅草、树叶，部分民居地面铺设细沙、陶片防潮，门窗采用木质框架搭配芦苇编织物，兼顾通风与遮挡，完全依托自然材料满足基本居住需求。</p>
+                 <!--新增：图表容器 -->
+                <h3>原始时代民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart"></div>
                 <!-- 可扩展：引入独立的 HTML 片段或组件 -->
                 <!-- <iframe src="./content/material.html" frameborder="0" width="100%" height="400"></iframe> -->
             </div>
