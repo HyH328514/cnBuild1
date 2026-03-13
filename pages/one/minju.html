@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>民居详情页</title>
+    <!-- 引入ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <!-- 引入外部CSS文件 -->
     <link rel="stylesheet" href="./minju.css">
 </head>
@@ -31,13 +33,34 @@
                 <!-- <iframe src="./content/material.html" frameborder="0" width="100%" height="400"></iframe> -->
             </div>
 
-            <!-- 2. 框架结构（独立维护） -->
+            <!-- 2. 框架结构（重点更新：补充结构描述 + ECharts 图表 + 交互按钮） -->
             <div class="content-item" id="structure">
                 <h2>框架结构</h2>
-                <p>此区域由【框架结构开发组】维护：</p>
-                <p>民居框架结构分为抬梁式、穿斗式、井干式等，抬梁式多见于北方四合院，穿斗式是南方民居的主流结构，具有抗震、通风的优势。</p>
-                <!-- 可扩展：引入独立的 HTML 片段或组件 -->
-                <!-- <iframe src="./content/structure.html" frameborder="0" width="100%" height="400"></iframe> -->
+                <p>结构极为简陋，无成熟构架体系，以“适配环境、保障稳固”为核心。</p>
+                
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">河姆渡干栏式</button>
+                    <button class="struct-btn" data-type="banpo">半坡地穴式</button>
+                </div>
+
+                <!-- 结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>河姆渡干栏式民居采用“木桩支撑+木梁铺板”结构，先将粗壮圆木削成尖状插入地下作为桥桩，桩顶铺设横梁，横梁上搭建楼板形成居住平台，平台上用木柱、木梁搭建屋顶框架，屋顶为陡峭人字形，便于排水，整体离地约1-2米，避免潮湿与野兽侵袭，部分木构件通过榫卯或藤条绑扎连接，提升稳固性。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>半坡地穴式民居分为半地穴与地穴两种，半地穴式先挖掘长方形或圆形浅坑（深约1-1.5米），坑壁作为天然墙体，坑底夯实，四角或边缘插入木柱作为屋顶支撑，木柱顶部架设横梁、檩条，覆盖茅草形成屋顶，地穴式则挖掘较深土坑，仅留顶部采光通风口，结构更简易，主要依靠黄土的黏性保障稳固。</p>
+                    </div>
+                </div>
+
+                <!-- ECharts 图表容器：展示结构对比/参数 -->
+                <div class="structure-charts">
+                    <!-- 结构参数对比柱状图 -->
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <!-- 结构组成占比饼图 -->
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
             </div>
 
             <!-- 3. 设计理念（独立维护） -->
@@ -49,11 +72,12 @@
                 <!-- <iframe src="./content/design.html" frameborder="0" width="100%" height="400"></iframe> -->
             </div>
 
-            <!-- 4. 功能（独立维护） -->
+            <!-- 4. 功能（独立维护，更新为原始时期民居） -->
             <div class="content-item" id="function">
                 <h2>功能</h2>
-                <p>此区域由【功能开发组】维护：</p>
-                <p>民居功能包含居住、储物、生产、社交等，例如陕北窑洞兼具居住与储藏功能，江南水乡民居的廊檐兼具通行与纳凉功能。</p>
+                <p>核心功能是氏族聚居与日常生存，兼顾简单生产、储物等辅助功能，是原始先民最主要的居住载体。河姆渡干栏式民居多为多间连建，可容纳整个氏族居住，上层为居住区域，划分简单的睡眠、起居空间，下层用于饲养牲畜、堆放农具与粮食，部分民居兼具简单手工业生产功能（如编织、制陶）；半坡地穴式民居多为单间或双间，容纳小型家族，地穴内划分居住、储物区域，屋顶通风口兼顾采光与排烟，院落（简易围栏环绕）用于晾晒作物、儿童活动、氏族小型聚会，同时承担简单的祭祀祖先活动，适配原始社会以氏族为核心的聚居模式，保障先民基本生存与繁衍需求。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
                 <!-- 可扩展：引入独立的 HTML 片段或组件 -->
                 <!-- <iframe src="./content/function.html" frameborder="0" width="100%" height="400"></iframe> -->
             </div>

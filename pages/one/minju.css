@@ -78,3 +78,76 @@
     line-height: 1.8;
     color: #666;
 }
+
+/* 功能模块图表容器样式 */
+#functionChart {
+    margin: 15px 0;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+/* 框架结构模块样式 */
+.structure-btn-group {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+.struct-btn {
+    padding: 8px 20px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+.struct-btn.active {
+    background-color: #409eff;
+    color: #fff;
+    font-weight: bold;
+}
+.struct-btn:hover {
+    background-color: #d0d0d0;
+}
+.struct-btn.active:hover {
+    background-color: #337ecc;
+}
+.structure-detail {
+    margin-bottom: 20px;
+}
+.detail-item {
+    display: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    line-height: 1.8;
+    color: #666;
+}
+.detail-item.active {
+    display: block;
+}
+.structure-charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+#structureBarChart, #structurePieChart {
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid #409eff;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    #functionChart, #structureBarChart, #structurePieChart {
+        height: 300px !important;
+    }
+    .structure-charts {
+        flex-direction: column;
+    }
+}
