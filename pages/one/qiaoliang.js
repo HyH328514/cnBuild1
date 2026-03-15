@@ -1,7 +1,4 @@
-// 首先保留原有tab切换逻辑（如果有），重点修改扇形图部分
-// 假设原有minju.js基础结构，补充/替换扇形图代码：
-
-// tab切换逻辑（保留原有）
+// 外层tab栏切换逻辑
 document.querySelectorAll('.tab-item').forEach(item => {
     item.addEventListener('click', function() {
         // 移除所有tab的active类
@@ -9,24 +6,29 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 给当前点击的tab加active类
         this.classList.add('active');
         // 获取当前tab对应的内容id
-        const tabId = this.getAttribute('data-tab');
+        const tabId = this.dataset.tab;
         // 移除所有content的active类
         document.querySelectorAll('.content-item').forEach(content => content.classList.remove('active'));
         // 显示对应内容
         document.getElementById(tabId).classList.add('active');
         
-        // 如果切换到功能tab，重新渲染图表（避免切换后图表不显示）
+        // 如果切换到功能tab，初始化功能图表
         if (tabId === 'function') {
             initFunctionChart();
         }
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
+            initStructureOverviewChart();
             initStructureCharts('hemudu'); // 默认初始化河姆渡图表
+        }
+        //如果切换到材料tab，初始化材料图表
+        if (tabId === 'material') {
+            initMaterialPieChart();
         }
     });
 });
 
-// 框架结构按钮交互
+// 框架结构：内部tap栏按钮交互
 document.querySelectorAll('.struct-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         // 移除所有按钮active类
@@ -34,7 +36,7 @@ document.querySelectorAll('.struct-btn').forEach(btn => {
         // 给当前按钮加active类
         this.classList.add('active');
         // 获取结构类型
-        const structType = this.getAttribute('data-type');
+        const structType = this.dataset.type;
         // 切换详情文本
         document.querySelectorAll('.detail-item').forEach(item => item.classList.remove('active'));
         document.getElementById(`${structType}-detail`).classList.add('active');
@@ -49,18 +51,10 @@ function goHome() {
     window.location.href = '../../index.html';
 }
 
-// 页面加载完成后初始化所有图表
+// 页面加载完成后初始化默认图表
 window.onload = function() {
-    // 1. 初始化建筑材料占比饼图（原有）
+    // 1. 初始化建筑材料占比饼图
     initMaterialPieChart();
-    // 2. 初始化框架结构-新增的建筑类型占比图表（独立不切换）
-    initStructureOverviewChart();
-    // 3. 初始化框架结构切换按钮逻辑（原有）
-    initStructureTab();
-    // 4. 初始化框架结构柱状图/饼图（原有）
-    initStructureCharts();
-    // 5. 初始化功能模块图表（原有）
-    initFunctionChart();
 };
 // 民居建筑材料占比图表初始化函数
 function initMaterialPieChart() {
@@ -352,4 +346,3 @@ function initFunctionChart() {
         myChart.resize();
     });
 }
-
