@@ -133,9 +133,9 @@ function initStructureOverviewChart() {
             formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         legend: {
-            orient: 'horizontal',
+            orient: 'vertical',
             bottom: 0,
-            left: 'center',
+            left: '30%',
             textStyle: {
                 fontSize: 12
             }
@@ -346,3 +346,4 @@ function initFunctionChart() {
         myChart.resize();
     });
 }
+

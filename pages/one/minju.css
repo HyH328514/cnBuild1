@@ -3,72 +3,149 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* 隐藏滚动条 */
+
+/* 基础样式优化 - 全局字体/滚动/背景（暖调改造） */
 html, body {
-    overflow:auto;
+    overflow: auto;
     -ms-overflow-style: none;
-    html::-webkit-scrollbar, body::-webkit-scrollbar {
-        display: none;
-    }
+    font-family: "Microsoft Yahei", "PingFang SC", "Helvetica Neue", sans-serif;
+    background-color: #faf6f0; /* 暖米色替代冷白 */
+    color: #5a4b38; /* 暖棕文字替代冷黑 */
+    font-size: 16px;
 }
-/* 外层大盒子 */
+/* 全局背景图（建议搭配古风暖调建筑图） */
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft Yahei", "PingFang SC", "Helvetica Neue", sans-serif;
+    background: url(../../assets/img/one/img0.webp) no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+/* 背景蒙版：暖调替代冷白，提升温润感 */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(250, 246, 240, 0.92); /* 暖米色蒙版，透明度微调 */
+    z-index: -1;
+}
+/* 外层容器优化 - 暖调阴影 */
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
+    z-index: 1;
 }
-/* 顶部栏样式 */
+
+/* 顶部栏样式升级 - 暖调半透明/阴影 */
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    background: rgba(255, 253, 248, 0.95); /* 暖白半透明 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(180, 150, 120, 0.1); /* 暖调阴影 */
 }
-/* tab 切换栏 */
+/* 其他模块同步暖调半透明 */
+.chart-container, .structure-overview-chart, #structureBarChart, #structurePieChart {
+    background-color: rgba(255, 253, 248, 0.95);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+.dw-design-container {
+    background-color: rgba(255, 253, 248, 0.95);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+.dw-card-item {
+    background-color: rgba(255, 253, 248, 0.9);
+}
+/* Tab切换栏优化 - 暖调交互 */
 .tab-nav {
     display: flex;
-    gap: 2px;
+    gap: 4px;
 }
 .tab-item {
-    padding: 8px 20px;
-    background-color: #e0e0e0;
+    padding: 12px 28px;
+    background-color: #f2e9dc; /* 暖浅棕替代冷灰 */
     border: none;
     cursor: pointer;
-    border-radius: 4px 4px 0 0;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    border-radius: 8px 8px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: #5a4b38; /* 暖棕文字 */
+}
+.tab-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: #c88a50; /* 暖橙棕替代冷蓝 */
+    transition: width 0.3s ease;
 }
 .tab-item.active {
-    background-color: #fff;
-    font-weight: bold;
-    border-bottom: 2px solid #409eff;
+    background-color: #fffbf7; /* 暖白激活态 */
+    font-weight: 700;
+    color: #9e6b38; /* 深暖棕激活文字 */
+}
+.tab-item.active::after {
+    width: 100%;
 }
 .tab-item:hover {
-    background-color: #d0d0d0;
+    background-color: #ede0cd; /* hover暖调加深 */
+    transform: translateY(-2px);
 }
-/* 回到首页按钮 */
+
+/* 回到首页按钮 - 暖橙渐变替代冷蓝 */
 .home-btn {
-    padding: 8px 24px;
-    background-color: #409eff;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, #e09f68 0%, #c88a50 100%); /* 暖橙棕渐变 */
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(200, 138, 80, 0.2); /* 暖调阴影 */
 }
 .home-btn:hover {
-    background-color: #337ecc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 138, 80, 0.3);
 }
-/* 内容区域 */
+.home-btn:active {
+    transform: translateY(0);
+}
+
+/* 内容区域 - 暖调卡片 */
 .content-wrap {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border: 1px solid #ede0cd; /* 暖棕边框 */
+    border-radius: 12px;
     min-height: 600px;
-    padding: 20px;
+    padding: 35px;
+    background-color: rgba(255, 253, 248, 0.9); /* 暖白半透明 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(180, 150, 120, 0.1); /* 暖调阴影 */
 }
 .content-item {
     display: none;
@@ -76,38 +153,57 @@ html, body {
 }
 .content-item.active {
     display: block;
+    animation: fadeIn 0.5s ease;
 }
-/* 调试用样式（可删除） */ */
+/* 内容淡入动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 标题/文本样式优化 - 暖棕文字体系 */
 .content-item h2 {
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 28px;
+    color: #805a32; /* 深暖棕标题 */
+    font-size: 28px;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+.content-item h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 70px;
+    height: 4px;
+    background-color: #c88a50; /* 暖橙棕下划线 */
+    border-radius: 3px;
+}
+.content-item h3 {
+    margin: 24px 0 20px;
+    color: #6b4d2e; /* 中暖棕三级标题 */
+    font-size: 22px;
+    font-weight: 600;
 }
 .content-item p {
     line-height: 1.8;
-    color: #666;
+    color: #5a4b38; /* 暖棕正文 */
+    font-size: 18px;
+    margin-bottom: 20px;
 }
 
-/* 材料占比图表样式与功能模块图表容器样式 */
-#functionChart, .chart-container {
-    margin: 15px 0;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #fff;
-}
-/* 框架结构-总占比图表容器 */
-/* 外层包裹容器*/
-.structure-overview-chart {
-    width: 100%;
-    margin: 15px 0;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 5px;
-    box-sizing: border-box;
+/* 图表容器统一优化 - 暖调边框/阴影 */
+#functionChart, .chart-container, .structure-overview-chart {
+    margin: 24px 0;
+    border: 1px solid #f2e9dc; /* 暖浅棕边框 */
+    border-radius: 10px;
+    padding: 24px;
+    background-color: #fffbf7; /* 暖白背景 */
+    box-shadow: 0 2px 8px rgba(180, 150, 120, 0.06);
 }
 #structureOverviewPieChart {
     width: 100%;
-    /* 核心：让图表容器内部内容居中 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,168 +211,268 @@ html, body {
     padding: 0;
 }
 
-
-/* 框架结构模块样式 */
+/* 框架结构按钮组优化 - 暖调交互 */
 .structure-btn-group {
     display: flex;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 12px;
+    margin: 28px 0;
 }
 .struct-btn {
-    padding: 8px 20px;
-    background-color: #e0e0e0;
+    padding: 12px 28px;
+    background-color: #f2e9dc; /* 暖浅棕按钮 */
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #5a4b38; /* 暖棕文字 */
 }
 .struct-btn.active {
-    background-color: #409eff;
+    background: linear-gradient(135deg, #e09f68 0%, #c88a50 100%); /* 暖橙棕激活渐变 */
     color: #fff;
-    font-weight: bold;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(200, 138, 80, 0.2);
 }
-.struct-btn:hover {
-    background-color: #d0d0d0;
+.struct-btn:hover:not(.active) {
+    background-color: #ede0cd; /* hover暖调加深 */
+    transform: translateY(-2px);
 }
 .struct-btn.active:hover {
-    background-color: #337ecc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 138, 80, 0.3);
 }
+
+/* 结构详情文本优化 - 暖调背景 */
 .structure-detail {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 }
 .detail-item {
     display: none;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    padding: 20px;
+    background-color: #faf6f0; /* 暖米色背景 */
+    border-radius: 8px;
     line-height: 1.8;
-    color: #666;
+    color: #5a4b38; /* 暖棕文字 */
+    font-size: 18px;
+    border-left: 4px solid #c88a50; /* 暖橙棕左侧标记 */
 }
 .detail-item.active {
     display: block;
+    animation: fadeIn 0.3s ease;
 }
+
+/* 框架结构图表布局优化 */
 .structure-charts {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
 }
 #structureBarChart, #structurePieChart {
     flex: 1;
     min-width: 300px;
-    border: 1px solid #409eff;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #fff;
+    border: 1px solid #f2e9dc; /* 暖浅棕边框 */
+    border-radius: 10px;
+    padding: 24px;
+    background-color: #fffbf7; /* 暖白背景 */
+    box-shadow: 0 2px 8px rgba(180, 150, 120, 0.06);
 }
 
-/* 响应式适配 */
-@media (max-width: 768px) {
-    #functionChart, #structureBarChart, #structurePieChart {
-        height: 300px !important;
-    }
-    .structure-charts {
-        flex-direction: column;
-    }
-}
-/* 原始先民民居设计理念 - 独立样式 */
+/* 设计理念模块样式升级 - 暖调文字 */
 .dw-design-container {
     width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 28px;
+    background-color: #fffbf7; /* 暖白背景 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(180, 150, 120, 0.06);
     overflow-y: auto;
 }
 .dw-design-container h2 {
-    font-size: 1.6rem;
-    color: #5a4328;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #d4b886;
-    padding-bottom: 8px;
+    font-size: 24px;
+    color: #805a32; /* 深暖棕标题 */
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f2e9dc; /* 暖浅棕分隔线 */
+    padding-bottom: 15px;
+    font-weight: 700;
+}
+.dw-design-container h2::after {
+    display: none;
 }
 .dw-design-container h3 {
-    font-size: 1.3rem;
-    color: #7a5c38;
-    margin: 18px 0 10px;
+    font-size: 20px;
+    color: #6b4d2e; /* 中暖棕三级标题 */
+    margin: 24px 0 16px;
     position: relative;
-    padding-left: 12px;
+    padding-left: 20px;
+    font-weight: 600;
 }
 .dw-design-container h3::before {
     content: "";
-    width: 4px;
-    height: 18px;
-    background-color: #b99466;
+    width: 5px;
+    height: 24px;
+    background-color: #c88a50; /* 暖橙棕左侧标记 */
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
 }
 .dw-design-container p {
-    font-size: 1rem;
-    color: #444;
-    margin-bottom: 12px;
+    font-size: 18px;
+    color: #5a4b38; /* 暖棕正文 */
+    margin-bottom: 18px;
     text-indent: 2em;
 }
-/* 对比卡片样式 */
 .dw-compare-card {
     display: flex;
     gap: 20px;
-    margin: 20px 0;
+    margin: 28px 0;
     flex-wrap: wrap;
 }
 .dw-card-item {
     flex: 1;
     min-width: 280px;
-    padding: 15px;
-    background-color: #f9f5ef;
-    border: 1px solid #e0d0b0;
-    border-radius: 4px;
+    padding: 24px;
+    background-color: #faf6f0; /* 暖米色卡片 */
+    border: 1px solid #f2e9dc; /* 暖浅棕边框 */
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+.dw-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(180, 150, 120, 0.08);
 }
 .dw-card-item h4 {
-    font-size: 1.1rem;
-    color: #6b4c28;
-    margin-bottom: 10px;
+    font-size: 18px;
+    color: #805a32; /* 深暖棕卡片标题 */
+    margin-bottom: 16px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 700;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f2e9dc; /* 暖浅棕分隔线 */
 }
 .dw-card-item ul {
     list-style: none;
     padding-left: 10px;
 }
 .dw-card-item li {
-    margin: 8px 0;
-    padding-left: 15px;
+    margin: 12px 0;
+    padding-left: 24px;
     position: relative;
+    font-size: 18px;
+    color: #5a4b38; /* 暖棕列表文字 */
 }
 .dw-card-item li::before {
-    content: "•";
-    color: #b99466;
+    content: "●";
+    color: #c88a50; /* 暖橙棕标记点 */
     position: absolute;
     left: 0;
+    font-size: 16px;
 }
-/* 核心理念强调样式 */
 .dw-core-idea {
-    background-color: #fff8e8;
-    padding: 15px;
-    border-left: 4px solid #b99466;
-    margin: 20px 0;
-    font-weight: 500;
+    background-color: #f9eed8; /* 暖浅橙背景 */
+    padding: 22px;
+    border-left: 4px solid #c88a50; /* 暖橙棕左侧标记 */
+    margin: 28px 0;
+    font-weight: 600;
+    font-size: 18px;
+    color: #9e6b38; /* 深暖棕核心理念文字 */
+    border-radius: 0 8px 8px 0;
 }
-/* 响应式适配 */
+
+/* 响应式适配优化 - 暖调适配 */
 @media (max-width: 768px) {
-    .dw-design-container {
+    .container {
         padding: 15px;
+    }
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+    .tab-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .tab-item {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    .home-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    .content-wrap {
+        padding: 25px 20px;
+        min-height: 500px;
+    }
+    .content-item h2 {
+        font-size: 24px;
+    }
+    .content-item h3 {
+        font-size: 20px;
+    }
+    .content-item p {
+        font-size: 16px;
+    }
+    #functionChart, #structureBarChart, #structurePieChart {
+        height: 300px !important;
+    }
+    .structure-charts {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .dw-design-container {
+        padding: 20px;
         height: auto;
         max-height: 400px;
     }
     .dw-design-container h2 {
-        font-size: 1.4rem;
+        font-size: 22px;
     }
     .dw-design-container h3 {
-        font-size: 1.2rem;
+        font-size: 18px;
+    }
+    .dw-design-container p {
+        font-size: 16px;
     }
     .dw-compare-card {
-        gap: 10px;
+        gap: 15px;
+    }
+    .dw-card-item {
+        padding: 20px;
+    }
+    .dw-card-item h4 {
+        font-size: 16px;
+    }
+    .dw-card-item li {
+        font-size: 16px;
+    }
+    .dw-core-idea {
+        font-size: 16px;
+    }
+}
+
+/* 小屏额外适配 */
+@media (max-width: 480px) {
+    .content-item h2 {
+        font-size: 22px;
+    }
+    .content-item h3 {
+        font-size: 18px;
+    }
+    .content-item p {
+        font-size: 16px;
+    }
+    .structure-btn-group {
+        flex-direction: column;
+    }
+    .struct-btn {
+        width: 100%;
+        font-size: 16px;
+    }
+    .detail-item {
+        font-size: 16px;
     }
 }
