@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体以木材为核心构架，选用当地易获取的榆木、槐木、松木，质地坚实且加工便捷，用于搭建梁、柱、檩、椽等核心构件；墙体采用黄土与砖石混合砌筑，底层多为青砖，防潮耐磨，上层为土坯墙，节省材料且保温性佳；屋顶覆盖青瓦，瓦片层层叠压，部分富裕民居会在屋脊铺设少量陶制脊饰；地面多为夯实黄土或方砖铺墁，室内地面常铺设砖石以提升耐用性，门窗采用木质框架搭配纸糊或木格，兼顾采光与保暖。</p>
+                 <!--新增：图表容器 -->
+                <h3>宋辽金元时期民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>采用穿斗式与抬梁式结合的木构架体系，北方院落核心房屋以抬梁式为主，梁架层层抬高，形成开阔室内空间，满足家族聚居需求；厢房及附属建筑多用穿斗式，以密集立柱配合横向穿枋连接，无需长梁，结构轻便且抗震性能突出。整体构架通过榫卯咬合固定，墙体仅起围护作用，实现“墙倒屋不塌”的稳固效果；院落多为二进或三进四合院布局，房屋沿中轴线对称排列，墙体环绕形成封闭空间，增强私密性与安全性。</p>
+                
+                <!-- 新增：原始时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">抬梁式木架构vs 穿斗式木架构占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">抬梁式木结构建筑</button>
+                    <button class="struct-btn" data-type="banpo">穿斗式木结构建筑</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>在柱顶铺设梁枋，梁上再立短柱、叠梁，层层抬升形成大跨度屋顶，可支撑厚重屋面并创造开阔无柱空间，适合正房、堂屋等核心建筑，满足家族集会、祭祀等大型活动需求，是北方四合院主房的典型构架形式。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>以密集立柱为竖向支撑，柱间用横向穿枋串联成排，无需大型主梁，构件短小轻便，便于就地取材与施工，且整体柔性强、抗震性能优异，多用于厢房、耳房、廊屋等附属建筑，节省材料且适配复杂地形。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：核心遵循儒家礼制与“天人合一”思想</h2>
+                    
+                    <p class="dw-core-idea">
+                        体现长幼有序、尊卑有别的家族伦理，正房居中且体量最大，供长辈居住，两侧厢房分配给晚辈，倒座房作为客房或仆人住所，布局严谨有序。
+                    </p>
+
+                    <h3>一、抬梁式木架构民居：冬暖夏凉，防风避雨</h3>
+                    <p>
+                        宋辽金元时期的抬梁式木结构民居，以模数化、礼制化、生态化为设计核心，形成分层抬升、榫卯斗拱、梁柱檩椽的稳定骨架，并通过空间布局、构造细节、材料选择适配南北气候与地形，是中国古代木构民居的成熟形态。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>基本构架：抬梁叠架，柱承梁、梁载檩</li>
+                                <li>关键构件与连接：斗拱（铺作）梁柱交接处的 “缓冲器”，榫卯（无钉连接）</li>
+                                <li>时代演变特征：从结构精巧、模数成熟、装饰细腻逐渐简化规整，开启清简化趋势</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>顺应地形：北方平原多规整合院，南方丘陵、水网地区灵活布局，依山就势、临水而建</li>
+                                <li>气候适配：北方厚重保温、防风沙；南方通透通风、防湿热，体现 “因天材，就地利”</li>
+                                <li>材料本土性：以本地松木、杉木为主，辅以砖石、土坯，降低成本、融入环境</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、穿斗式木架构民居：散热、防潮、防雨</h3>
+                    <p>
+                        不求严格礼制对称，依山就势、灵活排布、天井巷弄自由组合，重通风防潮，“骨架即围护”，少华丽斗拱，不刻意殿堂化，优先解决抗风、抗震、防潮、散热，功能优先、形制简约。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>整体骨架逻辑：不用大梁、不抬梁，密柱、细柱、多开间</li>
+                                <li>核心构件系统：落地榀架（山架），穿枋（横向生命线），荷载路径极短：瓦→椽→檩→柱→基础</li>
+                                <li>构造特点（时代特征）：南方普及化、简化化，穿枋更少、构件更省，经济化趋势明显</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>地形适配：山地坡地最强优势</li>
+                                <li>抗灾适配：抗风、抗震、防火</li>
+                                <li>材料生态适配：全用南方盛产杉木、楠木，质轻、耐腐、直挺，适合做柱与穿枋</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        无论是抬梁式木结构或是穿斗式木结构民居，都体现了居住与自然的和谐共生；建筑装饰简洁实用，门窗雕花、屋脊脊饰多采用吉祥纹样，兼顾美观与祈福寓意，体现辽宋金元时期民间建筑的质朴风格。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>以家族聚居为核心功能，兼具生活、生产、社交等多重属性。正房、厢房主要用于居住，划分明确的卧室、起居空间，满足不同家庭成员的居住需求；倒座房可作为书房、客房、厨房或储物间，适配日常生产生活；院落用于休闲、晾晒、祭祀等家族活动，是家庭日常生活的重要场所；部分民居增设地窖，用于储存粮食、蔬菜，适应北方冬季寒冷的气候特点；封闭性的院落设计，既能保障居住安全，又能维护家族隐私，适配传统民间聚居的生活模式。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

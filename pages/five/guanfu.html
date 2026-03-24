@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>官府详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./guanfu.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体结构选用优质松木、楠木，楠木多用于大堂等核心建筑的立柱与横梁，耐腐蚀、防虫蛀，确保建筑长期稳固，松木用于次要构件，性价比高且易获取；墙体采用青砖砌筑，砖体烧制精良、质地坚硬，表面光滑平整，砌筑后墙面无需过多装饰，尽显官府庄重，核心建筑墙面会镶贴青砖，提升档次；屋顶覆盖绿色琉璃瓦，按唐代官式建筑等级规定，京兆府署作为京畿地区最高官府，琉璃瓦颜色区别于皇宫的黄色，既符合礼制又展现官府威严；基座与台阶采用青白石打造，坚实厚重，承载建筑主体重量的同时，提升建筑整体气势；门窗采用木质框架，搭配雕花格栅，兼具实用性与装饰性，大堂门窗会增设彩绘装饰，彰显权威。</p>
+                 <!--新增：图表容器 -->
+                <h3>隋唐五代官府建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以官式抬梁木构架为核心，严格遵循《营缮令》等级规制，南北适配不同气候特征，以“礼制规整、威重稳固”为核心。</p>
+                
+                <!-- 新增：隋唐五代官府建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">隋唐五代官府建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（覆盖隋唐/五代、南北） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="suitang_north">隋唐北方官府（长安州府）</button>
+                    <button class="struct-btn" data-type="suitang_south">隋唐南方官府（江南县衙）</button>
+                    <button class="struct-btn" data-type="wudai">五代官府（加权平均）</button>
+                </div>
+
+                <!-- 原有结构详情文本（新增多类型分类） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="suitang_north-detail">
+                        <p>隋唐北方（长安州府）官府以高阶抬梁式木构架为核心，正堂采用“七架梁+五开间”布局，金柱直径0.45-0.5米，柱础为雕花青石（直径0.8米、高0.3米）；墙体为夯土芯外包青砖（厚度0.7米），屋顶为歇山顶（坡度20°），铺设琉璃筒板瓦（正脊设吻兽）；木构件以榫卯+铁箍双重加固，仪门设石质门墩，庭院铺青石板，整体结构厚重威重，适配北方寒冷少雨气候，同时彰显州府级行政等级。</p>
+                    </div>
+                    <div class="detail-item" id="suitang_south-detail">
+                        <p>隋唐南方（江南县衙）官府以抬梁+穿斗混合构架为核心，正堂采用“五架梁+三开间”布局，金柱直径0.35-0.4米，柱础为防潮青石（高0.4米）；墙体为薄砖+木骨（厚度0.4米），底层设0.3米防潮台基，屋顶为悬山顶（坡度28°），铺设青筒瓦；木构件榫卯更精巧，仪门设木质门闸，庭院设天井排水，整体结构通透实用，适配南方多雨潮湿气候，同时符合县衙级等级规制。</p>
+                    </div>
+                    <div class="detail-item" id="wudai-detail">
+                        <p>五代官府延续隋唐官式木构架核心，北方州府简化为“六架梁+四开间”，墙体厚度减至0.6米，屋顶琉璃瓦替换为青瓦；南方县衙保留“五架梁+三开间”，柱础防潮层加厚至0.5米；整体结构因战乱简化，木构件用料稍细，但榫卯+铁箍连接工艺不变，北方新增土坯墙替代部分青砖，南方新增竹编夹泥墙辅助，兼顾成本与实用性，核心等级规制（开间数、构架形式）仍保留。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+           <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：礼制至上、威权彰显</h2>
+                    
+                    <p class="dw-core-idea">
+                        隋唐五代官府建筑的核心设计理念是<strong>遵循等级礼制与“官式营造”规范</strong>，以彰显行政威权为核心，结合南北地理气候优化形制，装饰规整大气且贴合等级规制，集中体现了“礼制有序、实用威重”的营造思想。
+                    </p>
+
+                    <h3>一、布局规制：中轴对称，等级森严</h3>
+                    <p>
+                        隋唐五代官府建筑布局严格遵循《营缮令》等级规制，以“中轴对称、前朝后寝”为核心原则，延续汉魏官式格局并规范化，一切设计围绕行政秩序与等级威权展开，适配地方治理的功能需求。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心布局特征</h4>
+                            <ul>
+                                <li>中轴对称：以正堂（公堂）为核心居中对称，前设仪门、庭院，后设官廨、库房，彰显行政核心地位</li>
+                                <li>等级分区：正堂体量最大（面阔5-7间）为审案理政之所，两侧厢房（面阔3间）为属官办公区，后院为长官居所</li>
+                                <li>形制规范：州府级官府开间、高度、装饰严格按《营缮令》执行，县衙简化但核心轴线不变，体现行政等级</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>时代/地域差异</h4>
+                            <ul>
+                                <li>隋唐时期：布局更规整，长安洛阳京畿官府为三进院落，地方州府为二进，县衙为单进</li>
+                                <li>五代时期：因战乱简化布局，院落规模缩小，但正堂居中、仪门前置的核心规制仍保留</li>
+                                <li>南北统一：无论南北，正堂居轴、仪门分界的核心布局始终不变，仅院落尺度略有调整</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、环境适配：因地制宜，稳固实用</h3>
+                    <p>
+                        隋唐五代官府建筑充分结合南北气候、地理特征优化结构形制，以“稳固耐久、适配行政需求”为核心，北方重保温与防御，南方重通风与防潮，体现“官式营造”的实用适配思想。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>北方官府（关中/中原）适配特征</h4>
+                            <ul>
+                                <li>结构：抬梁式木构架为主，墙体为夯土外包青砖（厚0.6-0.8米），增强保温与防御性</li>
+                                <li>屋顶：歇山顶/硬山顶（坡度20°），铺设筒板瓦，正脊设吻兽，兼顾积雪承载与等级展示</li>
+                                <li>细节：门窗偏小且设门闸，庭院设照壁，抵御北方风沙与寒冷，保障办公安全性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南方官府（江南/巴蜀）适配特征</h4>
+                            <ul>
+                                <li>结构：抬梁+穿斗混合构架，墙体为薄砖+木骨（厚0.3-0.4米），底层设防潮台基（高0.5米）</li>
+                                <li>屋顶：悬山顶/歇山顶（坡度28°），铺设青瓦，增设檐廊与排水槽，快速排雨防潮</li>
+                                <li>细节：门窗宽大且设格栅，庭院设天井，增强通风采光，适配南方多雨潮湿气候</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、装饰风格：规整大气，等级标识</h3>
+                    <p>
+                        隋唐五代官府建筑装饰贴合“雄浑规整”的官式风格，以等级标识、威权展示为核心，无冗余装饰，同时严格遵循《营缮令》规制，体现官式建筑的庄重与等级秩序。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心装饰特征</h4>
+                            <ul>
+                                <li>纹样规制：正堂额枋、雀替以卷草纹、云纹为主，州府级可饰少量瑞兽纹，县衙仅用素面或简单线条</li>
+                                <li>色彩等级：京畿官府立柱饰朱红漆，地方州府饰赭红漆，县衙仅刷桐油，严格贴合行政等级</li>
+                                <li>材质庄重：以木刻、砖雕、石雕为主，无彩绘繁饰，突出官式建筑的威严与实用</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>等级与时代差异</h4>
+                            <ul>
+                                <li>等级规制：正堂屋脊吻兽数量、开间数、装饰纹样均按行政级别限定，不得僭越</li>
+                                <li>南北风格：北方装饰更厚重，以石雕为主；南方更精巧，以木刻为主，核心等级标识不变</li>
+                                <li>时代变化：唐代装饰稍繁，五代因战乱简化，仅保留核心等级标识（如朱红立柱、吻兽）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是北方厚重规整的州府衙署，还是南方通透实用的县衙建筑，隋唐五代官府建筑均以等级礼制为核心骨架：布局上中轴对称、分区明确，体现行政秩序与威权；环境适配上市井合一，南北分异，最大化保障官署办公的稳固与实用；装饰上规整大气、等级鲜明，贴合官式营造规范且不越规制。所有建筑细节既服务于“礼制有序”的行政需求，又满足“威重实用”的治理需求，充分体现了“礼制至上、威权彰显”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>作为唐代京畿地区的行政、司法办公机构，兼具行政办公、司法审判、礼仪接待等核心功能。大堂是举行重大政务活动、审理重要案件的场所，庄严肃穆，是官府权力的核心象征，也是接待朝廷官员的重要场所；二堂用于日常办公与接见下属官员，处理日常政务，商议地方治理事宜；三堂为官员休息与商议机密政务的场所，划分明确的办公与休息空间；署内设有库房，用于存放公文、档案与物资，配备警卫室，安排禁军守卫，保障官府安全；此外，府署内的庭院、回廊，既满足官员休闲需求，又便于人员通行，同时承担礼仪仪式的辅助功能，举办祭祀、庆典等活动，确保官府日常运转有序，同时负责协调京畿地区的行政事务，传达朝廷政令。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./guanfu.js"></script>
+</body>
+</html>

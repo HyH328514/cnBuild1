@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体以木材为核心构架，选用当地易获取的松木、柏木、榆木，质地坚实且加工便捷，用于搭建梁、柱、檩、椽等核心构件，富裕人家会选用优质楠木作为厅堂立柱，提升稳固性与档次；墙体多采用夯土与砖石结合砌筑，底层为青砖，防潮耐磨，上层为夯土墙，节省材料且保温隔热性能佳，部分权贵民居外墙会包砖装饰；屋顶覆盖青瓦，瓦片层层叠压，排水效果优良，富裕民居屋脊会铺设陶制脊饰，门窗采用木质框架，搭配纸糊或木格，兼顾采光与保暖，部分民居会在门窗处增设雕花装饰。</p>
+                 <!--新增：图表容器 -->
+                <h3>隋唐五代时期民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以成熟抬梁式/穿斗式木构架为核心，南北适配不同气候特征，以“礼制规整、稳固宜居”为核心。</p>
+                
+                <!-- 新增：隋唐五代民居类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">隋唐五代民居类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（覆盖隋唐/五代、南北） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="suitang_north">隋唐北方民居（长安）</button>
+                    <button class="struct-btn" data-type="suitang_south">隋唐南方民居（江南）</button>
+                    <button class="struct-btn" data-type="wudai">五代民居（加权平均）</button>
+                </div>
+
+                <!-- 原有结构详情文本（新增多类型分类） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="suitang_north-detail">
+                        <p>隋唐北方（长安）民居以抬梁式木构架为核心，正房采用“五架梁+三开间”布局，木柱直径0.3-0.4米，柱础为青石质（直径0.5米），墙体为夯土外包青砖（厚度0.5米），屋顶为硬山顶（坡度18°），铺设筒板瓦；院落为单进/二进式，正房居中，厢房分列两侧，木构件以榫卯连接为主，辅以铁钉加固，整体结构厚重稳固，适配北方寒冷少雨气候，门窗偏小且设棉帘，增强保温性。</p>
+                    </div>
+                    <div class="detail-item" id="suitang_south-detail">
+                        <p>隋唐南方（江南）民居以穿斗式木构架为核心，正房采用“四架梁+三开间”布局，木柱直径0.25-0.3米，柱础为防潮青石（高0.2米），底层架空0.5米避潮；墙体为薄砖+木骨（厚度0.25米），门窗宽大（单窗面积1.5㎡），屋顶为悬山顶（坡度28°），铺设青瓦；院落为天井式，四面建房，天井用于通风采光，木构件榫卯更精巧，部分采用竹篾绑扎辅助，适配南方多雨潮湿气候。</p>
+                    </div>
+                    <div class="detail-item" id="wudai-detail">
+                        <p>五代民居延续隋唐木构架核心，北方简化为“四架梁+二开间”，墙体厚度减至0.4米，屋顶瓦件减少；南方保留穿斗式构架，但天井面积缩小，柱础防潮层加厚至0.3米；整体结构因战乱简化，木构件用料稍细，但榫卯连接工艺不变，北方新增土坯墙替代部分青砖，南方新增竹编夹泥墙，兼顾成本与实用性，核心礼制布局（正房居中）仍保留。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：礼制为纲、融于自然</h2>
+                    
+                    <p class="dw-core-idea">
+                        隋唐五代民居的核心设计理念是<strong>遵循儒家礼制与“天人合一”思想</strong>，以家族伦理秩序为核心，结合南北气候差异适配环境，装饰简约大气且贴合等级规制，集中体现了“礼制有序、务实宜居”的营造思想。
+                    </p>
+
+                    <h3>一、布局规制：礼制为核，长幼有序</h3>
+                    <p>
+                        隋唐五代民居布局严格遵循儒家礼制，以“尊卑有别、长幼有序”为核心原则，延续汉魏院落式格局并规范化，一切设计围绕家族伦理秩序展开，同时适配里坊制的城市管理要求。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心布局特征</h4>
+                            <ul>
+                                <li>中轴对称：院落以正房为核心居中对称，彰显家族核心地位，符合礼制规范</li>
+                                <li>尊卑分区：正房体量最大（面阔3-5间）供长辈居住，两侧厢房（面阔2-3间）分配晚辈，倒座房作客房/仆人住所</li>
+                                <li>等级适配：严格遵循里坊制规定，民居开间、高度、装饰均不越制，彰显社会等级</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>时代/地域差异</h4>
+                            <ul>
+                                <li>隋唐时期：布局更规整，官宦民居多为二进/三进院落，平民以单进院落为主</li>
+                                <li>五代时期：因战乱简化布局，院落规模缩小，但核心礼制分区仍保留</li>
+                                <li>南北统一：无论南北，正房居中、厢房分列的核心礼制布局始终不变</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、环境适配：天人合一，南北分异</h3>
+                    <p>
+                        隋唐五代民居充分结合南北气候、地理特征优化形制，以“宜居实用”为核心，北方重采光保暖，南方重通风防潮，体现“天人合一”的自然适配思想。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>北方民居（关中/中原）适配特征</h4>
+                            <ul>
+                                <li>朝向：坐北朝南，最大化利用冬季日照，提升室内温度</li>
+                                <li>结构：墙体厚重（砖/夯土墙厚0.4-0.6米），减少热量散失</li>
+                                <li>屋顶：坡度较缓（15-20°），兼顾积雪承载与采光</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南方民居（江南/巴蜀）适配特征</h4>
+                            <ul>
+                                <li>朝向：灵活布局，优先避开夏季西晒，不严格坐北朝南</li>
+                                <li>结构：墙体较薄（砖/木墙厚0.2-0.3米），门窗宽大，增强通风</li>
+                                <li>屋顶：坡度陡峭（25-30°），快速排水；底层架空/设防潮层，抵御潮气</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、装饰风格：简约雄浑，吉祥实用</h3>
+                    <p>
+                        隋唐五代民居装饰贴合“雄浑大气”的时代风格，以实用、祈福为核心，无冗余装饰，同时严格遵循等级秩序，体现民间建筑的质朴与时代审美。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心装饰特征</h4>
+                            <ul>
+                                <li>纹样吉祥：门窗雕花、屋脊脊饰以牡丹、莲花、卷草纹为主，兼具美观与祈福寓意</li>
+                                <li>简约克制：装饰仅见于门窗、屋脊核心部位，墙面/立柱无过多雕花，贴合实用</li>
+                                <li>材质质朴：以木刻、砖雕为主，平民民居甚至仅以彩漆简单装饰，不追求奢华</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>等级与地域差异</h4>
+                            <ul>
+                                <li>等级规制：官宦民居可饰少量瑞兽纹，平民仅用植物纹，严格不越里坊制规定</li>
+                                <li>南北风格：北方装饰更厚重，以砖雕为主；南方更精巧，以木刻为主</li>
+                                <li>时代变化：唐代装饰稍繁，五代因战乱更简化，核心吉祥纹样不变</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是北方厚重保暖的院落民居，还是南方通透防潮的楼阁式民居，隋唐五代民居均以儒家礼制为核心骨架：布局上中轴对称、长幼分区，体现家族伦理与社会等级；环境适配上市井合一，南北分异，最大化利用自然条件保障宜居；装饰上简约雄浑、吉祥实用，贴合时代风格且不越规制。所有建筑细节既服务于“礼制有序”的社会需求，又满足“务实宜居”的生活需求，充分体现了“礼制为纲、融于自然”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>以家族聚居为核心功能，兼具生活、生产、社交等多重属性。正房、厢房主要用于居住，划分明确的卧室、起居空间，满足不同家庭成员的居住需求；倒座房可作为书房、客房、厨房或储物间，适配日常生产生活；院落用于休闲、晾晒、祭祀等家族活动，是家庭日常生活的重要场所；北方民居多增设地窖，用于储存粮食、蔬菜，适应冬季寒冷的气候特点；部分民居会在院落一侧设置作坊，用于手工业生产，兼顾居住与生产功能，封闭性的院落设计，既能保障居住安全，又能维护家族隐私，适配传统民间聚居的生活模式。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

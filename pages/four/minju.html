@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体以木材为核心构架，选用当地易获取的松木、榆木、槐木，质地坚实且加工便捷，用于搭建梁、柱、檩、椽等核心构件，豪门坞堡会选用优质楠木作为厅堂立柱，提升稳固性与档次；墙体多采用夯土砌筑，质地厚重，部分豪门坞堡底层采用青砖砌筑，防潮耐磨，上层仍用夯土墙，节省材料且保温性能佳，围墙则多为夯土加厚处理，部分关键部位包砖加固，增强防御性；屋顶覆盖青瓦，瓦片层层叠压，排水效果优良，豪门坞堡屋脊会铺设陶制脊饰，门窗采用木质框架，搭配竹篾、纸糊或木格，兼顾采光与保暖，部分坞堡门窗处增设简单雕花装饰，同时配备木质或石质院门，强化防御。</p>
+                 <!--新增：图表容器 -->
+                <h3>三国两晋南北朝民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以“坞堡防御+木构架”为核心，融合夯土筑墙与木构承重体系，兼顾防御稳固与居住实用需求。</p>
+                
+                <!-- 新增：三国两晋南北朝建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">三国两晋南北朝建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="wubao">坞堡式民居</button>
+                    <button class="struct-btn" data-type="pingmin">普通平民民居</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="wubao-detail">
+                        <p>三国两晋南北朝坞堡式民居采用“夯土城墙+木构架主体”复合结构，先以板筑法夯筑厚约1.5-2米的夯土围墙（部分外包青砖），围墙内核心建筑为抬梁式木构架，立柱承梁、梁上搭檩，屋顶为硬山或悬山顶，木构件以榫卯结合铁钉加固，院落内设置望楼、角楼等防御结构，整体结构兼顾防御稳固性与居住功能性，部分坞堡还设有地下暗道作为逃生通道。</p>
+                    </div>
+                    <div class="detail-item" id="pingmin-detail">
+                        <p>三国两晋南北朝普通平民民居以“木骨泥墙+夯土地基”为核心，先夯实地面作为地基，以细木柱搭建房屋骨架，外侧涂抹掺有麦秸的夯土形成墙体，屋顶为简易人字顶，以陶瓦或茅草覆盖，木构架仅满足基础承重，无复杂榫卯结构，部分北方民居采用半地穴式改造结构，利用黄土保温性，南方则保留干栏式局部特征，离地约0.5米防潮，整体结构简易但适配地域环境。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 三国两晋南北朝民居设计理念 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：防御为先、家族聚居</h2>
+                    
+                    <p class="dw-core-idea">
+                        三国两晋南北朝民居的核心设计理念是<strong>防御为先、家族聚居</strong>，兼顾儒家礼制与实用需求，完全贴合战乱频繁、匪患丛生的时代背景，集中体现了“屯聚堡坞，据险自守”的营造思想。
+                    </p>
+
+                    <h3>一、选址布局：适配战乱环境的防御性设计</h3>
+                    <p>
+                        该时期民居（尤以坞堡式为核心）针对战乱频发、匪患丛生的时代特征，形成了以“据险自守、易守难攻”为核心的选址逻辑，一切设计均围绕“抵御外敌、保障家族安全”的核心需求展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心选址特征</h4>
+                            <ul>
+                                <li>依山傍水：优先选择地势险要区域，利用自然山水形成天然屏障</li>
+                                <li>据险自守：参考陈寅恪《桃花源记旁证》“屯聚堡坞，据险自守”理念，规避平坦无防区域</li>
+                                <li>易守难攻：选址兼顾取水、农耕需求，同时具备防御外敌入侵的地理优势</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>布局适配细节</h4>
+                            <ul>
+                                <li>家族聚居：以氏族为单位集中布局，便于统一防御、协同生产</li>
+                                <li>礼制有序：长幼有序、尊卑有别，正房居中且体量最大，供族长/长辈居住</li>
+                                <li>功能分区：两侧厢房供晚辈居住，附属房屋作仆人住所、库房或作坊，布局严谨</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、建筑装饰：兼顾实用与礼制的简约风格</h3>
+                    <p>
+                        该时期民居装饰针对“务实求生、凸显伦理”的核心需求，形成了以“简洁务实、礼制为先”为特征的装饰形式，设计核心围绕“实用为主、适度装饰”的原则展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心装饰特征</h4>
+                            <ul>
+                                <li>简洁务实：避免过度奢华装饰，构件优先满足防御、居住功能</li>
+                                <li>礼制寓意：门窗雕花、屋脊脊饰采用简单吉祥纹样，兼顾美观与祈福寓意</li>
+                                <li>权势体现：适度装饰同时凸显家族权势，符合士族阶层身份特征</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>风格适配细节</h4>
+                            <ul>
+                                <li>材质：延续土木为主的核心用材，装饰不额外耗费稀缺建材</li>
+                                <li>工艺：采用简易雕刻、彩绘，无繁复工艺，适配战乱期物资匮乏特征</li>
+                                <li>整体风格：融合质朴实用与防御需求，体现民间建筑“质朴+防御”的核心特色</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        无论是坞堡式民居的选址布局，还是建筑装饰的简约风格，均以“防御为先、家族聚居”为核心目标：选址适配战乱环境以保障安全，布局遵循儒家礼制以维系家族秩序，装饰简洁务实兼顾祈福与权势表达，充分体现了三国两晋南北朝时期“据险自守、礼制为本、务实求生”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>以家族聚居与防御为核心功能，兼具生活、生产、军事防御等多重属性。正房、厢房主要用于居住，划分明确的卧室、起居空间，满足不同家庭成员的居住需求；庭院用于家族休闲、晾晒、祭祀等活动，是家庭日常生活的重要场所；库房用于储存粮食、衣物、兵器等物资，适应战乱时期物资匮乏的特点；部分坞堡增设作坊，用于手工业生产，实现自给自足；围墙、角楼、瞭望塔用于防御外敌入侵，可抵御小股敌军或土匪的袭击，院门设置门禁，安排族人守卫，保障家族生命与财产安全，是战乱时期北方豪门士族的主要居住形式，出土的三国青瓷坞堡也直观展现了这一时期坞堡的布局与功能特征。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

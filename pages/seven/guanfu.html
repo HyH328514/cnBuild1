@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>官府详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./guanfu.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体结构以优质楠木、松木为主要木材，楠木耐腐蚀、防虫蛀，多用于大堂等核心建筑的立柱与横梁，确保建筑长期稳固；松木则用于次要构件，性价比高且易获取。墙体采用 “金砖” 砌筑，砖体烧制精良、质地坚硬，表面光滑平整，砌筑后墙面无需过多装饰，尽显庄重；屋顶覆盖绿色琉璃瓦，按明清官式建筑等级规定，总督署作为省级官府，琉璃瓦颜色区别于皇宫的黄色，既符合礼制又展现官府威严；基座为青白石打造，坚实厚重，承载建筑主体重量的同时，提升建筑整体气势。</p>
+                 <!--新增：图表容器 -->
+                <h3>明清时期官府建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>明清官府建筑以标准化抬梁木框架为骨，以模数制度为规，以高台厚墙为护，以中轴对称、等级化构件显儒家礼制，以坐北朝南、顺势排水、稳固纳阳实现天人合一，结构严谨、秩序分明、官仪突出、适用性强。</p>
+                
+                <!-- 新增：原始时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">明清时期抬梁式木架构 vs 穿斗式木架构官府建筑占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">抬梁式木架构</button>
+                    <button class="struct-btn" data-type="banpo">穿斗式木架构</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>明清官府建筑必须采用抬梁式木构架，一方面出于儒家礼制要求，抬梁少柱大跨、中轴对称、厅堂开阔庄重，能够彰显官式等级、尊卑秩序与政治威仪，满足升堂理事、礼仪活动的空间需要；另一方面抬梁梁柱粗大、结构刚度高、承载力强、稳定性好，符合官署耐久稳固、规制统一的建造标准，且纳入《工程做法则例》模数体系，便于官营施工统一规范，同时造型厚重方正、墙体封闭、出檐适中，适应南北各地尤其是北方防寒挡风、纳阳避阴的气候与场地条件，兼顾结构安全、制度约束、功能需求与天人合一的环境营造。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>明清官府建筑不采用穿斗式木构架，首先是礼制等级限制，穿斗密柱林立、空间局促、形制朴素，不符合官署庄重威严、大开间、无遮挡的厅堂礼仪要求；其次功能无法满足，官府需宽敞通透的大堂审理公务、举行仪式，而穿斗立柱密集遮挡视线、分割空间；再者官式营造制度约束，《工程做法则例》定型抬梁模数体系，穿斗属民间乡土做法，不得僭越使用；同时结构与形象不符，穿斗轻巧柔性、承载力弱、稳定性差，缺乏官署所需的厚重稳固与肃穆气场，且通透开敞、出檐深远，不适宜北方防寒保温、挡风防尘的环境需求。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：凸显封建等级制度与权力秩序</h2>
+                    
+                    <p class="dw-core-idea">
+                        核心是凸显封建等级制度与权力秩序，建筑布局严格遵循官式建筑规制，中轴线贯穿整个建筑群，大堂、二堂等核心建筑依次排列，体现官府的威严与庄重。
+                    </p>
+
+                
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>榫卯刚性连接，横向设阑额、普拍枋加固，整体刚度高、承载力强、稳定性好</li>
+                                <li>石砌高台基、稳固耐久，立柱落于石础，防潮抗压、增加庄重感</li>
+                                <li>斗拱等级化，重在制式标识、承重出挑，造型规整、秩序分明</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>坐北朝南布局，向阳避风，冬暖夏凉，适配南北气候</li>
+                                <li>厚墙封闭、出檐适中，北方防寒防尘，南方防潮遮阳，通用性强</li>
+                                <li>屋面坡度平缓，减少风阻、利于保温，区别于南方民居陡檐</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>核心设计思想总结</h3>
+                    <p>
+                        明清官府建筑以儒家礼制为核心、天人合一为布局、实用理政为根本、官式规制为标准，严格遵循中轴对称、前朝后寝、左文右武、尊卑有序的格局，采用抬梁式大跨木构架，塑造开阔庄重、等级分明、肃穆威严的政务空间；选址坐北朝南、高台基、严排水、顺地势，兼顾采光避风、防寒防潮、与自然环境相融；同时依照官方营造则例模数化建造，结构稳固耐久、分区清晰，既体现皇权法度与宗法伦理，又满足升堂理事、办公祭祀、居住仓储、安防通行等多元功能，实现礼制秩序、政治威仪、实用功能、环境适配四位一体的设计思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>作为清代直隶地区最高行政机构，兼具行政办公、司法审判、礼仪接待等功能。大堂是举行重大政务活动、审理重要案件的场所，庄严肃穆；二堂用于日常办公与接见官员，处理日常政务；内宅为官员及家属居住区域，划分明确的办公与生活空间。此外，总督署内的庭院、花园等，既满足官员休闲需求，又体现官府的气派，同时承担一定的仓储、警卫等辅助功能，保障官府日常运转。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./guanfu.js"></script>
+</body>
+</html>

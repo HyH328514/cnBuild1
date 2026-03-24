@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥梁详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./qiaoliang.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>西安灞桥主体采用当地盛产的青石、花岗石砌筑，青石质地坚硬、耐风化、抗洪水侵蚀，适合长期暴露在自然环境中，桥墩、桥身、桥面均由巨大石块通过榫卯结构与灰浆拼接而成，坚固耐用，魏晋南北朝时期多次修缮，增设青石构件，加固桥体；桥面铺设巨大的石板，平整宽阔，可承载车马行人通行，石板之间采用榫卯咬合，增强整体性，石板表面经过打磨处理，光滑平整，便于通行；桥栏望柱与栏板同样为青石材质，雕刻简洁古朴，望柱雕刻简单龙纹、兽纹，栏板雕刻花卉、人物纹样，展现魏晋南北朝时期石雕艺术的水平；桥墩底部铺设巨大的石基，采用天然地基，利用青石的厚重与坚实，增强桥体的稳定性，无需复杂加固，体现魏晋南北朝桥梁建筑的务实技艺，同时沿用秦汉时期的造桥工艺，逐步优化材料配比。</p>
+                 <!--新增：图表容器 -->
+                <h3>三国两晋南北朝桥梁建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+           <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以“联拱+墩台”为核心，传承秦汉技法并创新优化，南北适配不同水文特征，以“稳固通行、适配环境”为核心。</p>
+                
+                <!-- 新增：三国两晋南北朝桥梁类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">三国两晋南北朝桥梁类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（覆盖三国/南北朝） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="caowei">曹魏邺城漳水桥</button>
+                    <button class="struct-btn" data-type="nanchao">南朝建康秦淮河桥</button>
+                    <button class="struct-btn" data-type="beichao">北朝洛阳洛水桥</button>
+                </div>
+
+                <!-- 原有结构详情文本（新增多政权分类） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="caowei-detail">
+                        <p>曹魏邺城漳水桥采用“联拱+夯土填芯墩台”结构，先以青石砌筑船形桥墩（宽2.5米、长5米），墩内填充夯土增强稳固性，桥墩间设7孔石拱（单拱跨度6米），拱券采用“错缝砌筑”技法；桥面以硬木铺板+青砖包边，两侧设石质栏杆（高1.2米），桥体总长80米，适配漳水汛期水流特征，同时兼顾漕运、军事通行与农田灌溉，墩台底部增设防滑石基，抵御河水冲刷，是“一桥多用”的典型范式。</p>
+                    </div>
+                    <div class="detail-item" id="nanchao-detail">
+                        <p>南朝建康秦淮河桥采用“石墩+木拱”混合结构，桥墩为青石垒砌（宽1.8米、长4米），底部设防潮石基（高0.5米），桥墩间设5孔木拱（单拱跨度5米），拱架以松木榫卯连接，适配江南多雨气候；桥面铺青石板+排水槽，两侧设木质回廊（宽1米）遮雨，桥体总长65米，立柱底部设铜质防潮箍，提升木材耐久性，整体结构纤细精巧，兼顾通行与漕运船舶通过需求。</p>
+                    </div>
+                    <div class="detail-item" id="beichao-detail">
+                        <p>北朝洛阳洛水桥采用“厚壁墩台+石拱”结构，桥墩为夯土包砖（壁厚1.5米、长6米），墩台抬高至3米，适配北方冬季结冰期；桥墩间设9孔石拱（单拱跨度7米），拱券以铁榫连接，增强抗冻裂能力；桥面铺巨型青石板（长1.2米、宽0.8米），两侧设石质望柱（高1.5米），桥体总长95米，兼顾军事防御（可拆换桥面）与驿道通行，整体结构厚重刚健，适配北方寒冷多风气候。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：务实致用、融文于技</h2>
+                    
+                    <p class="dw-core-idea">
+                        三国两晋南北朝桥梁的核心设计理念是<strong>兼顾实用性、技术性与文化性</strong>，以交通功能为核心，融合风水理念、地域水文特征与人文内涵，南北政权虽造桥技法各有侧重，但均体现“传承秦汉、务实创新”的营造思想。
+                    </p>
+
+                    <h3>一、选址规制：因水设桥，南北共循</h3>
+                    <p>
+                        三国两晋南北朝桥梁选址以“交通核心、水文适配”为首要原则，沿用秦汉“扼要道、顺水系”的造桥逻辑，同时结合南北战乱背景与地域经济需求优化，一切设计围绕“通途、稳固、御险”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心选址特征</h4>
+                            <ul>
+                                <li>要道核心：优先设于都城干道、漕运枢纽、军事隘口，解决交通阻隔问题</li>
+                                <li>水文适配：依据河流宽度、流速、汛期特征选择桥型，兼顾通行与抗涝</li>
+                                <li>人文延续：都城周边桥梁保留秦汉人文传统，承载送别、祈福等文化内涵</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北选址差异</h4>
+                            <ul>
+                                <li>南朝（江南）：多设于秦淮河、长江支流等水系，紧邻城邑商道，兼顾漕运与商贸</li>
+                                <li>北朝（中原）：多设于黄河、洛水等干流隘口，优先服务军事防御与驿道通行</li>
+                                <li>曹魏（邺城）：漳水桥梁选址兼顾漕运、军事、灌溉，开创“一桥多用”范式</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、结构设计：因地制宜，务实创新</h3>
+                    <p>
+                        三国两晋南北朝桥梁结构设计充分适配南北水文气候特征，沿用秦汉造桥技法并优化，南方重抗涝防潮，北方重稳固抗寒，核心围绕“增强耐久性、适配地域环境”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>材料适配：南方多用青石+松木，北方多用夯土包石+硬木，就地取材降低成本</li>
+                                <li>桥墩优化：船形桥墩减少水流冲击，联拱结构分散荷载，提升抗涝能力</li>
+                                <li>工艺传承：延续秦汉榫卯、石砌技法，新增“墩台加固”工艺增强稳固性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北结构差异</h4>
+                            <ul>
+                                <li>南朝（江南）：桥体增设挑檐、排水槽，适配多雨气候；桥墩设防潮石基，抵御河水浸泡</li>
+                                <li>北朝（中原）：桥墩加厚至1.5-2米，采用夯土填芯工艺，强化冬季抗冻与军事防御</li>
+                                <li>关中灞桥：青石基座+联拱结构，适配灞水汛期特征，延续“折柳赠别”人文传统</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、文化内涵：融技于文，简约大气</h3>
+                    <p>
+                        三国两晋南北朝桥梁装饰以“简约实用、融文于技”为核心，既保留祈福镇水的传统寓意，又融合魏晋艺术特色，实现功能与文化的双重价值。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心文化特征</h4>
+                            <ul>
+                                <li>雕刻简约：龙纹、花卉等雕刻仅设于桥墩、栏杆核心部位，不冗余且兼具镇水寓意</li>
+                                <li>人文承载：都城桥梁延续“折柳送别、祈福安澜”传统，成为地域文化符号</li>
+                                <li>等级适配：官修桥梁雕刻风格统一，民间桥梁无装饰，体现等级秩序</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北文化差异</h4>
+                            <ul>
+                                <li>南朝：雕刻偏卷草、云纹等柔婉纹样，融入江南审美，彩绘以青、绿为主</li>
+                                <li>北朝：雕刻偏兽纹、几何纹等刚硬纹样，融合胡汉特征，石材浮雕更厚重</li>
+                                <li>曹魏：桥梁装饰以实用为主，仅在官驿桥设简易云纹，凸显“务实致用”理念</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是南朝适配江南水文的精巧桥型、北朝强化防御的厚重结构，还是曹魏兼顾多用途的邺城桥梁，三国两晋南北朝桥梁均以“务实致用”为核心：选址紧扣交通与军事需求，结构适配南北水文气候特征，工艺传承秦汉并创新优化，同时融入风水祈福、折柳送别等人文内涵，雕刻装饰简约大气且贴合等级秩序，充分体现了“务实致用、融文于技、因地制宜”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>主要承担交通运输功能，是魏晋南北朝时期长安地区重要的南北交通要道，方便车马行人通行，促进长安与东部地区的商贸往来、人员流动，助力北方地区的经济恢复与文化交流，两千年间一直是长安东部的交通咽喉；同时，桥梁作为灞水之上的重要地标，具有军事防御功能，可控制灞水渡口的交通咽喉，保障长安东部的安全，在战乱时期承担着军事运输与防御的辅助功能；其独特的建筑造型与人文内涵，使其成为魏晋南北朝时期桥梁建筑的典范，具有重要的文化展示与艺术欣赏价值，是中国古代桥梁建筑的重要代表；此外，桥梁还承担民间祭祀与人文社交功能，当地百姓会前往桥头祭祀水神，祈求河水安宁、航行平安，同时成为古人折柳送别的场所，留下诸多诗文与传说，成为连接民间信仰、人文情怀与日常生活的重要场所，见证了三国两晋南北朝时期的社会发展与历史变迁。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./qiaoliang.js"></script>
+</body>
+</html>

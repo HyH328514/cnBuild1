@@ -19,7 +19,7 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化半坡图表
+            initStructureCharts('hemudu'); // 默认初始化殷墟图表
         }
         //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
@@ -57,7 +57,7 @@ window.onload = function() {
     initMaterialPieChart();
 };
 
-// 官府雏形建筑材料占比图表初始化函数
+// 皇宫雏形建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -65,14 +65,14 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 商周皇宫建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
-        { value: 1, name: '其他' }
+        { value: 40, name: '版筑夯土' },
+        { value: 25, name: '珍贵木材（柏木/楠木）' },
+        { value: 15, name: '陶瓦（青瓦）' },
+        { value: 10, name: '青石/汉白玉' },
+        { value: 6, name: '铜质构件（柱础）' },
+        { value: 4, name: '其他（矿物颜料/细泥）' }
     ];
 
     // 图表配置项
@@ -89,7 +89,7 @@ function initMaterialPieChart() {
         padding: [10, 10, 20, 10],
         series: [
             {
-                name: '建筑材料占比',
+                name: '商周皇宫建筑材料占比',
                 type: 'pie',
                 radius: ['40%', '70%'], // 圆环效果
                 center: ['50%', '40%'], // 图表居中
@@ -122,11 +122,11 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化新石器时代官府雏形建筑类型占比图表
+// 框架结构部分：初始化商周皇宫建筑类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
+    if (!chartDom) return;
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
@@ -144,7 +144,7 @@ function initStructureOverviewChart() {
         },
         series: [
             {
-                name: '建筑类型占比',
+                name: '商周皇宫建筑类型占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -166,10 +166,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 殷墟 vs 丰镐 占比数据
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 47, name: '殷墟宫殿宗庙区（商代）' },
+                    { value: 53, name: '丰镐宫殿（周代）' }
                 ]
             }
         ]
@@ -183,42 +183,40 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 初始化框架结构图表（殷墟/丰镐）
 function initStructureCharts(type) {
-    // 检查容器和ECharts是否存在
+    // 1. 柱状图：结构参数对比
     const barDom = document.getElementById('structureBarChart');
     const pieDom = document.getElementById('structurePieChart');
-    if (!barDom || !pieDom || typeof echarts === 'undefined') return;
+    if (!barDom || !pieDom) return;
     
-    // 1. 柱状图：结构参数对比
     const barChart = echarts.init(barDom);
-    // 2. 饼图：结构组成占比
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 殷墟/丰镐 数据配置
+    const hemuduBarData = { // 殷墟（商代）
+        title: '殷墟宫殿宗庙区结构参数',
+        xAxis: ['夯土基座高度(m)', '木柱直径(cm)', '面阔间数', '进深间数'],
+        yAxis: [3.5, 45, 7, 3] // 平均数据
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = { // 丰镐（周代）
+        title: '丰镐宫殿结构参数',
+        xAxis: ['夯土基座高度(m)', '木柱直径(cm)', '斗拱复杂度(%)', '总面积(km²)'],
+        yAxis: [4.2, 50, 75, 0.7] // 平均数据
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
-        { value: 2, name: '其他' }
+    const hemuduPieData = [ // 殷墟结构组成
+        { value: 45, name: '版筑夯土' },
+        { value: 30, name: '珍贵木材' },
+        { value: 10, name: '陶瓦' },
+        { value: 10, name: '青石' },
+        { value: 5, name: '铜质柱础' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [ // 丰镐结构组成
+        { value: 42, name: '版筑夯土' },
+        { value: 28, name: '珍贵木材' },
+        { value: 15, name: '陶瓦（含吻兽）' },
+        { value: 10, name: '青石/汉白玉' },
+        { value: 5, name: '其他（园林构件）' }
     ];
 
     // 柱状图配置
@@ -255,7 +253,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '殷墟结构组成' : '丰镐结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -287,18 +285,17 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 初始化功能板块扇形图
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
-    
+    if (!chartDom) return;
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
+            text: '商周皇宫功能占比',
             left: 'right'
         },
         tooltip: {
@@ -314,12 +311,12 @@ function initFunctionChart() {
                 type: 'pie',
                 radius: ['40%', '70%'],
                 data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
+                    { value: 30, name: '政务祭祀（登基/大典/祭祀）' },
+                    { value: 25, name: '王室居住' },
+                    { value: 15, name: '仓储军事（库房/兵器库）' },
+                    { value: 12, name: '礼仪展示/文化传承' },
+                    { value: 10, name: '皇家休闲（园林）' },
+                    { value: 8, name: '服务保障（卫兵/膳房）' }
                 ],
                 label: {
                     show: true,

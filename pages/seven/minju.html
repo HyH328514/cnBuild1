@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>以木材为核心框架用料，常用松木、柏木等硬木，质地坚实且易加工，榫卯拼接稳固耐用。墙体多为青砖砌筑，砖缝间以灰浆黏合，增强墙体密实度与防水性；屋顶覆盖青瓦，瓦片层层叠压，排水效果佳，部分富裕人家会在屋脊等部位使用少量琉璃瓦点缀，增添美观度；地面则多采用方砖铺墁，平整耐磨且易于清洁。</p>
+                 <!--新增：图表容器 -->
+                <h3>明清时期民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>采用抬梁式与穿斗式相结合的木架构体系，抬梁式用于正房等主要建筑，梁架层层抬高，形成开阔室内空间，满足家族公共活动需求；穿斗式多用于厢房等附属建筑，以密集立柱配合横向穿枋连接，不用长梁，结构轻便，抗震性能强。整体框架由柱、梁、檩、椽等构件通过榫卯咬合而成，墙体仅起围护作用，实现 “墙倒屋不塌” 的稳固效果，同时便于房屋内部空间的灵活划分。</p>
+                
+                <!-- 新增：明清时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">明清时期抬梁式木架构 vs 穿斗式木架构民居建筑占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">抬梁式木架构</button>
+                    <button class="struct-btn" data-type="banpo">穿斗式木架构</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>抬梁式木构架（明清北方主流民居）核心特点：柱上抬梁、梁上承檩，柱子少、跨度大、室内无柱，空间开阔。梁柱承重，墙体只围合不承重（墙倒屋不塌）。用料粗大、木作规整、构造厚重、等级较高、抗震较好。屋顶坡度较缓，出檐较小，防寒保温强。多用于北方平原、官宅、大户民居、四合院；寒冷干燥、需要大空间、重视采光保暖、礼制分明的地区。
+</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>穿斗式木构架（明清南方主流民居）核心特点：柱子直接承檩，不用长梁，以穿枋串联立柱形成整体。柱密、跨度小、用料细、省木材、施工简单。整体性强、韧性好、抗风、抗潮、抗震优。屋顶坡度陡、出檐大，利于排水防潮。多用于江南、华南、西南山区、多雨潮湿、台风多发地区（徽派、湘赣、川渝、闽粤民居），适合山地、木材丰富、需要快速排水通风的环境。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：严格遵循儒家礼制与 “天人合一” 思想</h2>
+                    
+                    <p class="dw-core-idea">
+                        以南北向为中轴线对称布局，正房居中且体量最大，两侧厢房、倒座房依次排列，体现长幼有序、尊卑有别的家族伦理秩序。建筑与庭院相互映衬，庭院作为内部活动与采光通风的核心，种植花木、设置鱼缸等，既调节小气候，又营造出宁静雅致的居住氛围，实现人与自然的和谐共生。
+                    </p>
+
+                    <h3>一、抬梁式木架构：多应用于北方地区</h3>
+                    <p>
+                        抬梁式（北方）：优先礼制等级 + 大空间通透，依靠粗大梁柱承重，追求庄重、开阔、稳固、防寒，墙不承重，强调殿堂化、家族礼仪秩序。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>柱上架梁、梁上承檩</li>
+                                <li>柱少、跨度大、木料粗</li>
+                                <li>围护墙与结构分离（墙倒屋不塌）</li>
+                                <li>横向受力、刚性强、开间宽敞</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>气候：干燥、寒冷、风沙大</li>
+                                <li>屋顶：坡度缓、出檐短，保温防风</li>
+                                <li>场地：平原、硬地基、地势平整</li>
+                                <li>使用：需要大堂、厅堂会客行礼</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、穿斗式木架构：多应用于南方地区</h3>
+                    <p>
+                        穿斗式（南方）：优先省材实用 + 抗风防潮抗震，细柱密排、穿枋拉结，整体柔性结构，追求通风、排水、轻巧、适应山地多雨气候。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>柱直接承檩、不用大梁</li>
+                                <li>柱密、跨度小、木料细</li>
+                                <li>木结构一体，自身形成抗侧力框架</li>
+                                <li>穿枋串联成整体，韧性高、整体性好</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>气候：多雨、潮湿、台风多、夏季闷热</li>
+                                <li>屋顶：坡度陡、出檐大，快速排水遮阳</li>
+                                <li>场地：山地、坡地、软地基</li>
+                                <li>使用：需要通风防潮、抗风耐久、省大料</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        抬梁以形制宏大、轴线尊卑显礼制，方正沉稳、向阳避风合天地；穿斗以格局对称、空间次序守伦理，轻盈通透、随形就势融自然，二者构造不同，却共同完成礼制秩序与天人合一的双重表达。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>具备居住、家族活动、社交等综合功能。正房供长辈居住，彰显其地位；厢房分配给晚辈，满足家庭不同成员的居住需求；倒座房常作为客房、书房或仆人住所，合理划分功能区域。庭院可用于晾晒、种植、休闲等活动，成为家庭日常生活的重要场所，同时四合院的封闭性设计，能有效保障居住安全与私密性，适应传统家族聚居的生活模式。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

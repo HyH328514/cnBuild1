@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民居详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./minju.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <!-- 自定义区域 -->
+                <h2>建筑材料</h2>
+                <p>以夯土与木材为核心，辅以茅草、陶瓦（周代少量出现），材料选取贴合商周时期生产力水平且易获取。墙体主要采用版筑夯土，质地坚实，保温隔热性能佳，适配北方气候，商代民居夯土墙较简陋，周代民居夯土墙分层夯实、质地更均匀；屋顶以茅草覆盖为主，称为“茅茨”，是商周民居最典型的屋顶形式，周代贵族民居屋顶边缘开始铺设少量陶瓦，用于防水；木构件选用当地易获取的松木、榆木，用于搭建梁、柱、檩等核心构架，商代木构件多为原木加工，周代开始对木构件进行简单打磨处理；地面多为夯实素土，贵族民居地面会铺设细沙或陶片，防潮耐磨，门窗采用木质框架，搭配竹篾或芦苇编织物，兼顾通风与遮挡。</p>
+                 <!--新增：图表容器 -->
+                <h3>商周时期民居建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <!-- 自定义区域 -->
+                <h2>框架结构</h2>
+                <p>整体以夯土墙为主要承重构件，木构架辅助承重与分隔空间，无复杂榫卯结构，多采用绑扎连接，商代趋于简单实用，周代逐步规整成熟。</p>
+                
+                <!-- 新增：商周时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">商代 vs 周代民居结构形式占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">商代（殷墟）</button>
+                    <button class="struct-btn" data-type="banpo">周代（周原）</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>商代（殷墟）民居以简单木构架搭配夯土墙为主，多为“一屋一院”形制，木构架采用原始抬梁式与穿斗式结合，立柱直接插入夯土地基，无明确柱础，梁架简单，仅能搭建小型室内空间；民居多为圆形或方形单间，院落以矮夯土墙环绕，设置简易院门，无复杂附属结构。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>周代（周原）民居逐步形成规整院落布局，木构架更趋成熟，抬梁式结构用于主屋，穿斗式用于附属房屋，立柱底部开始设置简易石质或陶质柱础，防潮且稳固；民居出现多间连建形式，院落以矮夯土墙环绕，设置简易院门，部分贵族民居增设回廊，提升实用性，贵族民居已形成简单四合院雏形。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 自定义区域 -->
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：务实实用、渐融礼制</h2>
+                    
+                    <p class="dw-core-idea">
+                        商周民居的核心设计理念是<strong>以实用性为主，兼顾家族聚居需求，周代逐步融入礼制思想，体现等级差异</strong>，贴合北方气候与以家族为核心的社会结构，整体呈现“务实简约”的时代风格。
+                    </p>
+
+                    <h3>一、商代民居：适配需求、布局随意</h3>
+                    <p>
+                        商代民居主要分布于河南安阳殷墟区域，针对北方干旱寒冷的气候特征，设计核心围绕“保暖、就近取水、适配生存”展开，无固定规制，一切以满足基本居住需求为导向。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>夯土墙体：利用版筑夯土的保温性实现防寒保暖</li>
+                                <li>布局随意：无固定院落规制，单间/双间为主，适配小家庭居住</li>
+                                <li>极简装饰：无雕刻彩绘，仅满足基础居住功能</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：优先地势高亢、靠近水源区域，便于农耕与取水</li>
+                                <li>朝向：多为坐北朝南，保证采光取暖，契合北方气候</li>
+                                <li>材料：就地取材，夯土+木材为主，适配当时生产力水平</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、周代民居：规整布局、融入礼制</h3>
+                    <p>
+                        周代民居主要分布于陕西宝鸡周原区域，在延续商代务实核心的基础上，逐步融入礼制思想，布局趋于规整，体现等级差异与家族伦理，适配以家族为核心的社会结构。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>院落格局：形成规整院落，贵族民居出现四合院雏形</li>
+                                <li>礼制体现：主屋居中、附属房屋分列两侧，体现长幼有序</li>
+                                <li>简约装饰：仅贵族民居有简单绳纹/弦纹装饰，不越制使用高端材料</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：延续高亢近水原则，规避洪水与干旱风险</li>
+                                <li>结构优化：增设柱础防潮，回廊提升空间实用性</li>
+                                <li>材料升级：少量陶瓦用于贵族屋顶，提升防水性能</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        无论是商代的简易民居还是周代的规整院落，均以“务实实用”为核心，所有建筑细节服务于家族居住与生产需求；商代重“适配生存”，布局无规制，周代重“礼制秩序”，布局趋规整，同时严格遵循等级规定，装饰极简，充分体现了商周时期“务实简约、渐融礼制”的核心营造思想。
+                    </p>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <!-- 自定义区域 -->
+                <h2>功能</h2>
+                <p>以家族聚居与日常生产生活为核心功能，是商周时期民间最主要的居住形式。商代民居多为单间或双间，用于居住与简单手工业生产（如纺织、制陶），满足家庭基本居住与生存需求；周代民居形成院落格局，主屋用于居住，附属房屋作为储物间、厨房或仆人住所，院落用于晾晒、祭祀祖先（简单祭祀）、儿童活动等，是家庭日常生活的核心场所。普通民居兼具农耕辅助功能，院落一侧设置小型棚屋，用于存放农具与粮食；贵族民居增设偏院，用于接待宾客、举办小型家族礼仪活动，夯土院墙保障居住安全与家族隐私，适配商周时期以家族为核心的社会结构。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+                <!-- 自定义区域 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./minju.js"></script>
+</body>
+</html>

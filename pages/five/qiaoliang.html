@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥梁详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./qiaoliang.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>赵州桥主体采用当地盛产的花岗石砌筑，花岗石质地坚硬、耐风化、抗洪水侵蚀，适合长期暴露在自然环境中，桥墩、桥身、桥面均由巨大花岗石块通过榫卯结构与灰浆拼接而成，坚固耐用，历经1400余年仍完好保存；桥面铺设巨大的石板，平整宽阔，可承载车马行人通行，石板之间采用榫卯咬合，增强整体性，石板表面经过打磨处理，光滑平整，便于通行；桥栏望柱与栏板同样为花岗石材质，雕刻简洁古朴，望柱雕刻龙纹、兽纹，栏板雕刻花卉、人物纹样，展现隋代石雕艺术的高超水平；桥墩底部铺设巨大的石基，采用天然地基，利用花岗石的厚重与坚实，增强桥体的稳定性，无需复杂加固，体现隋代桥梁建筑的务实技艺，是世界现存年代最久、保存最好的古代石拱桥。</p>
+                 <!--新增：图表容器 -->
+                <h3>隋唐五代桥梁建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构体系成熟，依水文特征差异化设计，以“稳固耐久、适配功用”为核心。</p>
+                
+                <!-- 新增：隋唐五代桥梁类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">隋唐五代桥梁建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="stoneArch">石拱桥（赵州桥/隋唐）</button>
+                    <button class="struct-btn" data-type="floating">浮桥（蒲津渡/唐）</button>
+                    <button class="struct-btn" data-type="beamStone">梁式石桥（朱雀桥/五代）</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="stoneArch-detail">
+                        <p>隋唐石拱桥以“敞肩圆弧拱”为核心构架，赵州桥主拱跨径37.02米，拱高7.23米（高跨比1:5），主拱两侧设4个小拱形成敞肩结构；拱券由28道独立拱圈纵向并列砌筑，每道拱圈由楔形青石榫卯咬合，辅以腰铁连接，无需灰浆仍能抗裂；桥基采用“条石沉箱”工艺，深入河床黏土层1.5米，整体以花岗岩为核心材料，适配华北平原宽浅河道的泄洪、通航双重需求，结构服役超千年仍稳固。</p>
+                    </div>
+                    <div class="detail-item" id="floating-detail">
+                        <p>唐代蒲津渡浮桥以“铁牛锚定+木舟联排”为核心构架，用8尊每尊重约45吨的铁牛（含铁人、铁柱）作为地锚，通过生铁锁链串联数十艘楠木舟体；舟体横向排列，间距1.2米，上铺厚木板为桥面，桥身总长约500米；舟体底部设防水隔舱，可随黄河水位涨落自由升降，战时可快速拆解，适配宽深大河的应急通行与军事防御需求，核心材料为生铁与耐水腐楠木。</p>
+                    </div>
+                    <div class="detail-item" id="beamStone-detail">
+                        <p>五代梁式石桥以“平直石梁+夯土桥台”为核心构架，长安城朱雀桥采用5根长8米、宽0.8米的整石梁作为主梁，梁下设青砖包砌的夯土桥台，桥台宽4米、深3米；桥面铺细磨青石防滑，两侧设雕花青石栏板（高1.2米）；桥身无拱起，纵坡仅2%，适配城市车马高频次通行需求，核心材料为青石与夯土，兼顾实用与城市景观装饰功能。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+           <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：因水制宜、功用合一</h2>
+                    
+                    <p class="dw-core-idea">
+                        隋唐五代桥梁建筑的核心设计理念是<strong>适配水文环境、兼顾多重功用</strong>，以“通行安全”为基础，融合水利、军事、商贸等复合需求，集中体现了“因水制宜、功用合一”的营造思想。
+                    </p>
+
+                    <h3>一、石拱桥（赵州桥/洛阳天津桥）：适配平原宽河的经典形制</h3>
+                    <p>
+                        石拱桥主要分布于华北、中原平原宽浅河道区域，针对该区域“水量季节变化大、河床平坦、通航需求高”的水文特征，形成了以“敞肩拱券”为核心的建筑形式，一切设计均围绕“承重稳固、泄洪通航、耐久实用”的核心需求展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>敞肩拱券：主拱两侧设小拱，既减轻桥身自重，又增大泄洪量（汛期泄洪效率提升30%）</li>
+                                <li>楔形石榫卯：拱券石采用“腰铁+榫卯”咬合，无灰浆仍能抵御水流冲击与地震影响</li>
+                                <li>低拱高跨比：拱高与跨径比1:5，适配平原河道通航需求，大型漕船可直接通过</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：避开河道主流区，建于河漫滩稳定段，减少洪水对桥基的冲刷</li>
+                                <li>材料：优选太行山花岗岩/青石，质地坚硬耐水蚀，适配华北多泥沙河道特征</li>
+                                <li>基础：采用“腰铁沉箱”式桥基，深入河床黏土层，抵御平原河道的季节性淤积</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、浮桥（黄河蒲津渡浮桥/长江瓜洲渡浮桥）：适配宽江大河的临时通途</h3>
+                    <p>
+                        浮桥主要架设于黄河、长江等宽深大河之上，针对该区域“水流湍急、河床复杂、需快速拆建”的水文与军事需求，形成了以“铁牛锚定+木舟联排”为核心的建筑形式，设计核心围绕“快速通行、军事应急、适配宽域水域”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>铁牛锚定：以数万斤铁牛/铁人作为地锚，替代传统石碇，抗水流冲击力提升50%</li>
+                                <li>木舟联排：采用楠木舟体横向串联，舟间铺木板为桥面，可随水位涨落自由升降</li>
+                                <li>可拆卸构架：桥身分段连接，战时可快速拆解阻断敌军，和平时期快速复通</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：优先渡口浅滩区，减少水流对舟体的冲击，同时便于车马上下桥</li>
+                                <li>材料：舟体用楠木/杉木（耐水腐），锚链用生铁铸造，适配江河水域高腐蚀环境</li>
+                                <li>布局：桥身略呈弧形，顺应水流方向，降低水流对桥体的正面冲击</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、梁式石桥（长安城朱雀桥/扬州瘦西湖桥）：适配城市水系的功能延伸</h3>
+                    <p>
+                        梁式石桥主要分布于都城、商贸重镇的城内/城郊水系，针对该区域“水流平缓、景观需求高、商贸往来频繁”的特征，形成了以“平直梁架+装饰性构件”为核心的建筑形式，设计核心围绕“通行便捷、景观适配、商贸服务”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>平直石梁：桥面无拱起，适配车马快速通行，满足城市高频次交通需求</li>
+                                <li>栏板雕花：青石栏板刻卷草、瑞兽纹样，兼具防护与城市景观装饰功能</li>
+                                <li>桥头引道：设缓坡引桥+台阶，兼顾车马与行人通行，适配城市多元需求</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：紧邻市集、坊巷，缩短商贸往来路径，成为城市商贸节点的延伸</li>
+                                <li>材料：桥面用细磨青石（防滑耐磨），桥基用夯土+青砖包砌，适配城市浅水环境</li>
+                                <li>布局：与城市中轴线/水系走向对齐，融入城市整体规划，兼具交通与礼仪功能</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是适配平原河道的石拱桥、宽深大河的浮桥，还是城市水系的梁式石桥，隋唐五代桥梁建筑均以“水文适配”为核心前提：石拱桥以结构创新应对平原河道的泄洪通航需求，浮桥以灵活构架适配江河的军事与应急需求，梁式石桥以功能延伸服务城市商贸与景观需求。所有建筑细节既保障“通行安全”的基础目标，又融合水利、军事、商贸等复合功用，充分体现了“因水制宜、功用合一”的核心营造思想，同时展现了古代工匠“因地制宜、因材施造”的营造智慧。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>隋唐五代时期的桥梁建筑功能完备、体系成熟，以实用交通为核心，同时兼顾水利、军事、商贸与城市礼仪等多重需求，形成了多功能复合的营造特征。主体功能以保障车马行人通行、跨河越谷顺畅往来为主；大型漕运桥梁兼顾河道通航与汛期排洪，支撑南北水运网络；地处关隘要道的桥梁兼具军事控守功能，便于扼守河道、驻兵巡查；部分位于都城与园林的桥梁造型规整，承担城市景观与礼仪展示作用；桥头及周边常形成商贸节点，成为物资集散与市井交易的重要场所；部分水利桥闸还可辅助引水灌溉、调控水量；少数临水桥梁结合祠庙，兼具祭祀河神、祈福平安的文化功能，整体布局与形制均围绕“通行优先、多功能协同”的核心需求展开。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./qiaoliang.js"></script>
+</body>
+</html>

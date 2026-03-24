@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥梁详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./qiaoliang.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体采用当地盛产的花岗石砌筑，花岗石质地坚硬、耐风化、抗海水侵蚀，适合长期暴露在海洋环境中，桥墩、桥身、桥面均由巨大花岗石块通过榫卯结构与灰浆拼接而成，坚固耐用；桥面铺设巨大的石板，平整宽阔，可承载车马行人通行，石板之间采用榫卯咬合，增强整体性；桥栏望柱与栏板同样为花岗石材质，雕刻简洁古朴，部分栏板雕刻花卉、人物纹样，展现北宋石雕艺术的水平；桥墩底部铺设巨大的石基，采用“种蛎固基法”，利用牡蛎的分泌物将石块黏合，进一步增强桥体的稳定性，这是北宋桥梁建筑的重要技术创新。</p>
+                 <!--新增：图表容器 -->
+                <h3>宋辽金元时期桥梁建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>石拱桥在北方与全国占比最高；石梁桥在南方沿海 / 水网区占比反超，为多孔联拱石桥，共47孔，拱券采用“薄墩薄券”技术，属于北宋典型的拱桥结构，每孔拱券由多个拱石纵向连接，横向并列排布，增强桥体的整体性与抗压性。</p>
+                
+                <!-- 新增：原始时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">石拱桥 vs 石梁桥占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">石拱桥</button>
+                    <button class="struct-btn" data-type="banpo">石梁桥</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>宋辽金元时期多应用于北方水深流急、冬季结冰的大河与山谷要道及城市通航河段，采用拱圈受压结构，多为多孔联拱，设有船形破冰桥墩，以纵联错缝砌石并辅以铁件拉结，基础深固、承载力强、净空大、抗洪耐冻、造型厚重规整，适合重载交通与长期使用。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>主要分布在南方水网平原、浅滩海湾与潮汐河口等水位平缓、地基软弱的宽阔水域，以长条巨石平铺简支而成，构造简单、桥面平直，普遍采用筏形基础并结合种蛎固基技术加固河床，墩矮而密，施工便捷、耐海水侵蚀，利于修建超长漫水长桥，适应江南与沿海的通行环境。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：因地制宜、务实创新</h2>
+                    
+                    <p class="dw-core-idea">
+                        石拱桥充分利用石材抗压特性，以拱圈承压、分散荷载并抵抗侧推力，依靠厚重墩台与深基础实现稳固耐久、通航泄洪、抗冰防冲，适配深急险要河道；而石梁桥依托石材自重与简支平铺结构，构造简单、无水平推力，配合密墩浅孔、筏形基础和种蛎固基技术，适应南方宽浅水域、软基潮汐环境，便于大规模修建与长距离平稳通行。
+                    </p>
+
+                    <h3>一、石拱桥：多应用于北方水深流急、冬季结冰的大河与山谷要道及城市通航河段</h3>
+                    
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>承重主体：弧形拱圈，依靠受压传力，存在水平推力</li>
+                                <li>工艺设计：多多孔联拱砌筑，用错缝、纵联工艺，辅以铁拉杆、铁锔加固防外张</li>
+                                <li>桥身特性：墩体厚重，多设船形破冰棱，基础深置硬岩，整体刚度大</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>长条巨石平铺简支，受弯承重，无水平推力</li>
+                                <li>墩密孔小、桥身平直，结构简单，依靠自重稳定</li>
+                                <li>石材耐冻、桥墩抗冰凌冲击，适合重载、常年通行</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、石梁桥：主要分布在南方水网平原、浅滩海湾与潮汐河口等水位平缓、地基软弱的宽阔水域</h3>
+                    
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>承重主体：长条巨石平铺简支，受弯承重，无水平推力</li>
+                                <li>工艺设计：L墩密孔小、桥身平直，结构简单，依靠自重稳定</li>
+                                <li>桥身特性：采用筏形基础，搭配种蛎固基，固结松软河床</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>适配南方水网、浅滩海湾、潮汐地带与软土地基</li>
+                                <li>桥低矮、孔径小，适应水位涨落、防浪漫水</li>
+                                <li>石材耐海水腐蚀，桥面平整，便于车马长距离通行</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        设计充分考虑沿海地区的气候与水文特点，船形桥墩、花岗石材料、种蛎固基法等技术创新，均为适配海洋环境、增强桥体耐久性而设，体现“因地制宜、务实创新”的建筑理念；桥体雕刻简洁大气，融合民间艺术题材，桥头堡的设计兼具实用与祭祀功能，蕴含祈福、镇水等寓意，实现功能与艺术的完美结合，彰显北宋桥梁建筑的高超水平。
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>主要承担交通运输功能，是北宋时期泉州地区重要的南北交通要道，方便车马行人通行，促进泉州与周边地区的商贸往来、人员流动，助力泉州成为当时重要的对外贸易港口；同时，桥梁作为泉州沿海的重要地标，具有军事防御功能，可控制洛阳江入海口的交通咽喉，保障区域安全；其独特的建筑造型与技术创新，使其成为北宋桥梁建筑的典范，具有重要的文化展示与艺术欣赏价值；此外，桥梁还承担民间祭祀功能，桥头堡内供奉海神，当地百姓会前往祭祀，祈求航行平安、风调雨顺，成为连接民间信仰与日常生活的重要场所，见证了辽宋金元时期泉州地区的经济繁荣与文化发展。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./qiaoliang.js"></script>
+</body>
+</html>

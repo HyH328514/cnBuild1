@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皇宫详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./huanggong.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>木材选用珍贵楠木、柏木等，楠木多用于文昌殿、太极殿等核心宫殿的立柱与横梁，质地坚硬且有香气，可防虫蛀，保证建筑稳固耐用，柏木用于装饰构件，尽显皇家气派；墙体以青砖为主要材料，核心建筑的墙面采用青砖镶贴，表面光滑细腻，部分建筑外墙会绘制彩绘，提升美观度；屋顶覆盖青瓦（曹魏、西晋时期），后期（后赵、前燕）出现少量黄色琉璃瓦，成为皇家专用色的雏形，琉璃瓦烧制工艺逐步提升，色彩艳丽且防水性强，正脊两端装饰大型吻兽，屋脊两侧设置简单走兽，彰显皇权至高无上；基座与栏杆使用青白石，洁白温润，雕刻精美，部分栏杆雕刻简单龙纹、兽纹，提升建筑的高贵感，地面铺设方砖，平整耐磨，适配皇家大型活动需求，核心宫殿基座采用夯土与砖石结合打造，气势恢宏。</p>
+                 <!--新增：图表容器 -->
+                <h3>三国两晋南北朝皇宫建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以成熟抬梁式木构架为核心，继承汉制并创新发展，兼具礼制等级与地域适配，以“高大规整、轴线对称”为核心特征。</p>
+                
+                <!-- 新增：三国两晋南北朝皇宫建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">三国两晋南北朝皇宫建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（覆盖三国/南北朝） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="caowei">曹魏邺城皇宫</button>
+                    <button class="struct-btn" data-type="nanchao">南朝建康皇宫</button>
+                    <button class="struct-btn" data-type="beichao">北朝洛阳皇宫</button>
+                </div>
+
+                <!-- 原有结构详情文本（新增多政权分类） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="caowei-detail">
+                        <p>曹魏邺城皇宫采用成熟抬梁式木构架体系，继承汉代建筑技术并创新发展，以巨大立柱支撑横梁，梁架层层叠高形成高大开阔的室内空间；文昌殿采用面阔9间、进深5间的柱网布置，斗拱结构趋于成熟（层数4-5层），兼具承重与装饰功能；整体以南北中轴线为核心对称布局，分前朝（政务区）与后寝（居住区），宫殿、廊庑依次排列，开创“前朝后寝”成熟范式；屋顶多为庑殿顶，屋脊高大，建筑主体与夯土高台紧密衔接，适配邺城地势高亢的特点，部分宫殿增设月台，强化庄重感。</p>
+                    </div>
+                    <div class="detail-item" id="nanchao-detail">
+                        <p>南朝建康皇宫延续抬梁式木构架，梁架尺寸略纤细（适配江南木材特征），核心宫殿面阔7间、进深4间，斗拱层数3-4层，造型更精巧；中轴线适配江南城邑格局，前朝后寝界限清晰，后寝区增设回廊、水榭，适配多雨气候；屋顶以歇山顶为主，屋脊吻兽造型简约，立柱底部设青石柱础防潮，部分廊道采用石柱支撑，提升耐久性，整体布局规整且兼顾江南宜居性。</p>
+                    </div>
+                    <div class="detail-item" id="beichao-detail">
+                        <p>北朝洛阳皇宫抬梁式木构架融合胡汉特征，梁架更粗壮（梁径较南朝增加20%），核心宫殿面阔11间、进深6间，斗拱层数5-6层，结构更厚重；中轴线宽绰，前朝区增设防御性廊庑，后寝区夯土台基抬高至4米，强化保暖与威仪；屋顶以庑殿顶为主，吻兽造型雄浑，墙体为夯土外包青砖，适配北方寒冷多风气候，整体结构兼具汉式规整与游牧民族的刚健特征。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：皇权至上、融势于制</h2>
+                    
+                    <p class="dw-core-idea">
+                        三国两晋南北朝皇宫的核心设计理念是<strong>彰显皇权至上与礼制秩序</strong>，融合魏晋“简约雄浑”的时代风格、佛教文化元素与风水理念，南北政权虽地域特征各异，但均以“皇权核心、因势制宜”为核心，集中体现了“皇权至上、融势于制”的营造思想。
+                    </p>
+
+                    <h3>一、布局规制：礼制为核，南北共循</h3>
+                    <p>
+                        三国两晋南北朝皇宫布局以“中轴线+前朝后寝”为核心规制，曹魏邺城首创全城中轴线范式，南北政权均延续此逻辑，一切设计围绕“强化皇权统治、规范政务秩序”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心布局特征</h4>
+                            <ul>
+                                <li>中轴核心：中轴线贯穿都城/皇宫，皇宫居于轴线核心，象征皇权对国家的绝对统治</li>
+                                <li>前朝后寝：前朝以文昌殿/太极殿为核心，用于朝政大典；后寝为帝后居住区域，界限分明</li>
+                                <li>左祖右社：祭祀区分列皇宫左右，遵循礼制规范，彰显皇权的合法性与神圣性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>政权布局差异</h4>
+                            <ul>
+                                <li>曹魏邺城：中轴线贯穿全城，皇宫居北，开创“前朝后寝+东西堂制”成熟范式</li>
+                                <li>南朝建康：轴线适配江南城邑格局，略偏纤细，后寝区增设水榭园林，兼顾宜居性</li>
+                                <li>北朝洛阳：轴线宽绰，皇宫夯土台基抬高至4米，增设防御性角楼，强化威仪与安全</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、选址形制：融风合水，因势制宜</h3>
+                    <p>
+                        皇宫选址与形制充分融合风水理念、地域气候特征与军事防御需求，曹魏、南北两朝均以“地势高亢、水源充沛”为核心，同时适配南北自然环境差异。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心选址特征</h4>
+                            <ul>
+                                <li>地势高亢：优先选址城内地势最高处，形势开阔，便于防守、瞭望与排水</li>
+                                <li>风水协调：注重“背山面水、藏风聚气”，宫殿布局与自然环境和谐统一</li>
+                                <li>交通便利：紧邻都城主干道/水系，兼顾政务效率与物资运输</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北形制差异</h4>
+                            <ul>
+                                <li>南朝建康：选址临秦淮河，增设防潮台基、宽挑檐，适配江南多雨潮湿气候</li>
+                                <li>北朝洛阳：选址邙山南侧，夯土厚墙+窄窗设计，强化冬季保暖与军事防御</li>
+                                <li>曹魏邺城：选址漳水之滨，引漳水入皇宫，兼顾供水、防御与景观需求</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、装饰风格：简约雄浑，融佛纳新</h3>
+                    <p>
+                        三国两晋南北朝皇宫装饰以“简约雄浑”为时代基调，融合佛教文化元素与各民族艺术特色，华丽而不浮夸，既体现皇家气派，又受战乱影响注重实用。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心装饰特征</h4>
+                            <ul>
+                                <li>纹样融合：龙纹（皇权象征）与莲花纹（佛教元素）并存，体现文化包容</li>
+                                <li>简约雄浑：彩绘华丽但不堆砌，线条粗犷大气，契合魏晋时代审美</li>
+                                <li>实用优先：装饰构件兼顾功能（如雕花排水、彩绘防潮），受战乱影响摒弃冗余装饰</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>政权装饰差异</h4>
+                            <ul>
+                                <li>曹魏邺城：装饰以几何纹、云纹为主，风格质朴，凸显实用与刚健</li>
+                                <li>南朝建康：彩绘以青、绿为主色调，纹样柔婉，融入江南艺术特色</li>
+                                <li>北朝洛阳：彩绘以红、金为主色调，融合鲜卑等游牧民族纹样，佛教元素更突出</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是曹魏邺城的中轴线范式、南朝建康的江南适配，还是北朝洛阳的胡汉融合，三国两晋南北朝皇宫均以“皇权至上”为核心，将礼制规制、风水理念、地域特征与时代文化深度融合：布局上以中轴线彰显统治秩序，选址上融风合水兼顾防御与宜居，装饰上简约雄浑又吸纳佛教等新文化元素，既体现魏晋“开放包容”的文化底蕴，又因战乱背景注重实用，充分展现了“皇权至上、融势于制”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>作为曹魏、后赵、冉魏、前燕四代的政治中心与皇家居所，功能全面且等级森严，是魏晋南北朝时期皇宫建筑的典范。前朝的文昌殿、太极殿用于举行登基、大典、朝贺等重大政治活动，行使国家权力，接待外国使节与藩属使臣，是皇权的核心象征；后寝的后宫宫殿为皇帝及后妃居住、处理日常政务与生活的场所，划分明确的卧室、起居、书房空间；皇宫内设有御花园、亭台楼阁等园林景观，满足皇家休闲、游乐需求，同时设有库房、太医院等，满足皇家文化、医疗、仓储等需求；配备禁军守卫、太监宫女服务等体系，设置御膳房、仪仗库等辅助机构，保障皇宫的正常运转与安全；此外，皇宫还承担礼仪祭祀、文化展示等功能，彰显各代政权的国力与文化底蕴，是当时对外展示国家形象的重要窗口，其“前朝后寝”布局也为后世皇宫建筑奠定了基础。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./huanggong.js"></script>
+</body>
+</html>

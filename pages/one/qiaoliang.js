@@ -53,10 +53,11 @@ function goHome() {
 
 // 页面加载完成后初始化默认图表
 window.onload = function() {
-    // 1. 初始化建筑材料占比饼图
+    // 1. 初始化桥梁材料占比饼图
     initMaterialPieChart();
 };
-// 民居建筑材料占比图表初始化函数
+
+// 桥梁建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -64,14 +65,13 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 原始时代民居建筑材料占比数据
+    // 原始时代桥梁建筑材料占比数据
     let data = [
-        { value: 45, name: '木材（树枝/树干）' },
-        { value: 25, name: '茅草/芦苇' },
-        { value: 15, name: '泥土/黏土' },
-        { value: 8, name: '石块' },
-        { value: 5, name: '兽皮' },
-        { value: 2, name: '其他（藤条/树叶）' }
+        { value: 55, name: '天然木材（圆柏/桢楠）' },
+        { value: 35, name: '天然石块（青石/砂岩）' },
+        { value: 5, name: '藤条' },
+        { value: 3, name: '夯土' },
+        { value: 2, name: '其他（树皮/茅草）' }
     ];
 
     // 图表配置项
@@ -88,7 +88,7 @@ function initMaterialPieChart() {
         padding: [10, 10, 20, 10],
         series: [
             {
-                name: '建筑材料占比',
+                name: '桥梁材料占比',
                 type: 'pie',
                 radius: ['40%', '70%'], // 圆环效果
                 center: ['50%', '40%'], // 图表居中
@@ -106,7 +106,7 @@ function initMaterialPieChart() {
                 },
                 color: [
                     '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                    '#577590', '#f28482'
                 ]
             }
         ]
@@ -121,7 +121,7 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化原始时期建筑类型占比图表
+// 框架结构部分：初始化原始时期桥梁类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
@@ -145,7 +145,7 @@ function initStructureOverviewChart() {
         },
         series: [
             {
-                name: '建筑类型占比',
+                name: '桥梁类型占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -167,10 +167,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 模拟数据（可根据实际需求调整）
+                // 桥梁类型占比数据
                 data: [
-                    { value: 58, name: '河姆渡干栏式' },
-                    { value: 42, name: '半坡地穴式' }
+                    { value: 55, name: '河姆渡独木桥' },
+                    { value: 45, name: '半坡石梁桥' }
                 ]
             }
         ]
@@ -184,7 +184,7 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表
+// 初始化框架结构图表（桥梁专属数据）
 function initStructureCharts(type) {
     // 1. 柱状图：结构参数对比
     const barDom = document.getElementById('structureBarChart');
@@ -193,28 +193,26 @@ function initStructureCharts(type) {
     const pieDom = document.getElementById('structurePieChart');
     const pieChart = echarts.init(pieDom);
 
-    // 河姆渡/半坡 数据配置
+    // 河姆渡独木桥/半坡石梁桥 数据配置
     const hemuduBarData = {
-        title: '河姆渡干栏式民居结构参数',
-        xAxis: ['离地高度(m)', '木桩深度(m)', '榫卯连接占比(%)', '屋顶坡度(°)'],
-        yAxis: [1.5, 1.2, 60, 45] // 平均数据
+        title: '河姆渡独木桥结构参数',
+        xAxis: ['桥面跨度(m)', '原木直径(m)', '桥面离地高度(m)', '固定石块重量(kg)'],
+        yAxis: [3.5, 0.8, 1.2, 150] // 平均数据
     };
     const banpoBarData = {
-        title: '半坡地穴式民居结构参数',
-        xAxis: ['地穴深度(m)', '木柱高度(m)', '黄土稳固占比(%)', '采光口大小(㎡)'],
-        yAxis: [1.2, 1.0, 85, 0.8] // 平均数据
+        title: '半坡石梁桥结构参数',
+        xAxis: ['单跨跨度(m)', '石块厚度(m)', '桥面离地高度(m)', '单块桥面石重量(kg)'],
+        yAxis: [2.0, 0.5, 0.8, 200] // 平均数据
     };
     const hemuduPieData = [
-        { value: 70, name: '木材' },
-        { value: 15, name: '藤条' },
-        { value: 10, name: '茅草' },
-        { value: 5, name: '其他' }
+        { value: 90, name: '天然圆木' },
+        { value: 8, name: '固定石块' },
+        { value: 2, name: '藤条' }
     ];
     const banpoPieData = [
-        { value: 60, name: '黄土' },
-        { value: 20, name: '木材' },
-        { value: 15, name: '茅草' },
-        { value: 5, name: '其他' }
+        { value: 85, name: '天然石块' },
+        { value: 10, name: '加固圆木/藤条' },
+        { value: 5, name: '夯土基座' }
     ];
 
     // 柱状图配置
@@ -251,7 +249,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '河姆渡干栏式结构组成' : '半坡地穴式结构组成',
+            text: type === 'hemudu' ? '河姆渡独木桥结构组成' : '半坡石梁桥结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -283,7 +281,7 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（核心修改部分）
+// 初始化功能板块扇形图（桥梁功能数据）
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
@@ -292,7 +290,7 @@ function initFunctionChart() {
     // 配置项
     const option = {
         title: {
-            text: '原始时期民居功能占比',
+            text: '原始时期桥梁功能占比',
             left: 'center'
         },
         tooltip: {
@@ -327,14 +325,14 @@ function initFunctionChart() {
                 labelLine: {
                     show: false
                 },
-                // 原始民居功能数据（贴合文本描述）
+                // 原始桥梁功能数据
                 data: [
-                    { value: 45, name: '氏族聚居（居住/起居）' },
-                    { value: 20, name: '日常生存（采光/排烟/活动）' },
-                    { value: 12, name: '储物（粮食/农具）' },
-                    { value: 10, name: '简单生产（编织/制陶/晾晒）' },
-                    { value: 8, name: '饲养牲畜' },
-                    { value: 5, name: '祭祀/小型聚会' }
+                    { value: 50, name: '日常通行（居所-农耕/狩猎区）' },
+                    { value: 20, name: '物资运输（农具/作物/猎物）' },
+                    { value: 12, name: '应急通行（洪水/狩猎季）' },
+                    { value: 8, name: '祭祀水神（祈求通行平安）' },
+                    { value: 6, name: '部落集结（狩猎/应急）' },
+                    { value: 4, name: '临时储物（小型农具/作物）' }
                 ]
             }
         ]
@@ -346,4 +344,3 @@ function initFunctionChart() {
         myChart.resize();
     });
 }
-

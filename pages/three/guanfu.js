@@ -19,7 +19,7 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化半坡图表
+            initStructureCharts('hemudu'); // 默认初始化咸阳郡府图表
         }
         //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
@@ -57,7 +57,7 @@ window.onload = function() {
     initMaterialPieChart();
 };
 
-// 官府雏形建筑材料占比图表初始化函数
+// 秦汉关中官府建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -65,14 +65,14 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 秦汉关中官府建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
-        { value: 1, name: '其他' }
+        { value: 35, name: '楠木/松木（木构架）' },
+        { value: 30, name: '青砖（墙体）' },
+        { value: 15, name: '青白石（基座/柱础）' },
+        { value: 10, name: '青瓦（屋顶）' },
+        { value: 6, name: '白灰/彩绘（装饰）' },
+        { value: 4, name: '其他（五金/格栅）' }
     ];
 
     // 图表配置项
@@ -122,7 +122,7 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化新石器时代官府雏形建筑类型占比图表
+// 框架结构部分：初始化秦汉关中官府建筑类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
@@ -166,10 +166,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 秦汉关中官府建筑类型占比
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 45, name: '咸阳郡府（秦代）' },
+                    { value: 55, name: '长安京兆尹府（汉代）' }
                 ]
             }
         ]
@@ -183,7 +183,7 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 初始化框架结构图表（咸阳郡府/长安京兆尹府）
 function initStructureCharts(type) {
     // 检查容器和ECharts是否存在
     const barDom = document.getElementById('structureBarChart');
@@ -195,30 +195,30 @@ function initStructureCharts(type) {
     // 2. 饼图：结构组成占比
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 咸阳郡府/长安京兆尹府 数据配置
+    const hemuduBarData = { // 咸阳郡府（秦代）
+        title: '咸阳郡府（秦代）核心结构参数',
+        xAxis: ['梁架高度(m)', '斗拱层数', '基座厚度(m)', '台阶高度(m)'],
+        yAxis: [4.5, 2, 1.2, 0.8]
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = { // 长安京兆尹府（汉代）
+        title: '长安京兆尹府（汉代）核心结构参数',
+        xAxis: ['梁架高度(m)', '斗拱层数', '基座厚度(m)', '台阶高度(m)'],
+        yAxis: [5.0, 3, 1.5, 1.0]
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
-        { value: 2, name: '其他' }
+    const hemuduPieData = [ // 咸阳郡府结构组成
+        { value: 40, name: '木构架（楠木/松木）' },
+        { value: 25, name: '青砖墙体' },
+        { value: 20, name: '青白石基座' },
+        { value: 10, name: '青瓦屋顶' },
+        { value: 5, name: '其他构件' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [ // 长安京兆尹府结构组成
+        { value: 45, name: '木构架（楠木/松木）' },
+        { value: 20, name: '青砖墙体' },
+        { value: 20, name: '青白石基座' },
+        { value: 10, name: '青瓦屋顶' },
+        { value: 5, name: '彩绘/装饰' }
     ];
 
     // 柱状图配置
@@ -255,7 +255,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '咸阳郡府（秦代）结构组成' : '长安京兆尹府（汉代）结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -287,7 +287,7 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 初始化功能板块扇形图（秦汉官府功能占比）
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
@@ -295,10 +295,10 @@ function initFunctionChart() {
     
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
-    // 配置项
+    // 配置项（秦汉官府功能占比数据）
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
+            text: '秦汉关中官府核心功能占比',
             left: 'right'
         },
         tooltip: {
@@ -314,12 +314,11 @@ function initFunctionChart() {
                 type: 'pie',
                 radius: ['40%', '70%'],
                 data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
+                    { value: 40, name: '行政办公' },
+                    { value: 25, name: '司法审判' },
+                    { value: 20, name: '礼仪接待' },
+                    { value: 10, name: '物资管理' },
+                    { value: 5, name: '其他辅助' }
                 ],
                 label: {
                     show: true,
@@ -327,7 +326,7 @@ function initFunctionChart() {
                 },
                 color: [
                     '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                    '#577590', '#f28482'
                 ]
             }
         ]

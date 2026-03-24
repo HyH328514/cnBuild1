@@ -1,98 +1,80 @@
-// 外层tab栏切换逻辑
+// 外层tab栏切换逻辑（无修改，保留原有逻辑）
 document.querySelectorAll('.tab-item').forEach(item => {
     item.addEventListener('click', function() {
-        // 移除所有tab的active类
         document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        // 给当前点击的tab加active类
         this.classList.add('active');
-        // 获取当前tab对应的内容id
         const tabId = this.dataset.tab;
-        // 移除所有content的active类
         document.querySelectorAll('.content-item').forEach(content => content.classList.remove('active'));
-        // 显示对应内容
         document.getElementById(tabId).classList.add('active');
         
-        // 如果切换到功能tab，初始化功能图表
         if (tabId === 'function') {
             initFunctionChart();
         }
-        // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化半坡图表
+            initStructureCharts('hemudu');
         }
-        //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
             initMaterialPieChart();
         }
     });
 });
 
-// 框架结构：内部tap栏按钮交互
+// 框架结构内部按钮交互（无修改，保留原有逻辑）
 document.querySelectorAll('.struct-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        // 移除所有按钮active类
         document.querySelectorAll('.struct-btn').forEach(b => b.classList.remove('active'));
-        // 给当前按钮加active类
         this.classList.add('active');
-        // 获取结构类型
         const structType = this.dataset.type;
-        // 切换详情文本
         document.querySelectorAll('.detail-item').forEach(item => item.classList.remove('active'));
         document.getElementById(`${structType}-detail`).classList.add('active');
-        // 重新初始化图表
         initStructureCharts(structType);
     });
 });
 
-// 回到首页函数
+// 回到首页函数（无修改）
 function goHome() {
-    // 可根据实际需求修改跳转路径
     window.location.href = '../../index.html';
 }
 
-// 页面加载完成后初始化默认图表
+// 页面加载初始化（无修改）
 window.onload = function() {
-    // 1. 初始化建筑材料占比饼图
     initMaterialPieChart();
 };
 
-// 官府雏形建筑材料占比图表初始化函数
+// 1. 建筑材料占比饼图（修改为秦汉数据）
 function initMaterialPieChart() {
-    // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
         return;
     }
-    // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 秦汉皇宫建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
-        { value: 1, name: '其他' }
+        { value: 35, name: '珍贵木材（楠木/柏木/紫檀）' },
+        { value: 25, name: '青砖' },
+        { value: 15, name: '瓦件（青瓦/黄瓦/琉璃瓦）' },
+        { value: 10, name: '汉白玉/青白石' },
+        { value: 8, name: '金砖（细磨方砖）' },
+        { value: 7, name: '夯土（基座）' }
     ];
 
-    // 图表配置项
     let option = {
         tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b}: {c}% ({d}%)'
         },
         legend: {
-            orient: 'horizontal', // 横向排列（适配页面宽度）
-            bottom: 10, // 放在图表底部
+            orient: 'horizontal',
+            bottom: 10,
             textStyle: { fontSize: 12 }
         },
         padding: [10, 10, 20, 10],
         series: [
             {
-                name: '建筑材料占比',
+                name: '秦汉皇宫建筑材料占比',
                 type: 'pie',
-                radius: ['40%', '70%'], // 圆环效果
-                center: ['50%', '40%'], // 图表居中
+                radius: ['40%', '70%'],
+                center: ['50%', '40%'],
                 data: data,
                 label: {
                     show: true,
@@ -113,22 +95,17 @@ function initMaterialPieChart() {
         ]
     };
 
-    // 渲染图表
     myChart.setOption(option);
-
-    // 响应窗口大小变化，图表自适应
     window.addEventListener('resize', function() {
         myChart.resize();
     });
 }
 
-// 框架结构部分：初始化新石器时代官府雏形建筑类型占比图表
+// 2. 框架结构-秦汉皇宫类型占比（修改为咸阳宫/未央宫数据）
 function initStructureOverviewChart() {
-    // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
+    if (!chartDom) return;
     const myChart = echarts.init(chartDom);
-    // 配置项
     const option = {
         tooltip: {
             trigger: 'item',
@@ -144,7 +121,7 @@ function initStructureOverviewChart() {
         },
         series: [
             {
-                name: '建筑类型占比',
+                name: '秦汉皇宫建筑类型占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -166,59 +143,54 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 咸阳宫 vs 未央宫 占比数据
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 33, name: '咸阳宫（秦代）' },
+                    { value: 67, name: '未央宫（汉代）' }
                 ]
             }
         ]
     };
     
-    // 渲染图表
     myChart.setOption(option);
-    // 响应窗口大小变化
     window.addEventListener('resize', () => {
         myChart.resize();
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 3. 框架结构-柱状图+饼图数据（修改为秦汉数据）
 function initStructureCharts(type) {
-    // 检查容器和ECharts是否存在
     const barDom = document.getElementById('structureBarChart');
     const pieDom = document.getElementById('structurePieChart');
-    if (!barDom || !pieDom || typeof echarts === 'undefined') return;
+    if (!barDom || !pieDom) return;
     
-    // 1. 柱状图：结构参数对比
     const barChart = echarts.init(barDom);
-    // 2. 饼图：结构组成占比
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 咸阳宫（秦代）/未央宫（汉代）数据配置
+    const hemuduBarData = { // 咸阳宫（秦代）
+        title: '咸阳宫结构参数',
+        xAxis: ['夯土基座高度(m)', '木柱直径(cm)', '斗拱复杂度(%)', '总面积(km²)'],
+        yAxis: [8, 50, 60, 2.5] // 平均数据
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = { // 未央宫（汉代）
+        title: '未央宫结构参数',
+        xAxis: ['夯土基座高度(m)', '木柱直径(cm)', '斗拱复杂度(%)', '总面积(km²)'],
+        yAxis: [15, 55, 85, 5.0] // 平均数据
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
-        { value: 2, name: '其他' }
+    const hemuduPieData = [ // 咸阳宫结构组成
+        { value: 38, name: '珍贵木材' },
+        { value: 25, name: '青砖' },
+        { value: 15, name: '瓦件' },
+        { value: 10, name: '汉白玉' },
+        { value: 12, name: '夯土基座' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [ // 未央宫结构组成
+        { value: 35, name: '珍贵木材' },
+        { value: 28, name: '青砖' },
+        { value: 18, name: '瓦件（含琉璃瓦）' },
+        { value: 12, name: '汉白玉/青白石' },
+        { value: 7, name: '其他（金砖/园林构件）' }
     ];
 
     // 柱状图配置
@@ -255,7 +227,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '咸阳宫结构组成' : '未央宫结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -276,29 +248,23 @@ function initStructureCharts(type) {
         }]
     };
 
-    // 渲染图表
     barChart.setOption(barOption);
     pieChart.setOption(pieOption);
 
-    // 自适应窗口大小
     window.addEventListener('resize', () => {
         barChart.resize();
         pieChart.resize();
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 4. 功能板块图表（修改为秦汉功能占比）
 function initFunctionChart() {
-    // 获取图表容器
     const chartDom = document.getElementById('functionChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
-    
-    // 初始化ECharts实例
+    if (!chartDom) return;
     const myChart = echarts.init(chartDom);
-    // 配置项
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
+            text: '秦汉皇宫功能占比',
             left: 'right'
         },
         tooltip: {
@@ -314,12 +280,12 @@ function initFunctionChart() {
                 type: 'pie',
                 radius: ['40%', '70%'],
                 data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
+                    { value: 35, name: '政务大典（登基/朝贺/阅兵）' },
+                    { value: 20, name: '王室居住（后宫/日常政务）' },
+                    { value: 15, name: '休闲游乐（御花园/太液池）' },
+                    { value: 12, name: '仓储军事（太仓/兵器库）' },
+                    { value: 10, name: '文化医疗（翰林院/太医院）' },
+                    { value: 8, name: '服务保障（禁军/御膳房）' }
                 ],
                 label: {
                     show: true,
@@ -332,9 +298,7 @@ function initFunctionChart() {
             }
         ]
     };
-    // 渲染图表
     myChart.setOption(option);
-    // 自适应窗口大小
     window.addEventListener('resize', () => {
         myChart.resize();
     });

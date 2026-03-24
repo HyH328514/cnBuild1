@@ -1,8 +1,7 @@
 // 全局共享变量
 let currentTimeIndex = 0; // 当前选中的时间轴索引
 let imgIndexMap = [1, 2, 3, 4, 5, 6, 7]; // 每个轮播项的当前图片索引
-let carouselOffset = 0; // 补充缺失的轮播偏移量变量
-// 清理文本数据（移除重复的const定义）
+let carouselOffset = 0; //轮播偏移量变量
 const s_textData = {
   one : [  `兴隆洼遗址，位于内蒙古自治区赤峰市敖汉旗宝国吐乡兴隆洼村东南1.3千米丘陵西缘，是新石器时代早期（前10000—前7000）先民聚落遗址，占地面积达6万平方米 [1] [13]。1983年春至1994年秋，中国社会科学院考古研究所等单位对遗址进行了7次发掘，揭露面积4.8万平方米，清理半地穴式房址153座，聚落外围环绕椭圆形壕沟，房址呈东北—西南向整齐排列，中央两座大房址面积各达140平方米，被称为“华夏第一村” [13-15]。
 遗址出土石器、陶器、骨器、蚌器及玉器等遗物，其中玉玦、玉斧等是中国已知年代最早的磨光真玉器，遗址内发现的人猪合葬墓和碳化粟黍标本，实证了世界旱作农业起源地 [1] [13-14] [17]。1996年被国务院公布为第四批全国重点文物保护单位 [3]，2013年启动保护规划编制工作 [5]，2019年规划建设国家考古遗址公园 [16]。2021年入选全国“百年百大考古发现” [11]。`,
@@ -197,6 +196,7 @@ const timeNodeFolders = [
 const carouselNums = 5; // 每个时期的图片总数
 
 // ===================== 轮播图逻辑 =====================
+// 轮播图初始化函数，核心功能：根据当前时间节点和偏移量动态生成文本和图片内容，并监听滚轮事件实现切换
 function initCarousel() {
   // 替换为querySelector获取DOM（移除ID依赖）
   const carouselContainer = document.querySelector('.myImage .carousel');
@@ -222,13 +222,7 @@ function initCarousel() {
       const baseIndex = carouselOffset + liIndex;
       // 文本与图片索引
       const cycleIndex = (baseIndex - 1)/2; // 图片命名从1开始
-
-      console.log(`liIndex: ${liIndex}, baseIndex: ${baseIndex}, cycleIndex: ${cycleIndex}`);
-
       const textIndex = (baseIndex - 0)/2; // 文本索引从0开始
-      
-      console.log(`textIndex: ${textIndex}`);
-
       // 判断当前li应该显示文本还是图片（交替逻辑）
       const isText = baseIndex % 2 === 0; // 偏移+li索引 偶数列文本，奇数列图片
       
@@ -295,7 +289,7 @@ function initTimeline() {
   let z_hoverTimer = null;         
   let z_scrollCooldown = false;    
 
-  // 初始化时间轴标记
+  // 时间轴标记初始化与弹窗生成函数
   function z_initTimeline() {
     z_timeData.forEach((item, index) => {
       const z_markerEl = document.createElement('div');
@@ -325,12 +319,15 @@ function initTimeline() {
             <small style="font-size: 0.8rem; opacity: 0.7;">${building.description}</small>
           </div>
         `;
-        building.url = `./pages/${timeNodeFolders[currentTimeIndex]}/${building.htmlName}`; // 构建URL路径
+        building.url = `./pages/${timeNodeFolders[index]}/${building.htmlName}`; // 构建URL路径
+        console.log(building.url);
         z_itemEl.addEventListener('click', (e) => {
           e.stopPropagation();
-          // 先判断 url 是否存在，不存在则提示
+          // 先判断 url ，存在就跳转，不存在则提示
           if (building.url) {
-            window.open(building.url, "_blank");
+            console.log(building.url);
+            location.href = `${building.url}`;
+            
           } else {
             alert(`暂无${item.timeLabel}${building.name}的相关页面`);
           }
@@ -428,7 +425,7 @@ function initTimeline() {
     z_switchToMark(currentTimeIndex + z_direction);
   }
 
-  // 绑定事件
+  // 时间轴滚动、点击进度条跳转、拖拽滑块、弹窗事件、点击时间标记切换等事件绑定函数
   function z_bindEvents() {
     // 时间轴区域滚动
     z_timeline.addEventListener('wheel', z_handleGlobalWheel, { passive: false });
@@ -489,8 +486,9 @@ function initTimeline() {
       e.stopPropagation();
     });
   }
-
+   // 时间轴标记初始化与弹窗生成函数
   z_initTimeline();
+    // 时间轴滚动、点击进度条跳转、拖拽滑块、弹窗事件、点击时间标记切换等事件绑定函数
   z_bindEvents();
   
   // 隐藏提示
@@ -510,6 +508,8 @@ function initTimeline() {
 
 // 页面初始化
 document.addEventListener('DOMContentLoaded', function() {
+  // 轮播图初始化函数，核心功能：根据当前时间节点和偏移量动态生成文本和图片内容，并监听滚轮事件实现切换
   initCarousel();
+  //时间轴相关的函数都写在它里面
   initTimeline();
 });

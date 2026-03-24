@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皇宫详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./huanggong.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>木材选用珍贵楠木、紫檀、黄花梨等，楠木多用于太和殿等核心宫殿的立柱，质地坚硬且有香气，可防虫蛀，保证建筑千年稳固；紫檀、黄花梨则用于装饰构件，尽显奢华。墙体以青砖为主要材料，部分重要建筑采用 “金砖” 铺地，屋顶覆盖黄色琉璃瓦，黄色为皇家专用色，琉璃瓦烧制工艺精湛，色彩艳丽且防水性强，正脊两端装饰吻兽，彰显皇权至高无上；基座与栏杆使用汉白玉，洁白温润，雕刻精美，提升建筑的高贵感。</p>
+                 <!--新增：图表容器 -->
+                <h3>明清时期皇宫建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>整体采用最高等级殿堂式抬梁木构架，纯木结构承重、墙不承重，柱网严整、全网对称，以《工程做法则例》斗口模数统一控制所有构件尺寸，形制规范化、等级化极强。</p>
+                
+                <!-- 新增：原始时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">明清时期抬梁式木架构 vs 穿斗式木架构皇宫建筑占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">抬梁式木架构</button>
+                    <button class="struct-btn" data-type="banpo">穿斗式木架构</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>明清皇宫框架以顶级官式抬梁为骨、斗口模数为规、须弥高台为基、密斗拱为辅，结构宏大刚劲、传力清晰、刚度耐久，既满足皇权礼制与超大空间仪式需求，又适配北方气候，实现结构安全、等级象征、环境适应三者合一。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>穿斗柱密、空间碎、等级低、属民间乡土做法，不符合皇宫 大空间、高规制、皇权礼制、庄严恢宏 的结构与形象要求。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：皇权至上、礼制独尊</h2>
+                    
+                    <p class="dw-core-idea">
+                        严格遵循儒家等级秩序，中轴对称、前朝后寝、左祖右社、外朝内廷分明，开间、屋顶、色彩、台基全按等级规制，凸显帝王独尊与尊卑礼法。
+                    </p>
+
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>严格中轴对称、模数化布局，依斗口制定型，开间、层高、构件尺寸等级森严</li>
+                                <li>屋顶形制至尊，主殿重檐庑殿、黄琉璃瓦，主次屋顶高低分明、秩序极强</li>
+                                <li>繁复制度化斗拱，兼具承重、出挑、抗震与等级象征，形制最高、排布规整</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>厚重宫墙、封闭院落，防寒、防风沙、隔热，适应华北冬冷夏燥</li>
+                                <li>坐北朝南、负阴抱阳，充分采光采暖，避北风、纳暖阳，契合北方气候</li>
+                                <li>适度出檐、平缓屋面，减少风阻、利于保温，兼顾少量排水</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        充分体现皇权至上与礼制思想，中轴线贯穿紫禁城并延伸至北京全城，象征皇权对国家的统治，建筑布局严格遵循 “前朝后寝” 制度，前朝用于朝政大典，后寝为皇帝及后妃居住区域，界限分明。建筑造型、色彩、规模等均按等级划分，太和殿采用重檐庑殿顶，是古建筑屋顶最高等级，彰显皇权的威严与神圣，同时融入风水、阴阳等理念，追求建筑与自然、宇宙的和谐统一。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>作为明清两代的政治中心与皇家居所，功能全面且等级森严。前朝的太和殿、中和殿、保和殿用于举行登基、大典、朝贺等重大政治活动，行使国家权力；后寝的乾清宫、交泰殿、坤宁宫等为皇帝及后妃居住、处理日常政务与生活的场所。此外，故宫内设有御花园、书房、库房等，满足皇家休闲、文化、仓储等需求，同时配备禁军守卫、太监宫女服务等体系，保障皇宫的正常运转与安全。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./huanggong.js"></script>
+</body>
+</html>

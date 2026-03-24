@@ -19,7 +19,7 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化半坡图表
+            initStructureCharts('hemudu'); // 默认初始化殷墟木桥图表
         }
         //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
@@ -53,11 +53,11 @@ function goHome() {
 
 // 页面加载完成后初始化默认图表
 window.onload = function() {
-    // 1. 初始化建筑材料占比饼图
+    // 1. 初始化桥梁材料占比饼图
     initMaterialPieChart();
 };
 
-// 官府雏形建筑材料占比图表初始化函数
+// 桥梁建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -65,13 +65,13 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 商周时期桥梁建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
+        { value: 75, name: '木材（圆柏/桢楠）' },
+        { value: 12, name: '青石' },
+        { value: 8, name: '绳索（大麻绳）' },
+        { value: 3, name: '茅草' },
+        { value: 1, name: '铁器（少量）' },
         { value: 1, name: '其他' }
     ];
 
@@ -89,7 +89,7 @@ function initMaterialPieChart() {
         padding: [10, 10, 20, 10],
         series: [
             {
-                name: '建筑材料占比',
+                name: '桥梁材料占比',
                 type: 'pie',
                 radius: ['40%', '70%'], // 圆环效果
                 center: ['50%', '40%'], // 图表居中
@@ -107,7 +107,7 @@ function initMaterialPieChart() {
                 },
                 color: [
                     '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                    '#577590', '#f28482', '#7209b7'
                 ]
             }
         ]
@@ -122,11 +122,10 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化新石器时代官府雏形建筑类型占比图表
+// 框架结构部分：初始化商周时期桥梁类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
@@ -142,9 +141,12 @@ function initStructureOverviewChart() {
                 fontSize: 12
             }
         },
+        tooltip: {
+            trigger: 'item'
+        },
         series: [
             {
-                name: '建筑类型占比',
+                name: '桥梁类型占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -166,10 +168,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 桥梁类型占比数据
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 45, name: '殷墟木桥（商代）' },
+                    { value: 55, name: '渭水浮桥（周代）' }
                 ]
             }
         ]
@@ -183,42 +185,38 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 初始化框架结构图表（商周桥梁专属数据）
 function initStructureCharts(type) {
-    // 检查容器和ECharts是否存在
-    const barDom = document.getElementById('structureBarChart');
-    const pieDom = document.getElementById('structurePieChart');
-    if (!barDom || !pieDom || typeof echarts === 'undefined') return;
-    
     // 1. 柱状图：结构参数对比
+    const barDom = document.getElementById('structureBarChart');
     const barChart = echarts.init(barDom);
     // 2. 饼图：结构组成占比
+    const pieDom = document.getElementById('structurePieChart');
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 殷墟木桥（商代）/渭水浮桥（周代） 数据配置
+    const hemuduBarData = {
+        title: '殷墟木桥（商代）结构参数',
+        xAxis: ['桥桩间距(m)', '桥桩残长(m)', '桥面宽度(m)', '单根圆木直径(m)'],
+        yAxis: [3.5, 4.5, 2.0, 0.6] // 平均数据
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = {
+        title: '渭水浮桥（周代）结构参数',
+        xAxis: ['浮体数量(艘)', '桥面宽度(m)', '浮体长度(m)', '青石基座重量(kg)'],
+        yAxis: [30, 5.0, 4.0, 500] // 平均数据
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
+    const hemuduPieData = [
+        { value: 88, name: '圆柏/桢楠木' },
+        { value: 7, name: '青石' },
+        { value: 3, name: '茅草/绳索' },
         { value: 2, name: '其他' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [
+        { value: 70, name: '圆木' },
+        { value: 15, name: '青石基座' },
+        { value: 10, name: '大麻绳' },
+        { value: 4, name: '铁器（少量）' },
+        { value: 1, name: '木板' }
     ];
 
     // 柱状图配置
@@ -255,7 +253,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '殷墟木桥（商代）结构组成' : '渭水浮桥（周代）结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -287,19 +285,17 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 初始化功能板块扇形图（商周桥梁功能数据）
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
-    
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
-            left: 'right'
+            text: '商周时期桥梁功能占比',
+            left: 'center'
         },
         tooltip: {
             trigger: 'item'
@@ -313,21 +309,34 @@ function initFunctionChart() {
                 name: '功能占比',
                 type: 'pie',
                 radius: ['40%', '70%'],
-                data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
-                ],
-                label: {
-                    show: true,
-                    formatter: '{b}: {c}%'
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
                 },
-                color: [
-                    '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                // 商周桥梁功能数据
+                data: [
+                    { value: 45, name: '交通运输（人员/物资/车马）' },
+                    { value: 20, name: '政治功能（王权彰显/诸侯往来）' },
+                    { value: 15, name: '军事防御（渡口管控/军事运输）' },
+                    { value: 10, name: '祭祀功能（水神祭祀/祈福）' },
+                    { value: 6, name: '文化展示（建筑典范/艺术欣赏）' },
+                    { value: 4, name: '其他（应急通行/临时储物）' }
                 ]
             }
         ]

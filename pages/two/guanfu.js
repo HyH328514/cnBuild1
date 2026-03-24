@@ -65,14 +65,14 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 商周时期官府建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
-        { value: 1, name: '其他' }
+        { value: 45, name: '优质木材（松木/柏木）' },
+        { value: 30, name: '高强度版筑夯土' },
+        { value: 10, name: '陶瓦/陶质脊饰' },
+        { value: 8, name: '青石（基座/柱础/台阶）' },
+        { value: 5, name: '竹篾/木质格栅' },
+        { value: 2, name: '矿物颜料/其他' }
     ];
 
     // 图表配置项
@@ -166,10 +166,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 商周时期官府类型占比
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 45, name: '殷墟侯府（商代）' },
+                    { value: 55, name: '丰镐卿大夫府（周代）' }
                 ]
             }
         ]
@@ -183,7 +183,7 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 初始化框架结构图表（殷墟侯府/丰镐卿大夫府）
 function initStructureCharts(type) {
     // 检查容器和ECharts是否存在
     const barDom = document.getElementById('structureBarChart');
@@ -195,30 +195,31 @@ function initStructureCharts(type) {
     // 2. 饼图：结构组成占比
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 殷墟侯府/丰镐卿大夫府 数据配置
+    const hemuduBarData = { // 殷墟侯府（商代）
+        title: '殷墟侯府（商代）结构参数',
+        xAxis: ['夯土基座厚度(m)', '立柱直径(cm)', '梁架层数', '大堂面积(㎡)'],
+        yAxis: [1.5, 50, 3, 120]
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = { // 丰镐卿大夫府（周代）
+        title: '丰镐卿大夫府（周代）结构参数',
+        xAxis: ['夯土基座厚度(m)', '立柱直径(cm)', '梁架层数', '建筑群总面积(㎡)'],
+        yAxis: [2.0, 60, 4, 300]
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
+    const hemuduPieData = [ // 殷墟侯府结构组成
+        { value: 40, name: '夯土' },
+        { value: 35, name: '木材' },
+        { value: 15, name: '青石' },
+        { value: 8, name: '茅草' },
         { value: 2, name: '其他' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [ // 丰镐卿大夫府结构组成
+        { value: 38, name: '木材' },
+        { value: 30, name: '夯土' },
+        { value: 12, name: '陶瓦' },
+        { value: 10, name: '青石' },
+        { value: 6, name: '白灰/彩绘' },
+        { value: 4, name: '其他' }
     ];
 
     // 柱状图配置
@@ -255,7 +256,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '殷墟侯府（商代）结构组成' : '丰镐卿大夫府（周代）结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -287,7 +288,7 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 初始化功能板块扇形图（商周官府功能占比）
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
@@ -295,10 +296,10 @@ function initFunctionChart() {
     
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
-    // 配置项
+    // 配置项（商周官府功能占比数据）
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
+            text: '商周时期官府功能占比',
             left: 'right'
         },
         tooltip: {
@@ -314,12 +315,11 @@ function initFunctionChart() {
                 type: 'pie',
                 radius: ['40%', '70%'],
                 data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
+                    { value: 38, name: '行政办公' },
+                    { value: 28, name: '司法审判' },
+                    { value: 18, name: '礼仪接待' },
+                    { value: 12, name: '物资管理' },
+                    { value: 4, name: '其他（祭祀/休闲）' }
                 ],
                 label: {
                     show: true,
@@ -327,7 +327,7 @@ function initFunctionChart() {
                 },
                 color: [
                     '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                    '#577590', '#f28482'
                 ]
             }
         ]

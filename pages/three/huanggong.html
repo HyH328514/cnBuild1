@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皇宫详情页</title>
+    <!-- 引入ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./huanggong.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <!-- 自定义区域 -->
+                <h2>建筑材料</h2>
+                <p>材料规格远超普通建筑，选用珍贵木材、青砖、瓦件（青瓦/黄瓦）、汉白玉/青白石、金砖等核心材料，彰显秦汉王权至高无上。木材选用珍贵楠木、柏木、紫檀等，楠木、柏木多用于咸阳宫正殿、未央宫前殿等核心宫殿的立柱与横梁，质地坚硬、防虫蛀且有香气，保证建筑稳固耐用，紫檀用于装饰构件，尽显皇家奢华；墙体以青砖为主要材料，核心建筑墙面采用青砖镶贴，表面光滑细腻，部分建筑外墙绘制彩绘（如龙凤纹、云纹），提升美观度与皇家气派；屋顶覆盖青瓦（秦代）、黄瓦（汉代后期，成为皇家专用色），琉璃瓦烧制工艺逐步成熟，色彩艳丽且防水性强，正脊两端装饰大型吻兽，屋脊两侧设置走兽，瓦当采用龙纹、凤纹，彰显皇权至高无上；基座与栏杆使用汉白玉与青白石，洁白温润、雕刻精美，栏杆雕刻龙纹、凤纹、云纹，地面铺设“金砖”（细磨方砖），平整耐磨，适配皇家大型活动需求，核心宫殿基座采用夯土与砖石结合打造，高达数米，气势恢宏，未央宫前殿基座更是高达15米，凸显皇家威严。</p>
+                <!-- 图表容器 -->
+                <h3>秦汉皇宫（咸阳宫/未央宫）建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <!-- 自定义区域 -->
+                <h2>框架结构</h2>
+                <p>采用成熟的抬梁式木构架体系，继承秦代技艺并经汉代优化，以巨大立柱支撑横梁，梁架层层叠高，形成高大开阔的室内空间，整体以南北中轴线为核心对称布局，严格遵循“前朝后寝”制度，分为前朝（政务区）与后寝（居住区）两部分，宫殿、廊庑、宫墙、园林、太仓依次排列，形成规模宏大、结构严谨的建筑群。</p>
+                
+                <!-- 原始时期建筑类型占比图表 -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">秦汉皇宫建筑类型占比（咸阳宫 vs 未央宫）</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">咸阳宫（秦代）</button>
+                    <button class="struct-btn" data-type="banpo">未央宫（汉代）</button>
+                </div>
+
+                <!-- 结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>咸阳宫采用成熟抬梁式木构架，核心宫殿柱网布置规整，斗拱结构趋于完善，兼具承重与装饰功能；整体以南北中轴线布局，“渭水贯都，以象天汉；横桥南渡，以法牵牛”的营造思想彰显秦代皇权与天同齐的理念；屋顶多采用重檐庑殿顶，屋脊高大，吻兽造型雄伟，总面积约2.5平方公里，建筑主体与高大夯土基座衔接，周边增设回廊提升实用性。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>未央宫继承秦代抬梁式构架并优化，斗拱层数多、造型复杂，用于柱与梁之间，既传递荷载，又彰显建筑等级；前殿采用面阔11间、进深13间的柱网布置，体现汉代木构建筑的高超技艺；严格遵循“前朝后寝”成熟制度，中轴线延伸至都城核心；采用重檐庑殿顶与重檐歇山顶，屋脊吻兽造型更雄伟，建筑总面积约5平方公里，增设月台、太液池周边园林建筑群，布局更严谨，彰显汉代王权核心地位。</p>
+                    </div>
+                </div>
+
+                <!-- ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 自定义区域 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：皇权至上、大一统，融合礼制与自然和谐</h2>
+                    
+                    <p class="dw-core-idea">
+                        皇宫的核心设计理念是<strong>凸显皇权至上、大一统的时代精神与儒家礼制思想</strong>，同时融入风水理念与自然和谐思想，以中轴线、前朝后寝等布局彰显等级秩序与王朝威仪。
+                    </p>
+
+                    <h3>一、咸阳宫（秦代）：皇权通天，大一统格局</h3>
+                    <p>
+                        咸阳宫选址于陕西咸阳地势高亢、形势开阔处，便于防守与瞭望，整体以“渭水贯都，以象天汉；横桥南渡，以法牵牛”为营造思想，彰显秦代皇权与天同齐的理念；中轴线贯穿宫殿区，象征皇权对国家的绝对统治，建筑布局贴合地形，融入风水、阴阳理念，避免破坏自然地貌；装饰以龙纹、凤纹、云纹为主，彩绘华丽庄重，严格区别于民居与官府建筑。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>皇权通天：以“象天法地”为核心，彰显大一统皇权与天同齐</li>
+                                <li>轴线布局：南北中轴线贯穿，体现对国家统治的秩序感</li>
+                                <li>实用适配：夯土基座高大，适配咸阳地势，提升建筑威严感</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>礼制与自然细节</h4>
+                            <ul>
+                                <li>等级区分：材料规格、彩绘纹饰严格区别于普通建筑</li>
+                                <li>风水适配：选址高亢避水，建筑贴合地形不破坏自然</li>
+                                <li>装饰特色：以龙纹、凤纹、云纹为主，纹饰威严显皇权</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、未央宫（汉代）：礼制成熟，自然和谐</h3>
+                    <p>
+                        未央宫选址于西安地势开阔处，水源充沛且易守难攻，以主殿为核心布局，强化皇权的核心地位；严格遵循“前朝后寝”成熟制度，前朝处理政务大典，后寝供皇室居住，界限分明体现尊卑有序；中轴线延伸至都城核心，象征王权对都城的绝对掌控，融入更成熟的风水理念，以太液池为中心环绕分布宫殿楼阁，追求建筑与自然环境高度协调。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>礼制核心：“前朝后寝”制度成熟，政务与居住区域严格划分</li>
+                                <li>自然和谐：以太液池为中心，建筑与园林水景高度融合</li>
+                                <li>建筑形制：重檐庑殿顶/歇山顶成熟，吻兽装饰更显气派</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>礼制与自然细节</h4>
+                            <ul>
+                                <li>等级森严：斗拱复杂度、建筑规模严格遵循汉代礼制</li>
+                                <li>风水优化：选址兼顾防守、瞭望与自然环境协调</li>
+                                <li>功能拓展：增设太液池、御花园，兼顾王权威严与居住舒适性</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        秦汉皇宫均以“皇权至上”为核心，秦代侧重“象天法地”的大一统格局，汉代强化礼制成熟度并追求自然和谐；二者均以中轴线布局、高亢选址彰显威严，融入风水与自然和谐理念，装饰与形制严格区别于普通建筑，“中轴对称”“前朝后寝”的布局为后世皇宫建筑奠定了核心基础，充分体现了秦汉王朝的国力与文化底蕴。
+                    </p>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <!-- 自定义区域 -->
+                <h2>功能</h2>
+                <p>作为秦汉王朝的政治中心与皇家居所，功能全面且等级森严，是秦汉建筑的巅峰之作。前朝的咸阳宫正殿、未央宫前殿用于举行登基、大典、朝贺、阅兵等重大政治活动，行使国家权力，接待外国使节与藩属使臣，是皇权的核心象征，秦代的朝会、汉代的百官朝贺均在此举行；后寝的后宫宫殿（如未央宫椒房殿）为皇帝及后妃居住、处理日常政务与生活的场所，划分明确的卧室、起居、书房空间；皇宫内设有御花园、太液池、亭台楼阁等园林景观，满足皇家休闲、游乐需求，同时设有太仓、太医院、翰林院、兵器库等，满足皇家文化、医疗、仓储、军事等需求；配备禁军守卫、太监宫女服务体系，设置御膳房、仪仗库等辅助机构，保障皇宫的正常运转与安全；此外，皇宫还承担礼仪祭祀、文化展示等功能，彰显秦汉王朝的国力强盛与文化繁荣，是当时对外展示国家形象的重要窗口，其“前朝后寝”“中轴对称”的布局，为后世皇宫建筑奠定了典范。</p>
+                <!-- 功能图表容器 -->
+                <div id="functionChart" style="width: 100%; height: 300px; margin: 20px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+        </div>
+    </div>
+    <script src="./huanggong.js"></script>
+</body>
+</html>

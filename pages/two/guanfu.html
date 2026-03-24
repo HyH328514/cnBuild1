@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>官府详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./guanfu.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <!-- 自定义区域 -->
+                <h2>建筑材料</h2>
+                <p>商周时期官府（殷墟侯府、丰镐卿大夫府）建筑材料体系以“夯土+优质木材”为核心，辅以陶瓦、青石，材料规格与加工工艺远超普通民居，成为等级差异的核心物质体现。墙体采用高强度版筑夯土，经分层夯实（每层厚度控制在15-20cm）后表面涂抹细泥，周代官府夯土墙外侧额外涂抹白灰，尽显庄重；主体木构架选用质地坚硬、耐久性强的松木/柏木，用于搭建梁、柱、檩等核心构件，周代木构件已采用简单榫卯连接提升稳固性；屋顶以茅草为基底，周代中期开始大面积铺设青瓦，屋脊增设陶质脊饰，防水性能大幅提升；基座、台阶与柱础采用青石打造，坚实厚重且防潮稳固；门窗为木质框架，搭配雕花竹篾/木质格栅，部分辅以矿物颜料彩绘，进一步彰显权力等级。</p>
+                 <!--新增：图表容器 -->
+                <h3>商周时期官府建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <!-- 自定义区域 -->
+                <h2>框架结构</h2>
+                <p>商周时期官府框架结构以“抬梁式木构架+礼制化布局”为核心，遵循早期礼制规制规范构件尺寸与比例，兼顾稳固性与等级象征。核心建筑（大堂）采用高规格多层梁架，立柱粗壮且榫卯连接（立柱与横梁为主），梁架层数多于普通民居；整体以中轴线为基准对称分布，大堂、附属房屋、庭院依次排列，廊庑通过简易回廊衔接，形成规整的建筑群；屋顶以单坡/双坡顶为主，周代出现歇山顶雏形，屋脊增设陶质吻兽；建筑主体与石质基座紧密衔接，院落设简易排水设施，适配北方地质气候，避免雨水侵蚀夯土墙，大幅提升建筑耐久性。</p>
+                
+                <!-- 新增：原始时期建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">商周时期官府建筑类型占比（殷墟侯府vs丰镐卿大夫府）</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">殷墟侯府（商代）</button>
+                    <button class="struct-btn" data-type="banpo">丰镐卿大夫府（周代）</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>殷墟侯府（商代）以“抬梁式木构架+夯土基座”为核心，大堂立柱直径约50cm，梁架层数为3层，夯土基座厚度达1.5m，整体沿中轴线对称布局，核心议事空间（大堂）面积约120㎡；屋顶为单坡顶（坡度35°），面向南侧开口最大化利用自然光，墙体夯土中掺入陶片增强强度，院落设置简易明沟排水，避免雨水侵蚀夯土墙，整体结构兼顾政务办公的功能性与北方气候适配性。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>丰镐卿大夫府（周代）在商代基础上强化礼制规范，采用“多层抬梁+歇山顶雏形”结构，大堂立柱直径约60cm，梁架层数达4层，夯土基座厚度2.0m且外侧涂抹白灰；屋顶为双坡顶（坡度45°），屋脊增设陶质吻兽，整体建筑群沿中轴线延伸，包含大堂、侧屋、后院、库房等功能区，总面积约300㎡；木构件榫卯连接工艺更成熟，院落排水系统升级为暗沟，夯土院墙高2.5m，形成封闭性权力空间，是周代礼制化建筑的典型体现。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 自定义区域 -->
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：等级秩序·礼制规范·政务实用</h2>
+                    
+                    <p class="dw-core-idea">
+                        商周时期官府的核心设计理念是<strong>以等级制度与权力秩序为核心，以礼制规范为准则，同时兼顾政务需求与实用功能</strong>，形成“居中为尊、严谨有序、务实高效”的营造逻辑，奠定了中国古代官式建筑“礼制为先、功能适配”的核心范式。
+                    </p>
+
+                    <h3>一、殷墟侯府（商代）：权力象征+实用适配导向设计</h3>
+                    <p>
+                        殷墟侯府适配商代地方治理的核心需求，核心解决“权力象征+政务办公+北方气候适配”的核心问题。以中轴线为基准的对称布局，大堂居中且体量最大，成为侯国权力的核心符号；选址于殷墟都城核心区域，紧邻主干道，便于政务处理与贡赋征收；建筑坐北朝南，单坡顶南向开口最大化利用日照，夯土基座增厚至1.5m抵御北方风沙，院落简易排水设施避免雨水侵蚀，所有设计均服务于“地方治理的权力彰显与实用效率”。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>中轴线对称：大堂居中，附属房屋分列两侧，体现权力中心性</li>
+                                <li>高规格夯土基座：厚度1.5m，兼顾稳固性与气候适配性</li>
+                                <li>功能化空间划分：大堂（政务/司法）+侧屋（日常办公）+库房（物资储存）</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>设计细节适配性</h4>
+                            <ul>
+                                <li>选址：都城核心区，紧邻主干道，便于政务与人员往来</li>
+                                <li>材料加工：夯土分层夯实+陶片掺混，增强墙体强度</li>
+                                <li>功能优先级：大堂空间占比超40%，优先保障核心政务功能</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、丰镐卿大夫府（周代）：礼制规范+秩序强化导向设计</h3>
+                    <p>
+                        丰镐卿大夫府适配周代礼制社会的核心需求，核心解决“礼制规范+等级秩序+政务效率”的核心问题。中轴线贯穿整个建筑群，严格遵循“尊卑有序”的封建礼制，大堂体量远超商代侯府，附属房屋按等级分列两侧；选址于丰镐京畿核心区，坐北朝南并增设挑檐，适配北方多雨气候；高大夯土院墙与厚重院门形成封闭空间，强化官府权威性；装饰仅在大堂门窗、屋脊处设置简单雕刻与黑/红主色调彩绘，符合官式建筑规范，在实用基础上全面强化“礼制秩序”的核心逻辑。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心设计特征</h4>
+                            <ul>
+                                <li>礼制化中轴线：建筑群沿轴线延伸，层级分明，彰显尊卑有序</li>
+                                <li>歇山顶雏形：屋脊陶质吻兽，强化等级象征与屋顶稳定性</li>
+                                <li>封闭性空间：2.5m高夯土院墙+厚重院门，提升权威性与安全性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>设计细节适配性</h4>
+                            <ul>
+                                <li>选址：京畿核心区，紧邻政务中枢，便于上下级政务衔接</li>
+                                <li>材料升级：夯土墙涂白灰、屋顶铺青瓦，强化等级与实用性</li>
+                                <li>布局规整性：功能区划分更精细（办公/休息/祭祀/仓储），秩序性更强</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        殷墟侯府与丰镐卿大夫府的设计，均遵循“权力象征→礼制规范→实用适配”的核心逻辑：商代以权力象征为核心，兼顾政务与气候适配；周代在此基础上强化礼制规范，通过中轴线、建筑体量、装饰等维度体现尊卑有序，同时优化排水、结构等实用细节。这种“礼制为先、实用为辅”的设计思想，既是商周社会等级制度的物质体现，也为后世官式建筑的礼制化发展奠定了基础。
+                    </p>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <!-- 自定义区域 -->
+                <h2>功能</h2>
+                <p>商周时期官府是地方/侯国的核心行政与司法机构，商代殷墟侯府以地方治理、贡赋征收为核心，周代丰镐卿大夫府聚焦京畿/地方政务处理，核心功能可分为“行政办公、司法审判、礼仪接待、物资管理”四大类：行政办公层面，大堂处理重大政务、商议地方治理与治安维护，侧屋负责日常办公与下属接见；司法审判层面，大堂作为核心审判场所，审理地方纠纷、惩戒违规行为，维护地方秩序；礼仪接待层面，接待上级官员、举行政务仪式与简易祭祀，强化等级与权力认同；物资管理层面，库房储存公文、档案、贡赋物资与兵器，后院存放机密文书，配备卫兵守卫保障安全。四类功能围绕“政务治理”核心展开，构成了商周时期地方行政体系的完整框架，也是后世官府“行政、司法、仓储”功能的直接源头。</p>
+                <div class="chart-container" id="functionChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+        </div>
+    </div>
+    <script src="./guanfu.js"></script>
+</body>
+</html>

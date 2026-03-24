@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥梁详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./qiaoliang.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料区域 -->
+            <div class="content-item active" id="material">
+                <!-- 自定义区域 -->
+                <h2>建筑材料</h2>
+                <p>以木材为核心材料，辅以青石、茅草、绳索，贴合商周时期造桥技艺水平，同时适配河流环境。商代殷墟木桥选用坚硬耐腐的圆柏、桢楠等木材，桥桩、横梁、桥面均为大型圆木，一端削成三角锥形插入河床，增强稳固性，桥面铺设小型圆木或木板，部分铺设茅草，用于防滑；周代渭水浮桥以木材、绳索为核心，选用粗壮圆木制作船形浮体，串联浮体的绳索采用大麻绳，坚韧耐用，同时搭配青石构件，用于固定浮体、防止漂流，桥面铺设木板，平整宽阔，可承载车马通行；桥栏（简易）采用木质构件，商代木桥无明确桥栏，周代浮桥两侧设置简易木质护栏，保障行人安全，部分桥梁两端设置青石基座，用于固定桥体，提升稳定性，渭水浮桥还会使用铁器（少量）加固绳索与浮体的连接。</p>
+                 <!--新增：图表容器 -->
+                <h3>商周时期桥梁建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 2. 框架结构区域 -->
+            <div class="content-item" id="structure">
+                <!-- 自定义区域 -->
+                <h2>框架结构</h2>
+                <p>商代殷墟木桥为单孔或多孔木梁柱桥，桥桩顺河流方向排列，间距均匀，南北两排桥桩间距约2—5米，桥桩残长约3—6米，通过绑扎或简单榫卯连接横梁，桥面铺设于横梁之上，结构简单但稳固，适配殷墟地区平缓的河流环境，部分木桥因水流冲刷有多次维修痕迹；周代渭水浮桥为浮体串联结构，即“造舟为梁”，将数十艘木船（浮体）用绳索串联，排列整齐，两端固定于河岸青石基座之上，形成宽阔桥面，浮体之间用木板连接，增强整体性，可根据水位变化调整浮体高度，适配渭水宽阔平缓、水位季节变化较大的水文特点。两座桥梁均注重适配河流水文环境，商代木桥适配小型河流，侧重行人通行；周代浮桥适配大型河流，兼顾行人与车马通行，桥面均较为平整，无复杂装饰，凸显务实性。</p>
+                
+                <!-- 新增：商周时期桥梁类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">商周时期殷墟木桥 vs 渭水浮桥占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮 -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="hemudu">殷墟木桥（商代）</button>
+                    <button class="struct-btn" data-type="banpo">渭水浮桥（周代）</button>
+                </div>
+
+                <!-- 原有结构详情文本 -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="hemudu-detail">
+                        <p>商代殷墟木桥为单孔或多孔木梁柱桥核心，选用坚硬耐腐的圆柏、桢楠等大型圆木制作桥桩、横梁、桥面，桥桩一端削成三角锥形插入河床增强稳固性，桥桩顺河流方向排列且间距均匀（南北两排间距约2—5米，桥桩残长约3—6米），通过绑扎或简单榫卯连接横梁，桥面铺设小型圆木/木板（部分铺茅草防滑），无明确桥栏设计，整体适配殷墟地区平缓的小型河流环境，侧重行人通行，部分木桥因水流冲刷留有多次维修痕迹。</p>
+                    </div>
+                    <div class="detail-item" id="banpo-detail">
+                        <p>周代渭水浮桥为“造舟为梁”的浮体串联结构核心，选用粗壮圆木制作船形浮体，以大麻绳串联数十艘浮体并排列整齐，两端固定于河岸青石基座之上；浮体之间用木板连接增强整体性，可根据水位变化调整浮体高度，桥面铺设木板且平整宽阔（可承载车马通行），两侧设简易木质护栏保障安全，还使用少量铁器加固绳索与浮体的连接，整体适配渭水宽阔平缓、水位季节变化大的水文特点，兼顾行人与车马通行。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 3. 设计理念区域 -->
+            <div class="content-item" id="design">
+                <!-- 自定义区域 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：实用、技术与文化融合</h2>
+                    
+                    <p class="dw-core-idea">
+                        商周桥梁核心设计理念是<strong>兼顾实用性、技术性与祭祀、王权内涵</strong>，以交通功能为核心，同时融入商周时期的文化特色与营造思想，集中体现了“因地制宜、务实创新”的营造思想。
+                    </p>
+
+                    <h3>一、殷墟木桥（商代）：适配都城内部交通需求</h3>
+                    <p>
+                        殷墟木桥分布于商代殷墟都城内部，针对都城内小型河流平缓的水文特征，形成了以“木梁柱”为核心的建筑形式，一切设计均围绕“解决城内交通阻隔、保障人员物资通行”的核心需求展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>木梁柱结构：单孔/多孔设计，桥桩顺河流排列，间距均匀</li>
+                                <li>简易连接：绑扎+简单榫卯，结构稳固且便于维修</li>
+                                <li>极简装饰：无额外装饰，仅满足基础通行功能</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境与文化适配</h4>
+                            <ul>
+                                <li>选址：横跨殷墟内部河流，连接宫殿区与居民区/手工业作坊区</li>
+                                <li>材料：耐腐圆柏/桢楠，适配殷墟区域气候特点</li>
+                                <li>文化：承载简单祭祀功能，百姓祭祀水神祈求通行平安</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、渭水浮桥（周代）：适配都城枢纽交通需求</h3>
+                    <p>
+                        渭水浮桥分布于周代丰镐都城旁的渭水流域，针对渭水宽阔、水位季节变化大的水文特征，形成了“造舟为梁”的浮体串联结构，设计核心围绕“都城核心交通枢纽、彰显王权”的双重需求。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>浮体串联：数十艘木船为浮体，绳索串联，可适配水位变化</li>
+                                <li>多重加固：青石基座+铁器加固，保障车马通行稳固</li>
+                                <li>简易标识：两端设木质标识，区分桥梁范围</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境与文化适配</h4>
+                            <ul>
+                                <li>选址：横跨渭水，连接丰镐都城与渭北地区，契合“天下共主”集权需求</li>
+                                <li>材料：粗壮圆木+大麻绳+青石，适配渭水水文特点</li>
+                                <li>文化：彰显周天子王权，承载政治/祭祀双重内涵</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、核心设计思想总结</h3>
+                    <p>
+                        无论是商代殷墟木桥还是周代渭水浮桥，均以“交通功能”为核心，同时融入时代文化特征：商代木桥适配都城内部小型河流，解决城内交通阻隔；周代浮桥适配大型河流，兼顾交通枢纽与王权彰显，两座桥梁均体现“因地制宜、务实创新”的核心营造思想，桥体装饰极简，功能服务于实用与时代文化需求，是商周时期桥梁建筑的典范。
+                    </p>
+                </div>
+                <!-- 自定义区域 -->
+            </div>
+
+            <!-- 4. 功能区域 -->
+            <div class="content-item" id="function">
+                <!-- 自定义区域 -->
+                <h2>功能</h2>
+                <p>主要承担交通运输功能，是商周时期重要的交通枢纽，兼具祭祀、军事、文化等多重功能。商代殷墟木桥主要承担城内行人、小型车辆与物资运输功能，连接宫殿区与周边区域，保障都城内部交通顺畅，同时承担简单祭祀功能，见证商代都城的日常运转；周代渭水浮桥作为都城核心桥梁，主要承担皇家出行、宫廷物资运输、诸侯往来、军队调动等功能，是连接渭河南北的核心通道，同时承担重要的政治功能，周天子接待诸侯、举行大型出行活动均需经过此桥，彰显都城的核心地位。两座桥梁均具有军事防御功能，可控制河流渡口交通咽喉，保障都城安全，在战乱时期承担军事运输与防御的辅助功能；其独特的建筑造型与技术创新，使其成为商周桥梁建筑的典范，具有重要的文化展示与艺术欣赏价值，是中国古代桥梁建筑的重要起源，渭水浮桥“造舟为梁”的形式，为后世浮桥建筑奠定了基础，同时承载着商周时期的人文情怀与祭祀文化，见证了商周时期的社会发展、政治变迁与文化繁荣。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+                <!-- 自定义区域 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./qiaoliang.js"></script>
+</body>
+</html>

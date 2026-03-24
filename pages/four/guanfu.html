@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>官府详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./guanfu.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>主体结构选用优质松木、楠木，楠木多用于大堂等核心建筑的立柱与横梁，耐腐蚀、防虫蛀，确保建筑长期稳固，松木用于次要构件，性价比高且易获取；墙体采用青砖砌筑，砖体烧制精良、质地坚硬，表面光滑平整，砌筑后墙面无需过多装饰，尽显官府庄重，核心建筑墙面会镶贴青砖，提升档次；屋顶覆盖青色琉璃瓦（南朝后期出现少量绿色琉璃瓦），按南朝官式建筑等级规定，丹阳尹府作为京畿地区最高官府，琉璃瓦颜色区别于皇宫的黄色（南朝皇宫多为青瓦，后期出现黄瓦雏形），既符合礼制又展现官府威严；基座与台阶采用青白石打造，坚实厚重，承载建筑主体重量的同时，提升建筑整体气势；门窗采用木质框架，搭配雕花格栅，兼具实用性与装饰性，大堂门窗会增设简单彩绘装饰，彰显权威。</p>
+                 <!--新增：图表容器 -->
+                <h3>三国两晋南北朝官府建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+           
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以“抬梁式木构架+官式规制”为核心，兼顾等级彰显与环境适配，体系成熟且形制规范。</p>
+                
+                <!-- 新增：三国两晋南北朝官府建筑类型占比图表（不随切换变化） -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">三国两晋南北朝官府建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（覆盖南北朝+不同等级） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="nanchao">南朝官署（建康）</button>
+                    <button class="struct-btn" data-type="beichao">北朝官署（洛阳）</button>
+                    <button class="struct-btn" data-type="dianzhang">宫殿式官府建筑</button>
+                </div>
+
+                <!-- 原有结构详情文本（新增北朝/宫殿分类） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="nanchao-detail">
+                        <p>南朝（建康）官府建筑采用严格的抬梁式木构架，以魏晋南朝官式规制规范构件尺寸与比例，大堂核心梁架为高规格形制，斗拱结构趋于成熟（斗拱层数3-4层），兼具承重与装饰功能；整体以中轴线对称布局，廊庑、亭轩通过回廊与主体相连，增强空间层次感；屋顶为歇山顶，设简单吻兽装饰，立柱底部配青石柱础防潮稳固，适配南京多雨潮湿气候；部分回廊采用石柱支撑，主体墙体为夯土外包青砖，提升耐久性与防潮性。</p>
+                    </div>
+                    <div class="detail-item" id="beichao-detail">
+                        <p>北朝（洛阳）官府建筑延续抬梁式木构架，融合胡汉建筑特征，梁架更粗壮（梁径较南朝增加15%），斗拱简化但承重性更强（层数2-3层），适配北方寒冷多风气候；建筑主体依托夯土高台（台高2-3米）建造，增强视觉威严感；屋顶以硬山顶为主，屋脊增设瓦当装饰，墙体为版筑夯土（厚1.2-1.5米），外侧涂抹白灰防潮防碱；立柱采用木柱外包砖石，柱础为素面石质，整体结构更侧重防御与耐寒性。</p>
+                    </div>
+                    <div class="detail-item" id="dianzhang-detail">
+                        <p>宫殿式官府建筑（中央衙署/王府）为最高规格抬梁式木构架，斗拱层数达5-6层，构件尺寸严格遵循《营造法式》前身规制，梁架以楠木、樟木为核心用材；整体为多重中轴线布局，主体建筑分前殿、中殿、后殿，廊庑环绕形成闭合空间；屋顶为庑殿顶（高于普通歇山顶），屋脊设神兽吻兽（数量3-5尊）彰显等级；基座为夯土筑造的须弥座式台基（高3-4米），柱础为雕花青石，墙体为青砖砌筑，部分墙面饰以青绿色彩绘，兼具等级彰显与结构稳固性。</p>
+                    </div>
+                </div>
+
+                <!-- 原有ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+            
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：居中为尊、因势制宜</h2>
+                    
+                    <p class="dw-core-idea">
+                        三国两晋南北朝官府建筑的核心设计理念是<strong>凸显封建等级制度与权力秩序</strong>，兼顾南北地域气候特征与政务运行需求，北方重防御威仪、南方重环境适配，集中体现了“居中为尊、因势制宜”的营造思想。
+                    </p>
+
+                    <h3>一、布局规制：礼制为核，南北共循</h3>
+                    <p>
+                        三国两晋南北朝官府建筑无论南北，均以“中轴线对称、等级递进”为核心布局原则，遵循魏晋官式建筑规制，同时结合地域政务需求微调，一切设计围绕“彰显权力、保障政务”的核心目标展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心布局特征</h4>
+                            <ul>
+                                <li>中轴对称：中轴线贯穿建筑群，大堂、二堂、三堂依次排列，南北均严格遵循此规制</li>
+                                <li>前衙后辅：前部为政务核心区，后部为仓储、居住、狱政等附属功能，兼顾效率与安全</li>
+                                <li>封闭围合：周边设围墙、仪门形成封闭空间，北方增设角楼/望楼，强化防御属性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北规制差异</h4>
+                            <ul>
+                                <li>南朝（建康）：轴线更纤细，附属建筑（回廊、亭轩）更精巧，适配江南密集城邑布局</li>
+                                <li>北朝（洛阳/平城）：轴线更宽绰，主体建筑间距更大，增设夯土高台，凸显威仪与防御</li>
+                                <li>三国（曹魏邺城）：首创“前朝后寝+中轴对称”成熟范式，为南北朝官署布局奠基</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、选址形制：因势制宜，适配南北</h3>
+                    <p>
+                        官府建筑选址与形制充分适配南北地域特征：南方针对多雨潮湿优化防潮设计，北方针对寒冷多风强化保暖防御，核心均围绕“政务便利、环境适配”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>南朝（长江流域）形制特征</h4>
+                            <ul>
+                                <li>选址：紧邻建康城主干道，地势平坦且临近水系，兼顾交通与排水</li>
+                                <li>朝向：坐北朝南，保证采光通风，适配江南多雨寡照气候</li>
+                                <li>细节：增设回廊、加宽挑檐，避免雨水侵蚀墙体；立柱配青石柱础，提升防潮性</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>北朝（黄河流域）形制特征</h4>
+                            <ul>
+                                <li>选址：优先高亢台地，远离黄河泛滥区，兼顾防寒与防洪</li>
+                                <li>朝向：坐北朝南+偏东5°，增加冬季日照时长，适配北方寒冷气候</li>
+                                <li>细节：夯土厚墙（1.2-1.5米）+ 窄窗设计，强化保暖；台基增高至2-3米，防寒风侵袭</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、装饰风格：庄重为本，简繁有别</h3>
+                    <p>
+                        三国两晋南北朝官府建筑装饰均以“等级标识、实用庄重”为核心，避免过度奢华，南北因材料与审美差异呈现不同特征，核心贴合“务实高效、彰显等级”的政务理念。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心装饰特征</h4>
+                            <ul>
+                                <li>简约为主：仅在大堂立柱、门窗核心部位设装饰，无冗余雕花</li>
+                                <li>等级标识：斗拱层数、彩绘色调、吻兽数量严格对应官阶，南北规制统一</li>
+                                <li>功能优先：装饰构件兼顾实用（如雕花排水、彩绘防潮），不影响建筑稳固</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>南北装饰差异</h4>
+                            <ul>
+                                <li>南朝：彩绘以青、绿为主色调，雕花偏卷草、云纹等柔婉纹样，适配江南审美</li>
+                                <li>北朝：彩绘以红、黑为主色调，雕花偏兽纹、几何纹等刚硬纹样，融合胡汉特征</li>
+                                <li>材质：南朝多用木构件雕花，北朝多用石构件浮雕，适配北方木材稀缺特征</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是南朝适配江南气候的精巧布局，还是北朝强化防御威仪的厚重形制，三国两晋南北朝官府建筑均以“居中为尊、等级有序”为核心，同时因南北地域特征“因势制宜”：南方重环境适配与政务效率，北方重防御保暖与权力威仪，所有建筑细节既遵循统一的官式礼制，又贴合地域实际需求，充分体现了“礼制为核、因势制宜、务实高效”的核心营造思想。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>作为东晋南朝京畿地区的行政、司法办公机构，兼具行政办公、司法审判、礼仪接待等核心功能。大堂是举行重大政务活动、审理重要案件的场所，庄严肃穆，是官府权力的核心象征，也是接待朝廷官员的重要场所；二堂用于日常办公与接见下属官员，处理日常政务，商议地方治理事宜；三堂为官员休息与商议机密政务的场所，划分明确的办公与休息空间；署内设有库房，用于存放公文、档案与物资，配备警卫室，安排士兵守卫，保障官府安全；此外，府署内的庭院、回廊，既满足官员休闲需求，又便于人员通行，同时承担礼仪仪式的辅助功能，举办祭祀、庆典等活动，确保官府日常运转有序，同时负责协调京畿地区的行政事务，传达朝廷政令，维护京畿地区的稳定。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./guanfu.js"></script>
+</body>
+</html>

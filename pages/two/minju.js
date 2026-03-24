@@ -19,7 +19,7 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化半坡图表
+            initStructureCharts('hemudu'); // 默认初始化商代图表
         }
         //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
@@ -56,8 +56,7 @@ window.onload = function() {
     // 1. 初始化建筑材料占比饼图
     initMaterialPieChart();
 };
-
-// 官府雏形建筑材料占比图表初始化函数
+// 民居建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -65,14 +64,14 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 新石器时代官府雏形建筑材料占比数据
+    // 商周时期民居建筑材料占比数据
     let data = [
-        { value: 48, name: '木材（松木/柏木/圆木）' },
-        { value: 35, name: '黄土（分层夯实）' },
-        { value: 10, name: '茅草/芦苇/树皮' },
-        { value: 4, name: '石块/陶片' },
-        { value: 2, name: '竹篾/藤条' },
-        { value: 1, name: '其他' }
+        { value: 40, name: '夯土' },
+        { value: 30, name: '木材（松木/榆木）' },
+        { value: 20, name: '茅草' },
+        { value: 5, name: '陶瓦（周代少量）' },
+        { value: 3, name: '细沙/陶片' },
+        { value: 2, name: '其他（竹篾/芦苇）' }
     ];
 
     // 图表配置项
@@ -122,11 +121,10 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化新石器时代官府雏形建筑类型占比图表
+// 框架结构部分：初始化原始时期建筑类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
@@ -142,9 +140,12 @@ function initStructureOverviewChart() {
                 fontSize: 12
             }
         },
+        tooltip: {
+            trigger: 'item'
+        },
         series: [
             {
-                name: '建筑类型占比',
+                name: '结构形式占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -166,10 +167,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 新石器时代官府雏形类型占比
+                // 商周民居结构形式占比
                 data: [
-                    { value: 55, name: '半坡部落管理中心' },
-                    { value: 45, name: '良渚部落议事房' }
+                    { value: 45, name: '商代（殷墟）' },
+                    { value: 55, name: '周代（周原）' }
                 ]
             }
         ]
@@ -183,42 +184,38 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表（半坡/良渚）
+// 初始化框架结构图表
 function initStructureCharts(type) {
-    // 检查容器和ECharts是否存在
-    const barDom = document.getElementById('structureBarChart');
-    const pieDom = document.getElementById('structurePieChart');
-    if (!barDom || !pieDom || typeof echarts === 'undefined') return;
-    
     // 1. 柱状图：结构参数对比
+    const barDom = document.getElementById('structureBarChart');
     const barChart = echarts.init(barDom);
     // 2. 饼图：结构组成占比
+    const pieDom = document.getElementById('structurePieChart');
     const pieChart = echarts.init(pieDom);
 
-    // 半坡/良渚 数据配置
-    const hemuduBarData = { // 半坡部落管理中心
-        title: '半坡部落管理中心结构参数',
-        xAxis: ['夯土基座厚度(m)', '木柱直径(cm)', '室内空间面积(㎡)', '门窗数量(个)'],
-        yAxis: [0.8, 35, 60, 4] // 平均数据
+    // 商代/周代 数据配置
+    const hemuduBarData = {
+        title: '商代（殷墟）民居结构参数',
+        xAxis: ['夯土墙厚度(cm)', '木柱高度(m)', '无柱础占比(%)', '院落面积(㎡)'],
+        yAxis: [30, 2.5, 100, 20] // 平均数据
     };
-    const banpoBarData = { // 良渚部落议事房
-        title: '良渚部落议事房结构参数',
-        xAxis: ['木柱高度(m)', '柱础直径(cm)', '屋顶坡度(°)', '围栏长度(m)'],
-        yAxis: [2.5, 40, 50, 15] // 平均数据
+    const banpoBarData = {
+        title: '周代（周原）民居结构参数',
+        xAxis: ['夯土墙厚度(cm)', '木柱高度(m)', '有柱础占比(%)', '院落面积(㎡)'],
+        yAxis: [40, 3.0, 75, 35] // 平均数据
     };
-    const hemuduPieData = [ // 半坡结构组成
-        { value: 55, name: '黄土' },
-        { value: 30, name: '木材' },
-        { value: 10, name: '茅草' },
-        { value: 3, name: '陶片' },
+    const hemuduPieData = [
+        { value: 55, name: '夯土' },
+        { value: 35, name: '木材' },
+        { value: 8, name: '茅草' },
         { value: 2, name: '其他' }
     ];
-    const banpoPieData = [ // 良渚结构组成
-        { value: 65, name: '木材' },
-        { value: 15, name: '石块' },
-        { value: 10, name: '茅草/树皮' },
-        { value: 5, name: '黄土' },
-        { value: 5, name: '藤条/竹篾' }
+    const banpoPieData = [
+        { value: 50, name: '夯土' },
+        { value: 38, name: '木材' },
+        { value: 9, name: '茅草' },
+        { value: 2, name: '陶瓦' },
+        { value: 1, name: '其他' }
     ];
 
     // 柱状图配置
@@ -255,7 +252,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '半坡部落管理中心结构组成' : '良渚部落议事房结构组成',
+            text: type === 'hemudu' ? '商代（殷墟）结构组成' : '周代（周原）结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -287,19 +284,17 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（官府雏形功能占比）
+// 初始化功能板块扇形图（核心修改部分）
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
-    if (!chartDom || typeof echarts === 'undefined') return;
-    
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
         title: {
-            text: '新石器时代官府雏形功能占比',
-            left: 'right'
+            text: '商周时期民居功能占比',
+            left: 'center'
         },
         tooltip: {
             trigger: 'item'
@@ -313,21 +308,35 @@ function initFunctionChart() {
                 name: '功能占比',
                 type: 'pie',
                 radius: ['40%', '70%'],
-                data: [
-                    { value: 40, name: '部落议事' },
-                    { value: 25, name: '纠纷调解' },
-                    { value: 15, name: '物资分配' },
-                    { value: 10, name: '小型祭祀' },
-                    { value: 8, name: '接待使者' },
-                    { value: 2, name: '其他' }
-                ],
-                label: {
-                    show: true,
-                    formatter: '{b}: {c}%'
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
                 },
-                color: [
-                    '#893448', '#84a98c', '#987284', 
-                    '#577590', '#f28482', '#f9c74f'
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                // 商周民居功能数据
+                data: [
+                    { value: 40, name: '家族聚居（居住/起居）' },
+                    { value: 18, name: '日常生产（纺织/制陶/农耕）' },
+                    { value: 15, name: '储物（粮食/农具）' },
+                    { value: 12, name: '院落活动（晾晒/儿童活动）' },
+                    { value: 8, name: '祭祀祖先/家族礼仪' },
+                    { value: 5, name: '接待宾客' },
+                    { value: 2, name: '其他' }
                 ]
             }
         ]

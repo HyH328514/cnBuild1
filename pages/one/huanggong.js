@@ -19,7 +19,7 @@ document.querySelectorAll('.tab-item').forEach(item => {
         // 如果切换到框架结构tab，初始化结构图表
         if (tabId === 'structure') {
             initStructureOverviewChart();
-            initStructureCharts('hemudu'); // 默认初始化河姆渡图表
+            initStructureCharts('hemudu'); // 默认初始化良渚图表
         }
         //如果切换到材料tab，初始化材料图表
         if (tabId === 'material') {
@@ -56,7 +56,8 @@ window.onload = function() {
     // 1. 初始化建筑材料占比饼图
     initMaterialPieChart();
 };
-// 民居建筑材料占比图表初始化函数
+
+// 皇宫雏形建筑材料占比图表初始化函数
 function initMaterialPieChart() {
     // 检查ECharts是否加载、图表容器是否存在
     if (typeof echarts === 'undefined' || !document.getElementById('pieChart')) {
@@ -64,14 +65,14 @@ function initMaterialPieChart() {
     }
     // 初始化ECharts实例
     let myChart = echarts.init(document.getElementById('pieChart'));
-    // 原始时代民居建筑材料占比数据
+    // 良渚+红山皇宫雏形建筑材料占比数据
     let data = [
-        { value: 45, name: '木材（树枝/树干）' },
-        { value: 25, name: '茅草/芦苇' },
-        { value: 15, name: '泥土/黏土' },
-        { value: 8, name: '石块' },
-        { value: 5, name: '兽皮' },
-        { value: 2, name: '其他（藤条/树叶）' }
+        { value: 35, name: '优质木材（柏木/楠木/圆木）' },
+        { value: 28, name: '黄土/夯土' },
+        { value: 20, name: '石块（柱础/祭祀台/地面）' },
+        { value: 10, name: '茅草/树皮' },
+        { value: 5, name: '陶片/细沙' },
+        { value: 2, name: '其他（矿物颜料/藤条）' }
     ];
 
     // 图表配置项
@@ -88,7 +89,7 @@ function initMaterialPieChart() {
         padding: [10, 10, 20, 10],
         series: [
             {
-                name: '建筑材料占比',
+                name: '皇宫雏形建筑材料占比',
                 type: 'pie',
                 radius: ['40%', '70%'], // 圆环效果
                 center: ['50%', '40%'], // 图表居中
@@ -121,10 +122,11 @@ function initMaterialPieChart() {
     });
 }
 
-// 框架结构部分：初始化原始时期建筑类型占比图表
+// 框架结构部分：初始化新石器时代皇宫雏形建筑类型占比图表
 function initStructureOverviewChart() {
     // 获取图表容器
     const chartDom = document.getElementById('structureOverviewPieChart');
+    if (!chartDom) return;
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
@@ -140,12 +142,9 @@ function initStructureOverviewChart() {
                 fontSize: 12
             }
         },
-        tooltip: {
-            trigger: 'item'
-        },
         series: [
             {
-                name: '建筑类型占比',
+                name: '皇宫雏形建筑类型占比',
                 type: 'pie',
                 avoidLabelOverlap: false,
                 radius: ['35%', '80%'],
@@ -167,10 +166,10 @@ function initStructureOverviewChart() {
                         fontWeight: 'bold'
                     }
                 },
-                // 模拟数据（可根据实际需求调整）
+                // 良渚 vs 红山 占比数据
                 data: [
-                    { value: 58, name: '河姆渡干栏式' },
-                    { value: 42, name: '半坡地穴式' }
+                    { value: 55, name: '良渚（首领居所+祭祀中心）' },
+                    { value: 45, name: '红山（祭祀性大房子）' }
                 ]
             }
         ]
@@ -184,37 +183,40 @@ function initStructureOverviewChart() {
     });
 }
 
-// 初始化框架结构图表
+// 初始化框架结构图表（良渚/红山）
 function initStructureCharts(type) {
     // 1. 柱状图：结构参数对比
     const barDom = document.getElementById('structureBarChart');
-    const barChart = echarts.init(barDom);
-    // 2. 饼图：结构组成占比
     const pieDom = document.getElementById('structurePieChart');
+    if (!barDom || !pieDom) return;
+    
+    const barChart = echarts.init(barDom);
     const pieChart = echarts.init(pieDom);
 
-    // 河姆渡/半坡 数据配置
-    const hemuduBarData = {
-        title: '河姆渡干栏式民居结构参数',
-        xAxis: ['离地高度(m)', '木桩深度(m)', '榫卯连接占比(%)', '屋顶坡度(°)'],
-        yAxis: [1.5, 1.2, 60, 45] // 平均数据
+    // 良渚/红山 数据配置
+    const hemuduBarData = { // 良渚
+        title: '良渚首领居所+祭祀中心结构参数',
+        xAxis: ['夯土基座高度(m)', '木柱直径(cm)', '榫卯连接占比(%)', '屋脊高度(m)'],
+        yAxis: [1.5, 35, 85, 3.2] // 平均数据
     };
-    const banpoBarData = {
-        title: '半坡地穴式民居结构参数',
-        xAxis: ['地穴深度(m)', '木柱高度(m)', '黄土稳固占比(%)', '采光口大小(㎡)'],
-        yAxis: [1.2, 1.0, 85, 0.8] // 平均数据
+    const banpoBarData = { // 红山
+        title: '红山祭祀性大房子结构参数',
+        xAxis: ['木柱密度(根/㎡)', '夯土墙厚度(m)', '祭祀台面积(㎡)', '地穴深度(m)'],
+        yAxis: [0.8, 1.2, 45, 0.8] // 平均数据
     };
-    const hemuduPieData = [
-        { value: 70, name: '木材' },
-        { value: 15, name: '藤条' },
-        { value: 10, name: '茅草' },
-        { value: 5, name: '其他' }
+    const hemuduPieData = [ // 良渚结构组成
+        { value: 40, name: '优质木材' },
+        { value: 25, name: '石块' },
+        { value: 20, name: '夯土' },
+        { value: 10, name: '茅草/树皮' },
+        { value: 5, name: '其他（颜料）' }
     ];
-    const banpoPieData = [
-        { value: 60, name: '黄土' },
-        { value: 20, name: '木材' },
-        { value: 15, name: '茅草' },
-        { value: 5, name: '其他' }
+    const banpoPieData = [ // 红山结构组成
+        { value: 38, name: '粗壮圆木' },
+        { value: 35, name: '夯土/黄土' },
+        { value: 15, name: '石块' },
+        { value: 8, name: '茅草' },
+        { value: 4, name: '其他（陶片/细沙）' }
     ];
 
     // 柱状图配置
@@ -251,7 +253,7 @@ function initStructureCharts(type) {
     // 饼图配置
     const pieOption = {
         title: {
-            text: type === 'hemudu' ? '河姆渡干栏式结构组成' : '半坡地穴式结构组成',
+            text: type === 'hemudu' ? '良渚结构组成' : '红山结构组成',
             left: 'right'
         },
         tooltip: { trigger: 'item' },
@@ -283,17 +285,18 @@ function initStructureCharts(type) {
     });
 }
 
-// 初始化功能板块扇形图（核心修改部分）
+// 初始化功能板块扇形图
 function initFunctionChart() {
     // 获取图表容器
     const chartDom = document.getElementById('functionChart');
+    if (!chartDom) return;
     // 初始化ECharts实例
     const myChart = echarts.init(chartDom);
     // 配置项
     const option = {
         title: {
-            text: '原始时期民居功能占比',
-            left: 'center'
+            text: '原始时期皇宫雏形功能占比',
+            left: 'right'
         },
         tooltip: {
             trigger: 'item'
@@ -307,34 +310,21 @@ function initFunctionChart() {
                 name: '功能占比',
                 type: 'pie',
                 radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                    borderRadius: 10,
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-                label: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: 16,
-                        fontWeight: 'bold'
-                    }
-                },
-                labelLine: {
-                    show: false
-                },
-                // 原始民居功能数据（贴合文本描述）
                 data: [
-                    { value: 45, name: '氏族聚居（居住/起居）' },
-                    { value: 20, name: '日常生存（采光/排烟/活动）' },
-                    { value: 12, name: '储物（粮食/农具）' },
-                    { value: 10, name: '简单生产（编织/制陶/晾晒）' },
-                    { value: 8, name: '饲养牲畜' },
-                    { value: 5, name: '祭祀/小型聚会' }
+                    { value: 35, name: '祭祀（天地/祖先/神灵）' },
+                    { value: 25, name: '首领居住' },
+                    { value: 20, name: '部落管理（议事/接待）' },
+                    { value: 10, name: '珍贵物资储存' },
+                    { value: 6, name: '侍从起居' },
+                    { value: 4, name: '权力展示' }
+                ],
+                label: {
+                    show: true,
+                    formatter: '{b}: {c}%'
+                },
+                color: [
+                    '#893448', '#84a98c', '#987284', 
+                    '#577590', '#f28482', '#f9c74f'
                 ]
             }
         ]
@@ -346,4 +336,3 @@ function initFunctionChart() {
         myChart.resize();
     });
 }
-

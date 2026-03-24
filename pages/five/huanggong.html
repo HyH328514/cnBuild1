@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皇宫详情页</title>
+    <!-- 引入ECharts CDN（仅保留这行，图表依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="./huanggong.css">
+    <link rel="stylesheet" href="./css/common.css"> <!-- 引入公共样式 -->
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 Tab + 首页按钮 -->
+        <div class="top-bar">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="material">建筑材料</button>
+                <button class="tab-item" data-tab="structure">框架结构</button>
+                <button class="tab-item" data-tab="design">设计理念</button>
+                <button class="tab-item" data-tab="function">功能</button>
+            </div>
+            <button class="home-btn" onclick="goHome()">回到首页</button>
+        </div>
+
+        <!-- 内容展示区域 -->
+        <div class="content-wrap">
+            <!-- 1. 建筑材料 -->
+            <div class="content-item active" id="material">
+                <h2>建筑材料</h2>
+                <p>西安大明宫木材选用珍贵楠木、紫檀等，楠木多用于含元殿、麟德殿等核心宫殿的立柱与横梁，质地坚硬且有香气，可防虫蛀，保证建筑稳固耐用，紫檀用于装饰构件，尽显皇家奢华；墙体以青砖为主要材料，核心建筑的墙面采用青砖镶贴，表面光滑细腻，部分建筑外墙会绘制彩绘，提升美观度；屋顶覆盖黄色琉璃瓦，黄色为皇家专用色，琉璃瓦烧制工艺精湛，色彩艳丽且防水性强，正脊两端装饰大型吻兽，屋脊两侧设置走兽，彰显皇权至高无上，麟德殿、含元殿等核心建筑屋顶琉璃瓦会搭配绿色琉璃瓦点缀，凸显等级；基座与栏杆使用汉白玉，洁白温润，雕刻精美，栏杆雕刻龙纹、凤纹，提升建筑的高贵感，地面铺设“金砖”，平整耐磨，适配皇家大型活动需求，含元殿基座采用夯土与砖石结合打造，高达十余米，气势恢宏。</p>
+                 <!--新增：图表容器 -->
+                <h3>隋唐五代皇宫建筑材料占比分析</h3>
+                <div class="chart-container" id="pieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+            </div>
+
+            <!-- 2. 框架结构 -->
+            <div class="content-item" id="structure">
+                <h2>框架结构</h2>
+                <p>结构以官式抬梁木构架为核心，严格遵循《营缮令》等级规制，依地域/时代特征适配调整，以“礼制规整、威重稳固”为核心。</p>
+                
+                <!-- 隋唐五代皇宫建筑类型占比图表 -->
+                <div class="structure-overview-chart" style="width: 100%; height: 250px; margin: 20px 0; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                    <h3 style="text-align: center; margin: 10px 0;">隋唐五代皇宫建筑类型占比</h3>
+                    <div id="structureOverviewPieChart" style="width: 100%; height: 180px; margin: 10px 0;"></div>
+                </div>
+
+                <!-- 结构类型切换按钮（修复 data-type 命名，避免特殊字符） -->
+                <div class="structure-btn-group">
+                    <button class="struct-btn active" data-type="changan">长安皇宫（大明宫）</button>
+                    <button class="struct-btn" data-type="luoyang">洛阳皇宫（紫微城）</button>
+                    <button class="struct-btn" data-type="wudai">五代皇宫（开封/洛阳）</button>
+                </div>
+
+                <!-- 结构详情文本（修复 ID 命名，与 data-type 匹配） -->
+                <div class="structure-detail">
+                    <div class="detail-item active" id="changan-detail">
+                        <p>长安大明宫以高阶抬梁式木构架为核心，依托龙首原夯筑15米高台基，含元殿采用“十一开间、三重阶基”形制，金柱直径0.45-0.5米，柱础为雕花青石（直径0.8米）；主体构架以终南楠木为柱、松木为梁，斗拱层叠（每开间设6攒斗拱）形成“檐下生风”的视觉效果；屋顶为歇山顶（坡度20°），铺设磨光青扌昆瓦，正脊设琉璃吻兽；宫城墙体为黄土五花夯筑（厚3.2米），外侧包青砖加固，整体结构既保障威权彰显，又适配关中干燥少雨的气候特征。</p>
+                    </div>
+                    <div class="detail-item" id="luoyang-detail">
+                        <p>洛阳紫微城采用抬梁+穿斗混合构架，临洛水筑2米高石质堤岸，正殿乾阳殿为“九开间、二重阶基”形制，金柱直径0.4-0.45米，柱础为汉白玉（高0.4米）；主体构架以楠木为核心、杉木为辅，斗拱形制更精巧（每开间设8攒斗拱）；屋顶大面积覆盖黄/绿琉璃瓦（坡度28°），适配洛阳温润多雨的气候；宫城墙体为夯土芯+青砖全包砌（厚2.8米），增设排水暗渠，既保障奢华规制，又解决洛水流域防潮需求。</p>
+                    </div>
+                    <div class="detail-item" id="wudai-detail">
+                        <p>五代皇宫沿用隋唐旧构架并简化，开封宫城正殿为“七开间、单重阶基”形制，金柱直径缩减至0.35-0.4米，以杂木替代楠木；斗拱数量减半（每开间设3攒斗拱），屋顶仅檐口镶绿琉璃瓦，主体覆盖普通青瓦（坡度24°）；宫城墙体加厚至3.5米（纯黄土夯筑），仅核心区域包青砖，部分殿宇采用“构架复用、功能合并”策略，适配战乱时期“低成本、快营建”的需求，同时保障基本理政功能。</p>
+                    </div>
+                </div>
+
+                <!-- ECharts图表容器 -->
+                <div class="structure-charts">
+                    <div id="structureBarChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                    <div id="structurePieChart" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- 3. 设计理念 -->
+            <div class="content-item" id="design">
+                <!-- 新加部分：设计理念内容与图表容器 -->
+                <div class="dw-design-container">
+                    <h2>设计理念：礼制至尊、威权天下</h2>
+                    
+                    <p class="dw-core-idea">
+                        隋唐五代皇宫建筑的核心设计理念是<strong>遵循等级礼制、彰显皇权威权</strong>，以“天子居中、前朝后寝”为核心规制，融合实用与象征双重属性，集中体现了“礼制至尊、威权天下”的营造思想。
+                    </p>
+
+                    <h3>一、长安皇宫（大明宫/太极宫）：雄踞天下的政治象征</h3>
+                    <p>
+                        长安皇宫主要依托龙首原地势营建，针对关中平原“易守难攻、视野开阔”的地理特征，形成了以“中轴对称、前朝后寝”为核心的建筑格局，一切设计均围绕“彰显大一统王朝政治权威、适配帝都理政需求”展开。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>高台筑殿：依托龙首原夯筑15米高殿基，抬升建筑体量，强化皇权至高无上</li>
+                                <li>中轴对称：从丹凤门到紫宸殿形成3.2公里轴线，串联外朝内廷，体现礼制秩序</li>
+                                <li>官式构架：高阶抬梁式木构架+斗拱层叠，开间数（含元殿11开间）为古代建筑最高等级</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：占据龙首原最高处，既规避渭河洪水威胁，又俯瞰长安全城，彰显统治地位</li>
+                                <li>功能：外朝（含元殿）专司大朝会，内廷（蓬莱殿）专司帝后起居，分区明确适配理政需求</li>
+                                <li>材料：优选终南楠木为柱、渭北青石为础，就地取材同时保障建筑等级与耐久性</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>二、洛阳皇宫（紫微城/上阳宫）：奢华精巧的皇权表达</h3>
+                    <p>
+                        洛阳皇宫临洛水而建，针对伊洛平原“水系纵横、气候温润”的地理特征，形成了以“宫苑一体、多元融合”为核心的建筑形式，设计核心围绕“兼顾政治功能与皇室生活、彰显盛世奢华”的需求。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>宫苑一体：将太液池、九洲池融入宫城布局，建筑与园林无缝衔接，适配休闲理政需求</li>
+                                <li>琉璃覆顶：大量使用黄/绿琉璃瓦覆盖屋顶，为古代皇宫琉璃装饰的最高规格</li>
+                                <li>精巧构架：斗拱形制更繁复，石雕/木雕装饰更细腻，体现洛阳手工业精湛水平</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：临洛水建城，既利用水系解决宫城供水，又通过水榭建筑适配南方温润气候</li>
+                                <li>防洪：筑2米高石质堤岸环绕宫城，规避洛水汛期风险，保障皇宫安全</li>
+                                <li>布局：打破严格轴对称，随地形灵活布置殿宇，适配伊洛平原多丘陵的地理特征</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>三、五代皇宫（开封/洛阳宫城）：简化实用的权宜之策</h3>
+                    <p>
+                        五代皇宫多沿用隋唐旧宫或简易新建，针对战乱频繁、国力衰退的时代背景，形成了以“简化规制、实用优先”为核心的建筑形式，设计核心围绕“保障基本理政功能、降低营建成本”的需求。
+                    </p>
+                    
+                    <div class="dw-compare-card">
+                        <div class="dw-card-item">
+                            <h4>核心结构特征</h4>
+                            <ul>
+                                <li>规制简化：开间数缩减（正殿7开间），琉璃瓦仅用于檐口镶边，取消繁复装饰</li>
+                                <li>材料替代：以杂木替代楠木、土坯墙替代青砖包砌，降低营建成本</li>
+                                <li>功能合并：外朝内廷空间压缩，部分殿宇兼顾理政与起居，适配小型宫城布局</li>
+                            </ul>
+                        </div>
+                        <div class="dw-card-item">
+                            <h4>环境适配细节</h4>
+                            <ul>
+                                <li>选址：开封宫城临汴河而建，优先保障漕运便利，满足战时物资供应需求</li>
+                                <li>防御：加厚夯土墙体（达3.5米），增设多重宫门，适配战乱时期安全需求</li>
+                                <li>布局：紧凑化布局，缩短殿宇间距，减少营建工期，适配五代政权更迭频繁的特点</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>四、核心设计思想总结</h3>
+                    <p>
+                        无论是长安皇宫的雄浑规制、洛阳皇宫的奢华精巧，还是五代皇宫的简化实用，隋唐五代皇宫建筑均以“礼制等级”为核心骨架：选址优先保障安全与统治象征，布局严格遵循“前朝后寝”的理政秩序，材料与装饰匹配皇权等级，所有建筑细节既服务于“威权彰显”的政治需求，又适配不同地域、不同时代的实用需求，充分体现了“礼制至尊、威权天下”的核心营造思想，同时展现了古代工匠“因地制宜、因时制宜”的营造智慧。
+                    </p>
+                </div>
+            </div>
+            <!-- 4. 功能 -->
+            <div class="content-item" id="function">
+                <h2>功能</h2>
+                <p>核心功能是朝会理政与帝后起居，兼顾礼仪祭祀、宫廷服务等辅助功能，是隋唐五代王朝的政治核心与皇室生活载体。长安大明宫、洛阳紫微城等皇宫以“前朝后寝”为核心布局，外朝区域（含元殿、宣政殿）承担大朝会、日常理政、颁布诏令等核心政务功能，占比最高；内廷区域（蓬莱殿、寝殿）为帝后寝居、日常休憩之所，空间尺度适配皇室生活需求；礼仪祭祀区（郊庙、佛道殿宇）用于宗庙祭祀、祈福斋醮，彰显皇权神授；宫廷苑囿（太液池、上阳宫园林）兼具休闲与礼仪展示功能；内侍服务区、储政文教区、守卫门禁区保障皇宫日常运转与安全，作坊仓储区则为宫廷手工业、军备物资存储提供支撑，整体功能布局严格遵循礼制等级，适配大一统王朝的政治与生活需求。</p>
+                <!-- ECharts 扇形图容器 -->
+                <div id="functionChart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件（放在body底部保证DOM加载完成） -->
+    <script src="./huanggong.js"></script>
+</body>
+</html>
