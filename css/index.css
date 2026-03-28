@@ -61,7 +61,7 @@ body::before {
 }
 .carousel ul li {
   display: flex;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   width: 260px;  /* 固定宽度 */
   height: 360px; /* 固定高度 */
 }
@@ -288,18 +288,35 @@ body::before {
   50% { opacity: 1; }
 }
 
-/* .z_timeline{
-  border: solid 2px black;
+/* 古建拼装跳转按钮样式 */
+.build-jump-btn {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 999; /* 确保按钮在最上层 */
 }
-.z_progress-bar{
-  border: solid 1px orange;
-} */
-/* .z_progress-indicator{
-  border: solid 1px orange;
-} */
-/* .z_progress-thumb{
-  border: solid 1px blue;
+
+.build-jump-btn a {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: rgba(184, 13, 21, 0.9);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid white;
 }
-.z_time-marker{
-  border: solid 1px green;
-} */
+
+.build-jump-btn a:hover {
+  background-color: rgba(150, 10, 17, 0.95);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.build-jump-btn a:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}

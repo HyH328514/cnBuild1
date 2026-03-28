@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国古建文字小游戏</title>
+    <link rel="stylesheet" href="build.css">
+    <!-- 新增：引入字体图标（用于得分装饰） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>中国古建文字猜谜</h1>
+        <!-- 新增：游戏副标题 -->
+        <p class="game-subtitle">探索千年建筑之美，挑战你的古建知识！</p>
+        
+        <!-- 难度选择 -->
+        <div class="difficulty">
+            <button class="diff-btn" data-level="3">简单 (3题)</button>
+            <button class="diff-btn" data-level="5">中等 (5题)</button>
+            <button class="diff-btn" data-level="7">困难 (7题)</button>
+        </div>
+
+        <!-- 新增：答题进度条 -->
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        
+        <!-- 游戏核心区域 -->
+        <div class="game-area">
+            <div class="question-card">
+                <!-- 新增：题目计数 -->
+                <div class="question-count">1/3</div>
+                <h3 class="question-text">请选择难度开始游戏</h3>
+                <div class="options">
+                    <!-- 选项通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏信息 -->
+        <div class="game-info">
+            <!-- 新增：得分图标 + 包裹层 -->
+            <div class="score-wrap">
+                <i class="fas fa-coins score-icon"></i>
+                <span>当前得分：<span class="score-count">0</span></span>
+            </div>
+            <button class="restart-btn">重新开始</button>
+        </div>
+        
+        <!-- 成功弹窗 -->
+        <div class="success-modal">
+            <div class="modal-content">
+                <h2>恭喜！游戏完成🎉</h2>
+                <!-- 新增：得分等级提示 -->
+                <div class="score-level">待评价</div>
+                <p>最终得分：<span class="final-score">0</span></p>
+                <button class="close-modal">再来一局</button>
+            </div>
+        </div>
+    </div>
+    <script src="build.js"></script>
+</body>
+</html>
